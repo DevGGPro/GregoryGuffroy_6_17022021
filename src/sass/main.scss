@@ -2,13 +2,14 @@
 @import './utils/variables';
 
 // Base
-@import './base/base'
+@import './base/base';
+@import './base/typography';
 
 // Components
-
+@import './components/tags';
 
 // Layout
-
+@import './layout/header';
 
 // Pages
-
+@import './pages/index.scss';

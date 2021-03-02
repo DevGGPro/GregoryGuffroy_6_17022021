@@ -9,7 +9,7 @@ module.exports = {
 
   target: 'web',
 
-  entry: './src/index.js',
+  entry: './src/js/index.js',
   output: {
     path: path.resolve(__dirname, './dist'),
     filename: 'main.js'
@@ -42,13 +42,13 @@ module.exports = {
       },
       // Règle pour les images
       {
-        test: /\.(png|jpe?g|gif)$/i,
+        test: /\.(png|jpe?g|gif|svg|ico)$/i,
         use: [
           {
             loader: 'file-loader',
             options: {
               name: f => {
-                const dirNameInsideAssets = path.relative(path.join(__dirname, 'src', 'assets'), path.dirname(f))
+                const dirNameInsideAssets = path.relative(path.join(__dirname, 'src'), path.dirname(f))
                 return `${dirNameInsideAssets}/[name].[ext]`
               }
             }
