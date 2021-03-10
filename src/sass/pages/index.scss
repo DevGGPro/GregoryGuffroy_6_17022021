@@ -1,11 +1,10 @@
-main{
+#mainIndex{
     position: relative;
     padding: 0 72px;
     box-sizing: border-box;
 
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
     h1{
         color: $primary-color;
         width: 306px;
@@ -24,7 +23,7 @@ main{
         min-width: 375px;
         width: 375px;
 
-        margin-bottom: 50px;
+        margin: 0 28.3px 50px 28.3px;
         box-sizing: border-box;
 
         text-align: center;
@@ -70,13 +69,11 @@ main{
             color: $price-color;
         }
         &__tags{
+            list-style-type: none;
             margin-top: 3px;
+            padding: 0;
             display: flex;
             justify-content: center;
-            span{
-                margin: 0 3px;
-                box-sizing: border-box;
-            }
         }
     }
 

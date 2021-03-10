@@ -1,12 +1,12 @@
 // on importe le fichier css/scss principal
 import '../sass/main.scss'
+import { generateIndexHtml, generatePhotographerPageHtml } from './factoryPages'
 
-// on importe la base de donnée
-import data from '../assets/data/FishEyeDataFR.json'
+const pageActuelle = location.pathname.substring(location.pathname.lastIndexOf('/') + 1)
 
-// on inporte les functions de factory
-import { createSectionPhotographers } from './elementFactory'
-
-for (const photographer in data.photographers) {
-  createSectionPhotographers(data.photographers[photographer])
+if (pageActuelle === 'index.html') {
+  generateIndexHtml()
+}
+if (pageActuelle === 'photographer_page.html') {
+  generatePhotographerPageHtml()
 }

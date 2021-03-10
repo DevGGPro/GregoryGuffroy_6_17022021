@@ -16,7 +16,6 @@ body {
 }
 
 .tags {
-  color: #901C1C;
   border: 0.5px solid #C4C4C4;
   border-radius: 11px;
   padding: 2px 6.5px;
@@ -24,6 +23,12 @@ body {
           box-sizing: border-box;
   font-size: 12px;
   font-weight: 500;
+  margin-right: 3px;
+  box-sizing: border-box;
+  color: #901C1C;
+}
+.tags:hover {
+  cursor: pointer;
 }
 
 .header {
@@ -56,8 +61,9 @@ body {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -ms-flex-pack: distribute;
-      justify-content: space-around;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
@@ -67,7 +73,7 @@ body {
           box-sizing: border-box;
 }
 
-main {
+#mainIndex {
   position: relative;
   padding: 0 72px;
   -webkit-box-sizing: border-box;
@@ -77,11 +83,8 @@ main {
   display: flex;
   -ms-flex-wrap: wrap;
       flex-wrap: wrap;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
 }
-main h1 {
+#mainIndex h1 {
   color: #901C1C;
   width: 306px;
   height: 47px;
@@ -93,20 +96,20 @@ main h1 {
   top: -151px;
   right: 117px;
 }
-main .photographer {
+#mainIndex .photographer {
   min-width: 375px;
   width: 375px;
-  margin-bottom: 50px;
+  margin: 0 28.3px 50px 28.3px;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
   text-align: center;
 }
-main .photographer__link {
+#mainIndex .photographer__link {
   text-decoration: none;
   display: block;
   width: 100%;
 }
-main .photographer__link_portrait {
+#mainIndex .photographer__link_portrait {
   width: 200px;
   height: 200px;
   -o-object-fit: cover;
@@ -118,45 +121,42 @@ main .photographer__link_portrait {
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
 }
-main .photographer__link_name {
+#mainIndex .photographer__link_name {
   margin: 0;
   color: #D3573C;
   font-size: 36px;
 }
-main .photographer__city {
+#mainIndex .photographer__city {
   margin: 0;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
   font-size: 13px;
   color: #901C1C;
 }
-main .photographer__tagline {
+#mainIndex .photographer__tagline {
   margin: 3px 0 0 0;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
   font-size: 10px;
   color: #000;
 }
-main .photographer__price {
+#mainIndex .photographer__price {
   margin: 3px 0 0 0;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
   font-size: 9px;
   color: #757575;
 }
-main .photographer__tags {
+#mainIndex .photographer__tags {
+  list-style-type: none;
   margin-top: 3px;
+  padding: 0;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
-}
-main .photographer__tags span {
-  margin: 0 3px;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
 }
 
 /*# sourceMappingURL=main.css.map*/
