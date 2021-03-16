@@ -4,7 +4,7 @@ import { isInList } from './utils'
 
 function getPhotographerById (id) {
   for (const p in data.photographers) {
-    if (data.photographers[p].id === id) {
+    if (data.photographers[p].id === parseInt(id)) {
       return data.photographers[p]
     }
   }
@@ -25,4 +25,29 @@ function getPhotographerByTagsList (liste) {
   return listPhotographer
 }
 
-export { getPhotographerById, getPhotographerByTagsList }
+function getNumberOfLikeByPhotographerId (id) {
+  let n = 0
+  for (const m in data.media) {
+    if (data.media[m].photographerId === parseInt(id)) {
+      n += data.media[m].likes
+    }
+  }
+  return n
+}
+
+function getListMediaFromPhotographerId (id) {
+  const listMedia = []
+  for (const m in data.media) {
+    if (data.media[m].photographerId === parseInt(id)) {
+      listMedia.push(data.media[m])
+    }
+  }
+  return listMedia
+}
+
+export {
+  getPhotographerById,
+  getPhotographerByTagsList,
+  getNumberOfLikeByPhotographerId,
+  getListMediaFromPhotographerId
+}

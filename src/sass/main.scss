@@ -7,9 +7,11 @@
 
 // Components
 @import './components/tags';
+@import './components/button';
 
 // Layout
 @import './layout/header';
 
 // Pages
-@import './pages/index.scss';
+@import './pages/index';
+@import './pages/photographer';

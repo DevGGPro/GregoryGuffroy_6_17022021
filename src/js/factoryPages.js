@@ -1,11 +1,23 @@
 import data from '../assets/data/FishEyeDataFR.json'
-import { getPhotographerByTagsList } from './data'
-import { createHeaderWithNav, createMain, createSectionPhotographers } from './factoryElements'
+import {
+  getPhotographerById,
+  getPhotographerByTagsList,
+  getNumberOfLikeByPhotographerId,
+  getListMediaFromPhotographerId
+} from './data'
+import {
+  createHeaderWithNav,
+  createMainWithTitle,
+  createSectionPhotographers,
+  createSectionPhotographersProfils,
+  createAsidePhotographersInfo,
+  createSectionPhotographerLightbox
+} from './factoryElements'
 import { addToList, isInList, deleteFromList, changeTagsStyle, clearMainIndex } from './utils'
 
 function generateIndexHtml () {
   createHeaderWithNav(true)
-  createMain()
+  createMainWithTitle('mainIndex', true)
 
   let navTags
   let listPhotographer
@@ -35,10 +47,10 @@ function generateIndexHtml () {
 
   // Quand on click sur un tag
   navTags.forEach(function (li) {
-    li.addEventListener('click', test)
+    li.addEventListener('click', reloadPageSection)
   })
 
-  function test () {
+  function reloadPageSection () {
     clearMainIndex()
 
     const tag = this.getAttribute('data-value')
@@ -73,7 +85,7 @@ function generateIndexHtml () {
         })
       }
       navTags.forEach(function (li) {
-        li.addEventListener('click', test)
+        li.addEventListener('click', reloadPageSection)
       })
     } else {
       addToList(tag, listeTags)
@@ -97,7 +109,7 @@ function generateIndexHtml () {
         })
       }
       navTags.forEach(function (li) {
-        li.addEventListener('click', test)
+        li.addEventListener('click', reloadPageSection)
       })
     }
   }
@@ -110,6 +122,43 @@ function createPhotographerfromList (liste) {
 }
 
 function generatePhotographerPageHtml () {
-  console.log('je suis sur la page photographer_page.html')
+  const url = new URL(window.location.href)
+  const id = url.searchParams.get('id')
+
+  createHeaderWithNav(false)
+
+  createMainWithTitle('mainPhotographer', false)
+
+  createSectionPhotographersProfils(getPhotographerById(id))
+
+  let numberOfLikeTotal = getNumberOfLikeByPhotographerId(id)
+  createAsidePhotographersInfo(numberOfLikeTotal, getPhotographerById(id))
+  const likeTotal = document.getElementsByClassName('photographerInfo__like')
+
+  createSectionPhotographerLightbox(getListMediaFromPhotographerId(id))
+  const plike = document.querySelectorAll('span.photographerLightbox__info_like')
+  plike.forEach(function (span) {
+    let isLike = false
+    let numberOfLike = parseInt(span.innerHTML)
+    span.addEventListener('click', like)
+
+    function like () {
+      if (isLike) {
+        isLike = false
+        numberOfLike -= 1
+        numberOfLikeTotal -= 1
+        likeTotal[0].innerHTML = numberOfLikeTotal
+        span.innerHTML = numberOfLike
+        span.nextSibling.classList.replace('fas', 'far')
+      } else {
+        isLike = true
+        numberOfLike += 1
+        numberOfLikeTotal += 1
+        likeTotal[0].innerHTML = numberOfLikeTotal
+        span.innerHTML = numberOfLike
+        span.nextSibling.classList.replace('far', 'fas')
+      }
+    }
+  })
 }
 export { generateIndexHtml, generatePhotographerPageHtml }

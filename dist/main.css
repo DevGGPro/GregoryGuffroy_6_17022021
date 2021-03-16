@@ -6,6 +6,8 @@ body {
 .wrapper {
   width: 1440px;
   margin: auto;
+  position: relative;
+  margin-bottom: 100px;
 }
 
 .wrapper {
@@ -17,17 +19,24 @@ body {
 
 .tags {
   border: 0.5px solid #C4C4C4;
-  border-radius: 11px;
-  padding: 2px 6.5px;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
-  font-size: 12px;
-  font-weight: 500;
-  margin-right: 3px;
-  box-sizing: border-box;
   color: #901C1C;
 }
 .tags:hover {
+  cursor: pointer;
+}
+
+.button {
+  background-color: #901C1C;
+  width: 170px;
+  height: 69px;
+  color: #FFF;
+  border-radius: 5px;
+  border: none;
+  font-family: "DM Sans", sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+}
+.button:hover {
   cursor: pointer;
 }
 
@@ -69,6 +78,13 @@ body {
           align-items: center;
   list-style-type: none;
   padding: 0;
+}
+.header__nav ul li {
+  font-size: 12px;
+  font-weight: 500;
+  border-radius: 11px;
+  padding: 2px 6.5px;
+  margin: 6px 1.5px 0 1.5px;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
 }
@@ -149,14 +165,258 @@ body {
 }
 #mainIndex .photographer__tags {
   list-style-type: none;
-  margin-top: 3px;
   padding: 0;
+  margin-top: 3px;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
+}
+#mainIndex .photographer__tags li {
+  font-size: 12px;
+  font-weight: 500;
+  border-radius: 11px;
+  padding: 2px 6.5px;
+  margin: 0 1.5px;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+#mainPhotographer {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+#mainPhotographer .photographerProfils {
+  background-color: #FAFAFA;
+  width: 1240px;
+  height: 313px;
+  border-radius: 5px;
+  padding: 56px 50px;
+  margin-top: -60px;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  position: relative;
+}
+#mainPhotographer .photographerProfils div {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+#mainPhotographer .photographerProfils__name {
+  font-size: 64px;
+  font-weight: 400;
+  color: #D3573C;
+  margin: 0 118px 0 0;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+#mainPhotographer .photographerProfils__contact {
+  top: 63px;
+  left: 450px;
+}
+#mainPhotographer .photographerProfils__city {
+  font-size: 24px;
+  font-weight: 400;
+  color: #901C1C;
+  margin: 0;
+}
+#mainPhotographer .photographerProfils__tagline {
+  font-size: 18px;
+  font-weight: 400;
+  color: #525252;
+  margin: 19px 0 0 0;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+#mainPhotographer .photographerProfils__tags {
+  list-style-type: none;
+  padding: 0;
+  margin-top: 19px;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+#mainPhotographer .photographerProfils__tags li {
+  font-size: 18px;
+  font-weight: 500;
+  border-radius: 12px;
+  padding: 0 7px;
+  margin-right: 5px;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+#mainPhotographer .photographerProfils__tags li a {
+  text-decoration: none;
+  color: #901C1C;
+}
+#mainPhotographer .photographerProfils__tags li:hover {
+  background-color: #901C1C;
+}
+#mainPhotographer .photographerProfils__tags li:hover a {
+  color: #FFF;
+}
+#mainPhotographer .photographerProfils__portrait {
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  top: 56px;
+  right: 50px;
+  -o-object-fit: cover;
+     object-fit: cover;
+  -webkit-box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.25);
+          box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.25);
+  border-radius: 50%;
+}
+#mainPhotographer .photographerInfo {
+  position: fixed;
+  z-index: 1;
+  background-color: #DB8876;
+  color: #000;
+  padding: 0 31px;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  width: 376px;
+  height: 68px;
+  font-size: 24px;
+  border-radius: 5px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  bottom: 0;
+  right: 36px;
+}
+#mainPhotographer .photographerInfo p {
+  font-weight: 500;
+}
+#mainPhotographer .photographerInfo__like {
+  text-align: right;
+}
+#mainPhotographer .photographerInfo i {
+  line-height: 31.53px;
+  width: 10%;
+  text-align: center;
+}
+#mainPhotographer .photographerInfo__price {
+  width: 90%;
+  text-align: right;
+}
+#mainPhotographer .photographerLightbox {
+  width: 1240px;
+  position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+#mainPhotographer .photographerLightbox__titre {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 58px;
+  width: 100%;
+}
+#mainPhotographer .photographerLightbox__select {
+  position: absolute;
+  background-color: #901C1C;
+  color: #FFF;
+  top: 9px;
+  left: 96px;
+  width: 170px;
+  height: 60px;
+  border-radius: 5px;
+  border: none;
+  font-family: "DM Sans", sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  padding: 5px 20px 0 20px;
+  margin: 0;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+#mainPhotographer .photographerLightbox__image {
+  width: 350px;
+  height: 300px;
+  margin: 0 0 71px 0;
+}
+#mainPhotographer .photographerLightbox__image img {
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  border-radius: 5px;
+}
+#mainPhotographer .photographerLightbox__video {
+  width: 350px;
+  height: 300px;
+  margin: 0 0 71px 0;
+}
+#mainPhotographer .photographerLightbox__video video {
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  border-radius: 5px;
+}
+#mainPhotographer .photographerLightbox__info {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  color: #901C1C;
+  font-size: 24px;
+}
+#mainPhotographer .photographerLightbox__info div {
+  width: 85%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+#mainPhotographer .photographerLightbox__info_nom {
+  margin: 0;
+  font-weight: 400;
+}
+#mainPhotographer .photographerLightbox__info_price {
+  margin: 0;
+  font-weight: 500;
+}
+#mainPhotographer .photographerLightbox__info_like {
+  width: 15%;
+  margin: 0;
+  font-weight: 500;
+  text-align: right;
+  cursor: pointer;
+}
+#mainPhotographer .photographerLightbox__info i {
+  font-size: 20px;
+  line-height: 31.53px;
 }
 
 /*# sourceMappingURL=main.css.map*/

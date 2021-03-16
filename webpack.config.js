@@ -42,7 +42,7 @@ module.exports = {
       },
       // Règle pour les images
       {
-        test: /\.(png|jpe?g|gif|svg|ico)$/i,
+        test: /\.(png|jpe?g|gif|svg|ico|mp4)$/i,
         use: [
           {
             loader: 'file-loader',
@@ -76,6 +76,11 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: './src/index.html',
       filename: 'index.html',
+      inject: 'body'
+    }),
+    new HtmlWebpackPlugin({
+      template: './src/photographer_page.html',
+      filename: 'photographer_page.html',
       inject: 'body'
     }),
     new MiniCssExtractPlugin()

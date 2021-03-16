@@ -11,7 +11,9 @@
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "getPhotographerById": () => (/* binding */ getPhotographerById),
-/* harmony export */   "getPhotographerByTagsList": () => (/* binding */ getPhotographerByTagsList)
+/* harmony export */   "getPhotographerByTagsList": () => (/* binding */ getPhotographerByTagsList),
+/* harmony export */   "getNumberOfLikeByPhotographerId": () => (/* binding */ getNumberOfLikeByPhotographerId),
+/* harmony export */   "getListMediaFromPhotographerId": () => (/* binding */ getListMediaFromPhotographerId)
 /* harmony export */ });
 /* harmony import */ var _assets_data_FishEyeDataFR_json__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../assets/data/FishEyeDataFR.json */ "./src/assets/data/FishEyeDataFR.json");
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./utils */ "./src/js/utils.js");
@@ -21,7 +23,7 @@ __webpack_require__.r(__webpack_exports__);
 
 function getPhotographerById(id) {
   for (var p in _assets_data_FishEyeDataFR_json__WEBPACK_IMPORTED_MODULE_0__.photographers) {
-    if (_assets_data_FishEyeDataFR_json__WEBPACK_IMPORTED_MODULE_0__.photographers[p].id === id) {
+    if (_assets_data_FishEyeDataFR_json__WEBPACK_IMPORTED_MODULE_0__.photographers[p].id === parseInt(id)) {
       return _assets_data_FishEyeDataFR_json__WEBPACK_IMPORTED_MODULE_0__.photographers[p];
     }
   }
@@ -45,6 +47,30 @@ function getPhotographerByTagsList(liste) {
   return listPhotographer;
 }
 
+function getNumberOfLikeByPhotographerId(id) {
+  var n = 0;
+
+  for (var m in _assets_data_FishEyeDataFR_json__WEBPACK_IMPORTED_MODULE_0__.media) {
+    if (_assets_data_FishEyeDataFR_json__WEBPACK_IMPORTED_MODULE_0__.media[m].photographerId === parseInt(id)) {
+      n += _assets_data_FishEyeDataFR_json__WEBPACK_IMPORTED_MODULE_0__.media[m].likes;
+    }
+  }
+
+  return n;
+}
+
+function getListMediaFromPhotographerId(id) {
+  var listMedia = [];
+
+  for (var m in _assets_data_FishEyeDataFR_json__WEBPACK_IMPORTED_MODULE_0__.media) {
+    if (_assets_data_FishEyeDataFR_json__WEBPACK_IMPORTED_MODULE_0__.media[m].photographerId === parseInt(id)) {
+      listMedia.push(_assets_data_FishEyeDataFR_json__WEBPACK_IMPORTED_MODULE_0__.media[m]);
+    }
+  }
+
+  return listMedia;
+}
+
 
 
 /***/ }),
@@ -58,10 +84,13 @@ function getPhotographerByTagsList(liste) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "createHeaderWithNav": () => (/* binding */ createHeaderWithNav),
-/* harmony export */   "createMain": () => (/* binding */ createMain),
-/* harmony export */   "createSectionPhotographers": () => (/* binding */ createSectionPhotographers)
+/* harmony export */   "createMainWithTitle": () => (/* binding */ createMainWithTitle),
+/* harmony export */   "createSectionPhotographers": () => (/* binding */ createSectionPhotographers),
+/* harmony export */   "createSectionPhotographersProfils": () => (/* binding */ createSectionPhotographersProfils),
+/* harmony export */   "createAsidePhotographersInfo": () => (/* binding */ createAsidePhotographersInfo),
+/* harmony export */   "createSectionPhotographerLightbox": () => (/* binding */ createSectionPhotographerLightbox)
 /* harmony export */ });
-function createHeaderWithNav(reponse) {
+function createHeaderWithNav(boolean) {
   var wrapper = document.getElementsByClassName('wrapper');
   var header = document.createElement('header');
   header.classList.add('header');
@@ -75,7 +104,7 @@ function createHeaderWithNav(reponse) {
   a.appendChild(image);
   wrapper[0].appendChild(header);
 
-  if (reponse) {
+  if (boolean) {
     createNav();
   }
 }
@@ -104,13 +133,17 @@ function createTags(tagsName) {
   return li;
 }
 
-function createMain() {
+function createMainWithTitle(id, boolean) {
   var wrapper = document.getElementsByClassName('wrapper');
   var main = document.createElement('main');
-  main.setAttribute('id', 'mainIndex');
-  var h1 = document.createElement('h1');
-  h1.innerHTML = 'Nos photographes';
-  main.appendChild(h1);
+  main.setAttribute('id', id);
+
+  if (boolean) {
+    var h1 = document.createElement('h1');
+    h1.innerHTML = 'Nos photographes';
+    main.appendChild(h1);
+  }
+
   wrapper[0].appendChild(main);
 }
 
@@ -120,7 +153,7 @@ function createSectionPhotographers(photographer) {
   sectionPhotographer.classList.add('photographer');
   var link = document.createElement('a');
   link.classList.add('photographer__link');
-  link.setAttribute('href', 'photographer_page.html?id=' + photographer.id);
+  link.setAttribute('href', './photographer_page.html?id=' + photographer.id);
   sectionPhotographer.appendChild(link);
   var portrait = document.createElement('img');
   portrait.classList.add('photographer__link_portrait');
@@ -155,6 +188,161 @@ function createSectionPhotographers(photographer) {
   main.appendChild(sectionPhotographer);
 }
 
+function createSectionPhotographersProfils(photographer) {
+  var main = document.getElementById('mainPhotographer');
+  var section = document.createElement('section');
+  section.classList.add('photographerProfils');
+  var div = document.createElement('div');
+  var h1 = document.createElement('h1');
+  h1.classList.add('photographerProfils__name');
+  h1.innerHTML = photographer.name;
+  div.appendChild(h1);
+  var button = document.createElement('button');
+  button.classList.add('photographerProfils__contact');
+  button.classList.add('button');
+  button.innerHTML = 'Contactez-moi';
+  div.appendChild(button);
+  section.appendChild(div);
+  var pCity = document.createElement('p');
+  pCity.classList.add('photographerProfils__city');
+  pCity.innerHTML = photographer.city;
+  section.appendChild(pCity);
+  var pTagline = document.createElement('p');
+  pTagline.classList.add('photographerProfils__tagline');
+  pTagline.innerHTML = photographer.tagline;
+  section.appendChild(pTagline);
+  var ul = document.createElement('ul');
+  ul.classList.add('photographerProfils__tags');
+  section.appendChild(ul);
+
+  for (var t in photographer.tags) {
+    var li = document.createElement('li');
+    li.classList.add('tags');
+    li.setAttribute('data-value', photographer.tags[t].toLowerCase());
+    ul.appendChild(li);
+    var a = document.createElement('a');
+    a.setAttribute('href', 'index.html?tags=' + photographer.tags[t].toLowerCase());
+    a.innerHTML = '#' + photographer.tags[t].toLowerCase();
+    li.appendChild(a);
+  }
+
+  var image = document.createElement('img');
+  image.classList.add('photographerProfils__portrait');
+  image.setAttribute('src', './assets/images/photographers/' + photographer.portrait);
+  image.setAttribute('alt', photographer.name);
+  section.appendChild(image);
+  main.appendChild(section);
+}
+
+function createAsidePhotographersInfo(nombreDeLike, photographer) {
+  var main = document.getElementById('mainPhotographer');
+  var aside = document.createElement('aside');
+  aside.classList.add('photographerInfo');
+  var plike = document.createElement('p');
+  plike.classList.add('photographerInfo__like');
+  plike.innerHTML = nombreDeLike;
+  aside.appendChild(plike);
+  var i = document.createElement('i');
+  i.classList.add('fas');
+  i.classList.add('fa-heart');
+  aside.appendChild(i);
+  var price = document.createElement('p');
+  price.classList.add('photographerInfo__price');
+  price.innerHTML = photographer.price + '€/jour';
+  aside.appendChild(price);
+  main.appendChild(aside);
+}
+
+function createSectionPhotographerLightbox(listmedia) {
+  var main = document.getElementById('mainPhotographer');
+  var section = document.createElement('section');
+  section.classList.add('photographerLightbox');
+  main.appendChild(section);
+  var h2 = document.createElement('h2');
+  h2.classList.add('photographerLightbox__titre');
+  h2.innerHTML = 'Trier par';
+  section.appendChild(h2);
+  var div = document.createElement('div');
+  div.classList.add('photographerLightbox__select'); // section.appendChild(div)
+
+  var select = document.createElement('section');
+  var liste = ['Popularité', 'Date', 'Titre'];
+
+  for (var l in liste) {
+    var option = document.createElement('option');
+    option.setAttribute('value', liste[l].toLowerCase());
+    option.innerHTML = liste[l];
+    select.appendChild(option);
+  }
+
+  div.appendChild(select);
+  var name;
+
+  for (var m in listmedia) {
+    var figure = document.createElement('figure');
+
+    if (Object.keys(listmedia[m])[Object.values(listmedia[m]).indexOf(listmedia[m].image)] === 'image') {
+      figure.classList.add('photographerLightbox__image');
+      section.appendChild(figure);
+      var a = document.createElement('a');
+      a.setAttribute('href', '#');
+      figure.appendChild(a);
+      var img = document.createElement('img');
+      img.setAttribute('src', './assets/images/photos/' + listmedia[m].image);
+      img.setAttribute('alt', 'nom');
+      a.appendChild(img);
+      name = listmedia[m].image;
+    }
+
+    if (Object.keys(listmedia[m])[Object.values(listmedia[m]).indexOf(listmedia[m].video)] === 'video') {
+      figure.classList.add('photographerLightbox__video');
+      section.appendChild(figure);
+
+      var _a = document.createElement('a');
+
+      _a.setAttribute('href', '#');
+
+      figure.appendChild(_a);
+      var video = document.createElement('video');
+      var source = document.createElement('source');
+      source.setAttribute('src', './assets/videos/' + listmedia[m].video);
+      source.setAttribute('type', 'video/mp4');
+      video.appendChild(source);
+
+      _a.appendChild(video);
+
+      name = listmedia[m].video;
+    }
+
+    var figcaption = document.createElement('figcaption');
+    figcaption.classList.add('photographerLightbox__info');
+    figure.appendChild(figcaption);
+    var divFig = document.createElement('div');
+    figcaption.appendChild(divFig);
+    var pNom = document.createElement('p');
+    pNom.classList.add('photographerLightbox__info_nom');
+    pNom.innerHTML = getNameFromData(name);
+    divFig.appendChild(pNom);
+    var price = document.createElement('p');
+    price.classList.add('photographerLightbox__info_price');
+    price.innerHTML = listmedia[m].price + '€';
+    divFig.appendChild(price);
+    var span = document.createElement('span');
+    span.classList.add('photographerLightbox__info_like');
+    span.innerHTML = listmedia[m].likes;
+    figcaption.appendChild(span);
+    var i = document.createElement('i');
+    i.classList.add('far');
+    i.classList.add('fa-heart');
+    figcaption.appendChild(i);
+  }
+}
+
+function getNameFromData(string) {
+  var regex = /(_|Fashion_|Event_|Art_|Sport_|Animals_|Architecture_|Portrait_|Travel_)|\.(jpg|mp4)/g;
+  return String(string).replace(regex, ' ');
+}
+
 
 
 /***/ }),
@@ -181,7 +369,7 @@ __webpack_require__.r(__webpack_exports__);
 
 function generateIndexHtml() {
   (0,_factoryElements__WEBPACK_IMPORTED_MODULE_2__.createHeaderWithNav)(true);
-  (0,_factoryElements__WEBPACK_IMPORTED_MODULE_2__.createMain)();
+  (0,_factoryElements__WEBPACK_IMPORTED_MODULE_2__.createMainWithTitle)('mainIndex', true);
   var navTags;
   var listPhotographer;
   var listeTags;
@@ -212,10 +400,10 @@ function generateIndexHtml() {
 
 
   navTags.forEach(function (li) {
-    li.addEventListener('click', test);
+    li.addEventListener('click', reloadPageSection);
   });
 
-  function test() {
+  function reloadPageSection() {
     (0,_utils__WEBPACK_IMPORTED_MODULE_3__.clearMainIndex)();
     var tag = this.getAttribute('data-value');
 
@@ -254,7 +442,7 @@ function generateIndexHtml() {
       }
 
       navTags.forEach(function (li) {
-        li.addEventListener('click', test);
+        li.addEventListener('click', reloadPageSection);
       });
     } else {
       (0,_utils__WEBPACK_IMPORTED_MODULE_3__.addToList)(tag, listeTags);
@@ -282,7 +470,7 @@ function generateIndexHtml() {
       }
 
       navTags.forEach(function (li) {
-        li.addEventListener('click', test);
+        li.addEventListener('click', reloadPageSection);
       });
     }
   }
@@ -295,7 +483,39 @@ function createPhotographerfromList(liste) {
 }
 
 function generatePhotographerPageHtml() {
-  console.log('je suis sur la page photographer_page.html');
+  var url = new URL(window.location.href);
+  var id = url.searchParams.get('id');
+  (0,_factoryElements__WEBPACK_IMPORTED_MODULE_2__.createHeaderWithNav)(false);
+  (0,_factoryElements__WEBPACK_IMPORTED_MODULE_2__.createMainWithTitle)('mainPhotographer', false);
+  (0,_factoryElements__WEBPACK_IMPORTED_MODULE_2__.createSectionPhotographersProfils)((0,_data__WEBPACK_IMPORTED_MODULE_1__.getPhotographerById)(id));
+  var numberOfLikeTotal = (0,_data__WEBPACK_IMPORTED_MODULE_1__.getNumberOfLikeByPhotographerId)(id);
+  (0,_factoryElements__WEBPACK_IMPORTED_MODULE_2__.createAsidePhotographersInfo)(numberOfLikeTotal, (0,_data__WEBPACK_IMPORTED_MODULE_1__.getPhotographerById)(id));
+  var likeTotal = document.getElementsByClassName('photographerInfo__like');
+  (0,_factoryElements__WEBPACK_IMPORTED_MODULE_2__.createSectionPhotographerLightbox)((0,_data__WEBPACK_IMPORTED_MODULE_1__.getListMediaFromPhotographerId)(id));
+  var plike = document.querySelectorAll('span.photographerLightbox__info_like');
+  plike.forEach(function (span) {
+    var isLike = false;
+    var numberOfLike = parseInt(span.innerHTML);
+    span.addEventListener('click', like);
+
+    function like() {
+      if (isLike) {
+        isLike = false;
+        numberOfLike -= 1;
+        numberOfLikeTotal -= 1;
+        likeTotal[0].innerHTML = numberOfLikeTotal;
+        span.innerHTML = numberOfLike;
+        span.nextSibling.classList.replace('fas', 'far');
+      } else {
+        isLike = true;
+        numberOfLike += 1;
+        numberOfLikeTotal += 1;
+        likeTotal[0].innerHTML = numberOfLikeTotal;
+        span.innerHTML = numberOfLike;
+        span.nextSibling.classList.replace('far', 'fas');
+      }
+    }
+  });
 }
 
 
@@ -379,7 +599,7 @@ __webpack_require__.r(__webpack_exports__);
   \********************************************/
 /***/ ((module) => {
 
-module.exports = JSON.parse('{"photographers":[{"name":"Mimi Keel","id":243,"city":"London","country":"UK","tags":["portrait","events","travel","animals"],"tagline":"Voir le beau dans le quotidien","price":400,"portrait":"MimiKeel.jpg"},{"name":"Ellie-Rose Wilkens","id":930,"city":"Paris","country":"France","tags":["sport","architecture"],"tagline":"Capturer des compositions complexes","price":250,"portrait":"EllieRoseWilkens.jpg"},{"name":"Tracy Galindo","id":82,"city":"Montreal","country":"Canada","tags":["art","fashion","events"],"tagline":"Photographe freelance","price":500,"portrait":"TracyGalindo.jpg"},{"name":"Nabeel Bradford","id":527,"city":"Mexico City","country":"Mexico","tags":["travel","portrait"],"tagline":"Toujours aller de l\'avant","price":350,"portrait":"NabeelBradford.jpg"},{"name":"Rhode Dubois","id":925,"city":"Barcelona","country":"Spain","tags":["sport","fashion","events","animals"],"tagline":"Je crée des souvenirs","price":275,"portrait":"RhodeDubois.jpg"},{"name":"Marcel Nikolic","id":195,"city":"Berlin","country":"Germany","tags":["travel","architecture"],"tagline":"Toujours à la recherche de LA photo","price":300,"portrait":"MarcelNikolic.jpg"}],"media":[{"id":342550,"photographerId":82,"image":"Fashion_Yellow_Beach.jpg","tags":["fashion"],"likes":62,"date":"2011-12-08","price":55},{"id":8520927,"photographerId":82,"image":"Fashion_Urban_Jungle.jpg","tags":["fashion"],"likes":11,"date":"2011-11-06","price":55},{"id":9025895,"photographerId":82,"image":"Fashion_Pattern_on_Pattern.jpg","tags":["fashion"],"likes":72,"date":"2013-08-12","price":55},{"id":9275938,"photographerId":82,"image":"Event-_eddingGazebo.jpg","tags":["events"],"likes":69,"date":"2018-02-22","price":55},{"id":2053494,"photographerId":82,"image":"Event_Sparklers.jpg","tags":["events"],"likes":2,"date":"2020-05-25","price":55},{"id":7324238,"photographerId":82,"image":"Event_18thAnniversary.jpg","tags":["events"],"likes":33,"date":"2019-06-12","price":55},{"id":8328953,"photographerId":82,"video":"Art_Wooden_Horse_Sculpture.mp4","tags":["art"],"likes":24,"date":"2011-12-08","price":100},{"id":7502053,"photographerId":82,"image":"Art_Triangle_Man.jpg","tags":["art"],"likes":88,"date":"2007-05-07","price":55},{"id":8523492,"photographerId":82,"image":"Art_Purple_light.jpg","tags":["art"],"likes":24,"date":"2018-05-05","price":55},{"id":75902334,"photographerId":82,"image":"Art_Mine.jpg","tags":["art"],"likes":75,"date":"2019-11-25","price":55},{"id":73852953,"photographerId":925,"image":"Sport_2000_with_8.jpg","tags":["sport"],"likes":52,"date":"2013-02-30","price":70},{"id":92758372,"photographerId":925,"image":"Fashion_Wings.jpg","tags":["fashion"],"likes":58,"date":"2018-07-17","price":70},{"id":32958383,"photographerId":925,"image":"Fashion_Melody_Red_on_Stripes.jpg","tags":["fashion"],"likes":11,"date":"2019-08-12","price":70},{"id":928587383,"photographerId":925,"image":"Event_VentureConference.jpg","tags":["events"],"likes":2,"date":"2019-01-02","price":70},{"id":725639493,"photographerId":925,"image":"Event_ProductPitchjpg","tags":["events"],"likes":3,"date":"2019-05-20","price":70},{"id":23394384,"photographerId":925,"image":"Event_KeyboardCheck.jpg","tags":["events"],"likes":52,"date":"2019-07-18","price":70},{"id":87367293,"photographerId":925,"image":"Event_Emcee.jpg","tags":["events"],"likes":23,"date":"2018-02-22","price":70},{"id":593834784,"photographerId":925,"image":"Animals_Majesty.jpg","tags":["animals"],"likes":52,"date":"2017-03-13","price":70},{"id":83958935,"photographerId":925,"video":"Animals_Puppiness.mp4","tags":["animals"],"likes":52,"date":"2016-06-12","price":70},{"id":394583434,"photographerId":527,"video":"Travel_Rock_Mountains.mp4","tags":["travel"],"likes":23,"date":"2017-03-18","price":45},{"id":343423425,"photographerId":527,"image":"Travel_Outdoor_Baths.jpg","tags":["travel"],"likes":101,"date":"2017-04-03","price":45},{"id":73434243,"photographerId":527,"image":"Travel_Road_into_Hill.jpg","tags":["travel"],"likes":99,"date":"2018-04-30","price":45},{"id":23425523,"photographerId":527,"image":"Travel_Bridge_into_Forest.jpg","tags":["travel"],"likes":34,"date":"2016-04-05","price":45},{"id":23134513,"photographerId":527,"image":"Travel_Boat_Wanderer.jpg","tags":["travel"],"likes":23,"date":"2017-03-18","price":45},{"id":92352352,"photographerId":527,"image":"Portrait_Sunkissed.jpg","tags":["portrait"],"likes":66,"date":"2018-05-24","price":45},{"id":34513453,"photographerId":527,"image":"Portrait_Shaw.jpg","tags":["portait"],"likes":52,"date":"2017-04-21","price":45},{"id":23523533,"photographerId":527,"image":"Portrait_Alexandra.jpg","tags":["portait"],"likes":95,"date":"2018-11-02","price":45},{"id":525834234,"photographerId":527,"image":"Portrait_AfternoonBreak.jpg","tags":["portait"],"likes":25,"date":"2019-01-02","price":45},{"id":623534343,"photographerId":243,"image":"Travel_Lonesome.jpg","tags":["travel"],"likes":88,"date":"2019-02-03","price":45},{"id":625025343,"photographerId":243,"image":"Travel_HillsideColor.jpg","tags":["travel"],"likes":85,"date":"2019-04-03","price":45},{"id":2525345343,"photographerId":243,"image":"Portrait_Wednesday.jpg","tags":["portait"],"likes":34,"date":"2019-04-07","price":45},{"id":2523434634,"photographerId":243,"image":"Portrait_Nora.jpg","tags":["portait"],"likes":63,"date":"2019-04-07","price":45},{"id":398847109,"photographerId":243,"image":"Portrait_Background.jpg","tags":["portait"],"likes":55,"date":"2019-06-20","price":45},{"id":2534342,"photographerId":243,"image":"Event_SeasideWedding.jpg","tags":["events"],"likes":25,"date":"2019-06-21","price":45},{"id":65235234,"photographerId":243,"image":"Event_PintoWedding.jpg","tags":["events"],"likes":52,"date":"2019-06-25","price":45},{"id":23523434,"photographerId":243,"image":"Event_BenevidesWedding.jpg","tags":["events"],"likes":77,"date":"2019-06-28","price":45},{"id":5234343,"photographerId":243,"video":"Animals_Wild_Horses_in_the_mountains.mp4","tags":["animals"],"likes":142,"date":"2019-08-23","price":60},{"id":95234343,"photographerId":243,"image":"Animals_Rainbow.jpg.jpg","tags":["animals"],"likes":59,"date":"2019-07-02","price":60},{"id":52343416,"photographerId":195,"image":"Travel_Tower.jpg","tags":["travel"],"likes":25,"date":"2019-04-03","price":60},{"id":2523434,"photographerId":195,"image":"Travel_SunsetonCanals.jpg","tags":["travel"],"likes":53,"date":"2019-05-06","price":60},{"id":95293534,"photographerId":195,"image":"Travel_OpenMountain.jpg","tags":["travel"],"likes":33,"date":"2019-05-12","price":60},{"id":356234343,"photographerId":195,"image":"Travel_Bike_and_Stair.jpg","tags":["travel"],"likes":53,"date":"2019-06-20","price":60},{"id":235234343,"photographerId":195,"image":"Travel_Adventure_Door.jpg","tags":["travel"],"likes":63,"date":"2019-06-26","price":60},{"id":6234234343,"photographerId":195,"image":"Architecture_Contrast.jpg","tags":["architecture"],"likes":52,"date":"2019-06-30","price":60},{"id":6525666253,"photographerId":195,"image":"Architecture_On_a_hill.jpg","tags":["architecture"],"likes":63,"date":"2019-07-20","price":60},{"id":98252523433,"photographerId":195,"image":"Architecture_Dome.jpg","tags":["architecture"],"likes":88,"date":"2020-01-05","price":60},{"id":9259398453,"photographerId":195,"video":"Architecture_coverr_circle_empty_highway_in_buenos_aires_587740985637.mp4","tags":["architecture"],"likes":57,"date":"2020-01-20","price":65},{"id":3523523534,"photographerId":195,"image":"Architecture_Corner_Room.jpg","tags":["architecture"],"likes":54,"date":"2020-05-05","price":60},{"id":952343423,"photographerId":930,"video":"Sport_Tricks_in_the_air.mp4","tags":["sport"],"likes":150,"date":"2018-02-30","price":70},{"id":235234343,"photographerId":930,"image":"Sport_Next_Hold.jpg","tags":["sport"],"likes":101,"date":"2018-03-05","price":65},{"id":235343222,"photographerId":930,"image":"sport_water_tunnel.jpg","tags":["sport"],"likes":103,"date":"2018-03-10","price":70},{"id":7775342343,"photographerId":930,"image":"Sport_Sky_Cross.jpg","tags":["sport"],"likes":77,"date":"2018-04-16","price":50},{"id":9253445784,"photographerId":930,"image":"Sport_Race_End.jpg","tags":["sport"],"likes":88,"date":"2018-04-22","price":65},{"id":22299394,"photographerId":930,"image":"Sport_Jump.jpg","tags":["sport"],"likes":95,"date":"2018-04-27","price":70},{"id":3452342633,"photographerId":930,"image":"Architecture_White_Light.jpg","tags":["architecture"],"likes":52,"date":"2018-05-03","price":75},{"id":939234243,"photographerId":930,"image":"Architecture_Water_on_Modern.jpg","tags":["architecture"],"likes":55,"date":"2018-05-10","price":72},{"id":222959233,"photographerId":930,"image":"Architecture_Horseshoe.jpg","tags":["architecture"],"likes":85,"date":"2018-05-15","price":71},{"id":965933434,"photographerId":930,"image":"Architecture_Cross_Bar.jpg","tags":["architecture"],"likes":66,"date":"2018-05-20","price":58},{"id":777723343,"photographerId":930,"image":"Architecture_Connected_Curves.jpg","tags":["architecture"],"likes":79,"date":"2018-05-21","price":80}]}');
+module.exports = JSON.parse('{"photographers":[{"name":"Mimi Keel","id":243,"city":"London","country":"UK","tags":["portrait","events","travel","animals"],"tagline":"Voir le beau dans le quotidien","price":400,"portrait":"MimiKeel.jpg"},{"name":"Ellie-Rose Wilkens","id":930,"city":"Paris","country":"France","tags":["sport","architecture"],"tagline":"Capturer des compositions complexes","price":250,"portrait":"EllieRoseWilkens.jpg"},{"name":"Tracy Galindo","id":82,"city":"Montreal","country":"Canada","tags":["art","fashion","events"],"tagline":"Photographe freelance","price":500,"portrait":"TracyGalindo.jpg"},{"name":"Nabeel Bradford","id":527,"city":"Mexico City","country":"Mexico","tags":["travel","portrait"],"tagline":"Toujours aller de l\'avant","price":350,"portrait":"NabeelBradford.jpg"},{"name":"Rhode Dubois","id":925,"city":"Barcelona","country":"Spain","tags":["sport","fashion","events","animals"],"tagline":"Je crée des souvenirs","price":275,"portrait":"RhodeDubois.jpg"},{"name":"Marcel Nikolic","id":195,"city":"Berlin","country":"Germany","tags":["travel","architecture"],"tagline":"Toujours à la recherche de LA photo","price":300,"portrait":"MarcelNikolic.jpg"}],"media":[{"id":342550,"photographerId":82,"image":"Fashion_Yellow_Beach.jpg","tags":["fashion"],"likes":62,"date":"2011-12-08","price":55},{"id":8520927,"photographerId":82,"image":"Fashion_Urban_Jungle.jpg","tags":["fashion"],"likes":11,"date":"2011-11-06","price":55},{"id":9025895,"photographerId":82,"image":"Fashion_Pattern_on_Pattern.jpg","tags":["fashion"],"likes":72,"date":"2013-08-12","price":55},{"id":9275938,"photographerId":82,"image":"Event_WeddingGazebo.jpg","tags":["events"],"likes":69,"date":"2018-02-22","price":55},{"id":2053494,"photographerId":82,"image":"Event_Sparklers.jpg","tags":["events"],"likes":2,"date":"2020-05-25","price":55},{"id":7324238,"photographerId":82,"image":"Event_18thAnniversary.jpg","tags":["events"],"likes":33,"date":"2019-06-12","price":55},{"id":8328953,"photographerId":82,"video":"Art_Wooden_Horse_Sculpture.mp4","tags":["art"],"likes":24,"date":"2011-12-08","price":100},{"id":7502053,"photographerId":82,"image":"Art_Triangle_Man.jpg","tags":["art"],"likes":88,"date":"2007-05-07","price":55},{"id":8523492,"photographerId":82,"image":"Art_Purple_light.jpg","tags":["art"],"likes":24,"date":"2018-05-05","price":55},{"id":75902334,"photographerId":82,"image":"Art_Mine.jpg","tags":["art"],"likes":75,"date":"2019-11-25","price":55},{"id":73852953,"photographerId":925,"image":"Sport_2000_with_8.jpg","tags":["sport"],"likes":52,"date":"2013-02-30","price":70},{"id":92758372,"photographerId":925,"image":"Fashion_Wings.jpg","tags":["fashion"],"likes":58,"date":"2018-07-17","price":70},{"id":32958383,"photographerId":925,"image":"Fashion_Melody_Red_on_Stripes.jpg","tags":["fashion"],"likes":11,"date":"2019-08-12","price":70},{"id":928587383,"photographerId":925,"image":"Event_VentureConference.jpg","tags":["events"],"likes":2,"date":"2019-01-02","price":70},{"id":725639493,"photographerId":925,"image":"Event_ProductPitch.jpg","tags":["events"],"likes":3,"date":"2019-05-20","price":70},{"id":23394384,"photographerId":925,"image":"Event_KeyboardCheck.jpg","tags":["events"],"likes":52,"date":"2019-07-18","price":70},{"id":87367293,"photographerId":925,"image":"Event_Emcee.jpg","tags":["events"],"likes":23,"date":"2018-02-22","price":70},{"id":593834784,"photographerId":925,"image":"Animals_Majesty.jpg","tags":["animals"],"likes":52,"date":"2017-03-13","price":70},{"id":83958935,"photographerId":925,"video":"Animals_Puppiness.mp4","tags":["animals"],"likes":52,"date":"2016-06-12","price":70},{"id":394583434,"photographerId":527,"video":"Travel_Rock_Mountains.mp4","tags":["travel"],"likes":23,"date":"2017-03-18","price":45},{"id":343423425,"photographerId":527,"image":"Travel_Outdoor_Baths.jpg","tags":["travel"],"likes":101,"date":"2017-04-03","price":45},{"id":73434243,"photographerId":527,"image":"Travel_Road_into_Hill.jpg","tags":["travel"],"likes":99,"date":"2018-04-30","price":45},{"id":23425523,"photographerId":527,"image":"Travel_Bridge_into_Forest.jpg","tags":["travel"],"likes":34,"date":"2016-04-05","price":45},{"id":23134513,"photographerId":527,"image":"Travel_Boat_Wanderer.jpg","tags":["travel"],"likes":23,"date":"2017-03-18","price":45},{"id":92352352,"photographerId":527,"image":"Portrait_Sunkissed.jpg","tags":["portrait"],"likes":66,"date":"2018-05-24","price":45},{"id":34513453,"photographerId":527,"image":"Portrait_Shaw.jpg","tags":["portait"],"likes":52,"date":"2017-04-21","price":45},{"id":23523533,"photographerId":527,"image":"Portrait_Alexandra.jpg","tags":["portait"],"likes":95,"date":"2018-11-02","price":45},{"id":525834234,"photographerId":527,"image":"Portrait_AfternoonBreak.jpg","tags":["portait"],"likes":25,"date":"2019-01-02","price":45},{"id":623534343,"photographerId":243,"image":"Travel_Lonesome.jpg","tags":["travel"],"likes":88,"date":"2019-02-03","price":45},{"id":625025343,"photographerId":243,"image":"Travel_HillsideColor.jpg","tags":["travel"],"likes":85,"date":"2019-04-03","price":45},{"id":2525345343,"photographerId":243,"image":"Portrait_Wednesday.jpg","tags":["portait"],"likes":34,"date":"2019-04-07","price":45},{"id":2523434634,"photographerId":243,"image":"Portrait_Nora.jpg","tags":["portait"],"likes":63,"date":"2019-04-07","price":45},{"id":398847109,"photographerId":243,"image":"Portrait_Background.jpg","tags":["portait"],"likes":55,"date":"2019-06-20","price":45},{"id":2534342,"photographerId":243,"image":"Event_SeasideWedding.jpg","tags":["events"],"likes":25,"date":"2019-06-21","price":45},{"id":65235234,"photographerId":243,"image":"Event_PintoWedding.jpg","tags":["events"],"likes":52,"date":"2019-06-25","price":45},{"id":23523434,"photographerId":243,"image":"Event_BenevidesWedding.jpg","tags":["events"],"likes":77,"date":"2019-06-28","price":45},{"id":5234343,"photographerId":243,"video":"Animals_Wild_Horses_in_the_mountains.mp4","tags":["animals"],"likes":142,"date":"2019-08-23","price":60},{"id":95234343,"photographerId":243,"image":"Animals_Rainbow.jpg","tags":["animals"],"likes":59,"date":"2019-07-02","price":60},{"id":52343416,"photographerId":195,"image":"Travel_Tower.jpg","tags":["travel"],"likes":25,"date":"2019-04-03","price":60},{"id":2523434,"photographerId":195,"image":"Travel_SunsetonCanals.jpg","tags":["travel"],"likes":53,"date":"2019-05-06","price":60},{"id":95293534,"photographerId":195,"image":"Travel_OpenMountain.jpg","tags":["travel"],"likes":33,"date":"2019-05-12","price":60},{"id":356234343,"photographerId":195,"image":"Travel_Bike_and_Stair.jpg","tags":["travel"],"likes":53,"date":"2019-06-20","price":60},{"id":235234343,"photographerId":195,"image":"Travel_Adventure_Door.jpg","tags":["travel"],"likes":63,"date":"2019-06-26","price":60},{"id":6234234343,"photographerId":195,"image":"Architecture_Contrast.jpg","tags":["architecture"],"likes":52,"date":"2019-06-30","price":60},{"id":6525666253,"photographerId":195,"image":"Architecture_On_a_hill.jpg","tags":["architecture"],"likes":63,"date":"2019-07-20","price":60},{"id":98252523433,"photographerId":195,"image":"Architecture_Dome.jpg","tags":["architecture"],"likes":88,"date":"2020-01-05","price":60},{"id":9259398453,"photographerId":195,"video":"Architecture_coverr_circle_empty_highway_in_buenos_aires.mp4","tags":["architecture"],"likes":57,"date":"2020-01-20","price":65},{"id":3523523534,"photographerId":195,"image":"Architecture_Corner_Room.jpg","tags":["architecture"],"likes":54,"date":"2020-05-05","price":60},{"id":952343423,"photographerId":930,"video":"Sport_Tricks_in_the_air.mp4","tags":["sport"],"likes":150,"date":"2018-02-30","price":70},{"id":235234343,"photographerId":930,"image":"Sport_Next_Hold.jpg","tags":["sport"],"likes":101,"date":"2018-03-05","price":65},{"id":235343222,"photographerId":930,"image":"sport_water_tunnel.jpg","tags":["sport"],"likes":103,"date":"2018-03-10","price":70},{"id":7775342343,"photographerId":930,"image":"Sport_Sky_Cross.jpg","tags":["sport"],"likes":77,"date":"2018-04-16","price":50},{"id":9253445784,"photographerId":930,"image":"Sport_Race_End.jpg","tags":["sport"],"likes":88,"date":"2018-04-22","price":65},{"id":22299394,"photographerId":930,"image":"Sport_Jump.jpg","tags":["sport"],"likes":95,"date":"2018-04-27","price":70},{"id":3452342633,"photographerId":930,"image":"Architecture_White_Light.jpg","tags":["architecture"],"likes":52,"date":"2018-05-03","price":75},{"id":939234243,"photographerId":930,"image":"Architecture_Water_on_Modern.jpg","tags":["architecture"],"likes":55,"date":"2018-05-10","price":72},{"id":222959233,"photographerId":930,"image":"Architecture_Horseshoe.jpg","tags":["architecture"],"likes":85,"date":"2018-05-15","price":71},{"id":965933434,"photographerId":930,"image":"Architecture_Cross_Bar.jpg","tags":["architecture"],"likes":66,"date":"2018-05-20","price":58},{"id":777723343,"photographerId":930,"image":"Architecture_Connected_Curves.jpg","tags":["architecture"],"likes":79,"date":"2018-05-21","price":80}]}');
 
 /***/ })
 
