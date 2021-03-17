@@ -35,4 +35,10 @@ function changeTagsStyle (dom, bgColor, color) {
   dom.style.backgroundColor = bgColor
   dom.style.color = color
 }
-export { clearMainIndex, isInList, addToList, deleteFromList, changeTagsStyle }
+
+function getNameFromMediaLink (string) {
+  const regex = /(_|Fashion_|Event_|Art_|Sport_|Animals_|Architecture_|Portrait_|Travel_|\.\/assets\/videos\/|\.\/assets\/images\/photos\/)|\.(jpg|mp4)/g
+  return String(string).replace(regex, ' ')
+}
+
+export { clearMainIndex, isInList, addToList, deleteFromList, changeTagsStyle, getNameFromMediaLink }

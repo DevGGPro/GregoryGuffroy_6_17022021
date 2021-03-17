@@ -135,6 +135,9 @@ function generatePhotographerPageHtml () {
   createAsidePhotographersInfo(numberOfLikeTotal, getPhotographerById(id))
   const likeTotal = document.getElementsByClassName('photographerInfo__like')
 
+  // const listeMedia = getListMediaFromPhotographerId(id)
+  // getListMediaFromFactoryPage(listeMedia)
+
   createSectionPhotographerLightbox(getListMediaFromPhotographerId(id))
   const plike = document.querySelectorAll('span.photographerLightbox__info_like')
   plike.forEach(function (span) {
@@ -161,4 +164,5 @@ function generatePhotographerPageHtml () {
     }
   })
 }
+
 export { generateIndexHtml, generatePhotographerPageHtml }

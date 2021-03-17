@@ -1,3 +1,4 @@
+import { getNameFromMediaLink } from './utils'
 
 function createHeaderWithNav (boolean) {
   const wrapper = document.getElementsByClassName('wrapper')
@@ -219,38 +220,26 @@ function createSectionPhotographerLightbox (listmedia) {
   for (const m in listmedia) {
     const figure = document.createElement('figure')
     if (Object.keys(listmedia[m])[Object.values(listmedia[m]).indexOf(listmedia[m].image)] === 'image') {
-      figure.classList.add('photographerLightbox__image')
+      name = listmedia[m].image
+      figure.classList.add('photographerLightbox__figure')
       section.appendChild(figure)
-
-      const a = document.createElement('a')
-      a.setAttribute('href', '#')
-      figure.appendChild(a)
 
       const img = document.createElement('img')
+      img.classList.add('photographerLightbox__figure_media')
       img.setAttribute('src', './assets/images/photos/' + listmedia[m].image)
-      img.setAttribute('alt', 'nom')
-      a.appendChild(img)
-
-      name = listmedia[m].image
+      img.setAttribute('alt', getNameFromMediaLink(name))
+      figure.appendChild(img)
     }
     if (Object.keys(listmedia[m])[Object.values(listmedia[m]).indexOf(listmedia[m].video)] === 'video') {
-      figure.classList.add('photographerLightbox__video')
+      name = listmedia[m].video
+      figure.classList.add('photographerLightbox__figure')
       section.appendChild(figure)
 
-      const a = document.createElement('a')
-      a.setAttribute('href', '#')
-      figure.appendChild(a)
-
       const video = document.createElement('video')
-
-      const source = document.createElement('source')
-      source.setAttribute('src', './assets/videos/' + listmedia[m].video)
-      source.setAttribute('type', 'video/mp4')
-      video.appendChild(source)
-
-      a.appendChild(video)
-
-      name = listmedia[m].video
+      video.classList.add('photographerLightbox__figure_media')
+      video.setAttribute('src', './assets/videos/' + listmedia[m].video)
+      video.setAttribute('type', 'video/mp4')
+      figure.appendChild(video)
     }
 
     const figcaption = document.createElement('figcaption')
@@ -262,7 +251,7 @@ function createSectionPhotographerLightbox (listmedia) {
 
     const pNom = document.createElement('p')
     pNom.classList.add('photographerLightbox__info_nom')
-    pNom.innerHTML = getNameFromData(name)
+    pNom.innerHTML = getNameFromMediaLink(name)
     divFig.appendChild(pNom)
 
     const price = document.createElement('p')
@@ -282,9 +271,54 @@ function createSectionPhotographerLightbox (listmedia) {
   }
 }
 
-function getNameFromData (string) {
-  const regex = /(_|Fashion_|Event_|Art_|Sport_|Animals_|Architecture_|Portrait_|Travel_)|\.(jpg|mp4)/g
-  return String(string).replace(regex, ' ')
+function createLightbox (link, alt) {
+  const modal = document.getElementById('modal-lightbox')
+
+  const section = document.createElement('section')
+  section.classList.add('lightbox')
+  modal.appendChild(section)
+
+  const ileft = document.createElement('i')
+  ileft.classList.add('fas')
+  ileft.classList.add('fa-chevron-left')
+  ileft.classList.add('lightbox__left')
+  section.appendChild(ileft)
+
+  const figure = document.createElement('figure')
+  figure.classList.add('lightbox__figure')
+  section.appendChild(figure)
+
+  if (link.includes('mp4')) {
+    const video = document.createElement('video')
+    video.classList.add('lightbox__figure_media')
+    video.setAttribute('src', link)
+    video.setAttribute('type', 'video/mp4')
+    video.setAttribute('controls', null)
+    figure.appendChild(video)
+  } else {
+    const image = document.createElement('img')
+    image.classList.add('lightbox__figure_media')
+    image.setAttribute('src', link)
+    image.setAttribute('alt', alt)
+    figure.appendChild(image)
+  }
+
+  const figcaption = document.createElement('figcation')
+  figcaption.classList.add('lightbox__name')
+  figcaption.innerHTML = alt
+  figure.appendChild(figcaption)
+
+  const iright = document.createElement('i')
+  iright.classList.add('fas')
+  iright.classList.add('fa-chevron-right')
+  iright.classList.add('lightbox__right')
+  section.appendChild(iright)
+
+  const iclose = document.createElement('i')
+  iclose.classList.add('fas')
+  iclose.classList.add('fa-times')
+  iclose.classList.add('lightbox__close')
+  section.appendChild(iclose)
 }
 
 export {
@@ -293,5 +327,6 @@ export {
   createSectionPhotographers,
   createSectionPhotographersProfils,
   createAsidePhotographersInfo,
-  createSectionPhotographerLightbox
+  createSectionPhotographerLightbox,
+  createLightbox
 }

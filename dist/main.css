@@ -89,6 +89,71 @@ body {
           box-sizing: border-box;
 }
 
+#modal-lightbox {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: #FFF;
+}
+#modal-lightbox .lightbox {
+  position: relative;
+  width: 1440px;
+  height: 1024px;
+  margin: auto;
+}
+#modal-lightbox .lightbox__left {
+  position: absolute;
+  color: #901C1C;
+  font-size: 48px;
+  top: 488px;
+  left: 131px;
+  cursor: pointer;
+}
+#modal-lightbox .lightbox__figure {
+  position: absolute;
+  margin: 0;
+  width: 1050px;
+  height: 900px;
+  top: 62px;
+  left: 195px;
+}
+#modal-lightbox .lightbox__figure_media {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  border-radius: 5px;
+}
+#modal-lightbox .lightbox__name {
+  margin: 0;
+  color: #901C1C;
+  font-size: 24px;
+  font-weight: 400;
+  font-family: "DM Sans", sans-serif;
+}
+#modal-lightbox .lightbox__right {
+  position: absolute;
+  color: #901C1C;
+  font-size: 48px;
+  top: 488px;
+  right: 131px;
+  cursor: pointer;
+}
+#modal-lightbox .lightbox__close {
+  position: absolute;
+  color: #901C1C;
+  width: 42px;
+  font-size: 42px;
+  text-align: center;
+  top: 77px;
+  right: 126px;
+  cursor: pointer;
+}
+
 #mainIndex {
   position: relative;
   padding: 0 72px;
@@ -354,25 +419,12 @@ body {
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
 }
-#mainPhotographer .photographerLightbox__image {
+#mainPhotographer .photographerLightbox__figure {
   width: 350px;
   height: 300px;
   margin: 0 0 71px 0;
 }
-#mainPhotographer .photographerLightbox__image img {
-  cursor: pointer;
-  width: 100%;
-  height: 100%;
-  -o-object-fit: cover;
-     object-fit: cover;
-  border-radius: 5px;
-}
-#mainPhotographer .photographerLightbox__video {
-  width: 350px;
-  height: 300px;
-  margin: 0 0 71px 0;
-}
-#mainPhotographer .photographerLightbox__video video {
+#mainPhotographer .photographerLightbox__figure_media {
   cursor: pointer;
   width: 100%;
   height: 100%;

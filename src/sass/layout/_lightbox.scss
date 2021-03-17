@@ -1,0 +1,78 @@
+#modal-lightbox{
+  display: none;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: $white-color;
+
+  .lightbox{
+    position: relative;
+    width: 1440px;
+    height: 1024px;
+    margin: auto;
+    
+    &__left{
+      position: absolute;
+      color: $primary-color;
+      
+      font-size: 48px;
+      
+      top: 488px;
+      left: 131px;
+      
+      cursor: pointer;
+    }
+    
+    &__figure{
+      position: absolute;
+      margin: 0;
+      width: 1050px;
+      height: 900px;
+      top: 62px;
+      left: 195px;
+      &_media{
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 5px;
+      }
+    }
+    
+    &__name{
+      margin: 0;
+      color: $primary-color;
+      font-size: 24px;
+      font-weight: 400;
+      font-family: 'DM Sans', sans-serif;
+    }
+    
+    &__right{
+      position: absolute;
+      color: $primary-color;
+      
+      font-size: 48px;
+      
+      top: 488px;
+      right: 131px;
+      
+      cursor: pointer;
+      
+    }
+    
+    &__close{
+      position: absolute;
+      color: $primary-color;
+      
+      width: 42px;
+      font-size: 42px;
+      text-align: center;
+      
+      top: 77px;
+      right: 126px;
+      cursor: pointer;
+    }
+  }
+}

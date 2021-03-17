@@ -88,8 +88,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "createSectionPhotographers": () => (/* binding */ createSectionPhotographers),
 /* harmony export */   "createSectionPhotographersProfils": () => (/* binding */ createSectionPhotographersProfils),
 /* harmony export */   "createAsidePhotographersInfo": () => (/* binding */ createAsidePhotographersInfo),
-/* harmony export */   "createSectionPhotographerLightbox": () => (/* binding */ createSectionPhotographerLightbox)
+/* harmony export */   "createSectionPhotographerLightbox": () => (/* binding */ createSectionPhotographerLightbox),
+/* harmony export */   "createLightbox": () => (/* binding */ createLightbox)
 /* harmony export */ });
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./utils */ "./src/js/utils.js");
+
+
 function createHeaderWithNav(boolean) {
   var wrapper = document.getElementsByClassName('wrapper');
   var header = document.createElement('header');
@@ -282,36 +286,25 @@ function createSectionPhotographerLightbox(listmedia) {
     var figure = document.createElement('figure');
 
     if (Object.keys(listmedia[m])[Object.values(listmedia[m]).indexOf(listmedia[m].image)] === 'image') {
-      figure.classList.add('photographerLightbox__image');
-      section.appendChild(figure);
-      var a = document.createElement('a');
-      a.setAttribute('href', '#');
-      figure.appendChild(a);
-      var img = document.createElement('img');
-      img.setAttribute('src', './assets/images/photos/' + listmedia[m].image);
-      img.setAttribute('alt', 'nom');
-      a.appendChild(img);
       name = listmedia[m].image;
+      figure.classList.add('photographerLightbox__figure');
+      section.appendChild(figure);
+      var img = document.createElement('img');
+      img.classList.add('photographerLightbox__figure_media');
+      img.setAttribute('src', './assets/images/photos/' + listmedia[m].image);
+      img.setAttribute('alt', (0,_utils__WEBPACK_IMPORTED_MODULE_0__.getNameFromMediaLink)(name));
+      figure.appendChild(img);
     }
 
     if (Object.keys(listmedia[m])[Object.values(listmedia[m]).indexOf(listmedia[m].video)] === 'video') {
-      figure.classList.add('photographerLightbox__video');
-      section.appendChild(figure);
-
-      var _a = document.createElement('a');
-
-      _a.setAttribute('href', '#');
-
-      figure.appendChild(_a);
-      var video = document.createElement('video');
-      var source = document.createElement('source');
-      source.setAttribute('src', './assets/videos/' + listmedia[m].video);
-      source.setAttribute('type', 'video/mp4');
-      video.appendChild(source);
-
-      _a.appendChild(video);
-
       name = listmedia[m].video;
+      figure.classList.add('photographerLightbox__figure');
+      section.appendChild(figure);
+      var video = document.createElement('video');
+      video.classList.add('photographerLightbox__figure_media');
+      video.setAttribute('src', './assets/videos/' + listmedia[m].video);
+      video.setAttribute('type', 'video/mp4');
+      figure.appendChild(video);
     }
 
     var figcaption = document.createElement('figcaption');
@@ -321,7 +314,7 @@ function createSectionPhotographerLightbox(listmedia) {
     figcaption.appendChild(divFig);
     var pNom = document.createElement('p');
     pNom.classList.add('photographerLightbox__info_nom');
-    pNom.innerHTML = getNameFromData(name);
+    pNom.innerHTML = (0,_utils__WEBPACK_IMPORTED_MODULE_0__.getNameFromMediaLink)(name);
     divFig.appendChild(pNom);
     var price = document.createElement('p');
     price.classList.add('photographerLightbox__info_price');
@@ -338,9 +331,49 @@ function createSectionPhotographerLightbox(listmedia) {
   }
 }
 
-function getNameFromData(string) {
-  var regex = /(_|Fashion_|Event_|Art_|Sport_|Animals_|Architecture_|Portrait_|Travel_)|\.(jpg|mp4)/g;
-  return String(string).replace(regex, ' ');
+function createLightbox(link, alt) {
+  var modal = document.getElementById('modal-lightbox');
+  var section = document.createElement('section');
+  section.classList.add('lightbox');
+  modal.appendChild(section);
+  var ileft = document.createElement('i');
+  ileft.classList.add('fas');
+  ileft.classList.add('fa-chevron-left');
+  ileft.classList.add('lightbox__left');
+  section.appendChild(ileft);
+  var figure = document.createElement('figure');
+  figure.classList.add('lightbox__figure');
+  section.appendChild(figure);
+
+  if (link.includes('mp4')) {
+    var video = document.createElement('video');
+    video.classList.add('lightbox__figure_media');
+    video.setAttribute('src', link);
+    video.setAttribute('type', 'video/mp4');
+    video.setAttribute('controls', null);
+    figure.appendChild(video);
+  } else {
+    var image = document.createElement('img');
+    image.classList.add('lightbox__figure_media');
+    image.setAttribute('src', link);
+    image.setAttribute('alt', alt);
+    figure.appendChild(image);
+  }
+
+  var figcaption = document.createElement('figcation');
+  figcaption.classList.add('lightbox__name');
+  figcaption.innerHTML = alt;
+  figure.appendChild(figcaption);
+  var iright = document.createElement('i');
+  iright.classList.add('fas');
+  iright.classList.add('fa-chevron-right');
+  iright.classList.add('lightbox__right');
+  section.appendChild(iright);
+  var iclose = document.createElement('i');
+  iclose.classList.add('fas');
+  iclose.classList.add('fa-times');
+  iclose.classList.add('lightbox__close');
+  section.appendChild(iclose);
 }
 
 
@@ -490,7 +523,9 @@ function generatePhotographerPageHtml() {
   (0,_factoryElements__WEBPACK_IMPORTED_MODULE_2__.createSectionPhotographersProfils)((0,_data__WEBPACK_IMPORTED_MODULE_1__.getPhotographerById)(id));
   var numberOfLikeTotal = (0,_data__WEBPACK_IMPORTED_MODULE_1__.getNumberOfLikeByPhotographerId)(id);
   (0,_factoryElements__WEBPACK_IMPORTED_MODULE_2__.createAsidePhotographersInfo)(numberOfLikeTotal, (0,_data__WEBPACK_IMPORTED_MODULE_1__.getPhotographerById)(id));
-  var likeTotal = document.getElementsByClassName('photographerInfo__like');
+  var likeTotal = document.getElementsByClassName('photographerInfo__like'); // const listeMedia = getListMediaFromPhotographerId(id)
+  // getListMediaFromFactoryPage(listeMedia)
+
   (0,_factoryElements__WEBPACK_IMPORTED_MODULE_2__.createSectionPhotographerLightbox)((0,_data__WEBPACK_IMPORTED_MODULE_1__.getListMediaFromPhotographerId)(id));
   var plike = document.querySelectorAll('span.photographerLightbox__info_like');
   plike.forEach(function (span) {
@@ -522,6 +557,91 @@ function generatePhotographerPageHtml() {
 
 /***/ }),
 
+/***/ "./src/js/modalLightbox.js":
+/*!*********************************!*\
+  !*** ./src/js/modalLightbox.js ***!
+  \*********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "lightbox": () => (/* binding */ lightbox)
+/* harmony export */ });
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./utils */ "./src/js/utils.js");
+/* harmony import */ var _factoryElements__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./factoryElements */ "./src/js/factoryElements.js");
+
+
+var modal = document.getElementById('modal-lightbox');
+var close = document.getElementsByClassName('lightbox__close');
+var previous = document.getElementsByClassName('lightbox__left');
+var next = document.getElementsByClassName('lightbox__right');
+
+function lightbox() {
+  var media = document.getElementsByClassName('photographerLightbox__figure_media');
+  var index;
+
+  var _loop = function _loop(i) {
+    media[i].addEventListener('click', function (e) {
+      index = i;
+      launchModal();
+      cleanLightbox();
+      (0,_factoryElements__WEBPACK_IMPORTED_MODULE_1__.createLightbox)(e.target.attributes.src.nodeValue, (0,_utils__WEBPACK_IMPORTED_MODULE_0__.getNameFromMediaLink)(e.target.attributes.src.nodeValue));
+      close[0].addEventListener('click', closeModal);
+      previous[0].addEventListener('click', previousMedia);
+      next[0].addEventListener('click', nextMedia);
+    });
+  };
+
+  for (var i = 0; i < media.length; i++) {
+    _loop(i);
+  }
+
+  function previousMedia() {
+    index -= 1;
+
+    if (index === -1) {
+      index = media.length - 1;
+    }
+
+    cleanLightbox();
+    (0,_factoryElements__WEBPACK_IMPORTED_MODULE_1__.createLightbox)(media[index].attributes.src.nodeValue, (0,_utils__WEBPACK_IMPORTED_MODULE_0__.getNameFromMediaLink)(media[index].attributes.src.nodeValue));
+    close[0].addEventListener('click', closeModal);
+    previous[0].addEventListener('click', previousMedia);
+    next[0].addEventListener('click', nextMedia);
+  }
+
+  function nextMedia() {
+    index += 1;
+
+    if (index === media.length) {
+      index = 0;
+    }
+
+    cleanLightbox();
+    (0,_factoryElements__WEBPACK_IMPORTED_MODULE_1__.createLightbox)(media[index].attributes.src.nodeValue, (0,_utils__WEBPACK_IMPORTED_MODULE_0__.getNameFromMediaLink)(media[index].attributes.src.nodeValue));
+    close[0].addEventListener('click', closeModal);
+    previous[0].addEventListener('click', previousMedia);
+    next[0].addEventListener('click', nextMedia);
+  }
+}
+
+function launchModal() {
+  modal.style.display = 'block';
+}
+
+function closeModal() {
+  modal.style.display = 'none';
+}
+
+function cleanLightbox() {
+  var modal = document.getElementById('modal-lightbox');
+  modal.innerHTML = '';
+}
+
+
+
+/***/ }),
+
 /***/ "./src/js/utils.js":
 /*!*************************!*\
   !*** ./src/js/utils.js ***!
@@ -534,7 +654,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "isInList": () => (/* binding */ isInList),
 /* harmony export */   "addToList": () => (/* binding */ addToList),
 /* harmony export */   "deleteFromList": () => (/* binding */ deleteFromList),
-/* harmony export */   "changeTagsStyle": () => (/* binding */ changeTagsStyle)
+/* harmony export */   "changeTagsStyle": () => (/* binding */ changeTagsStyle),
+/* harmony export */   "getNameFromMediaLink": () => (/* binding */ getNameFromMediaLink)
 /* harmony export */ });
 function clearMainIndex() {
   var main = document.getElementsByTagName('main');
@@ -575,6 +696,11 @@ function deleteFromList(valeur, liste) {
 function changeTagsStyle(dom, bgColor, color) {
   dom.style.backgroundColor = bgColor;
   dom.style.color = color;
+}
+
+function getNameFromMediaLink(string) {
+  var regex = /(_|Fashion_|Event_|Art_|Sport_|Animals_|Architecture_|Portrait_|Travel_|\.\/assets\/videos\/|\.\/assets\/images\/photos\/)|\.(jpg|mp4)/g;
+  return String(string).replace(regex, ' ');
 }
 
 
@@ -667,7 +793,9 @@ var __webpack_exports__ = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _sass_main_scss__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../sass/main.scss */ "./src/sass/main.scss");
 /* harmony import */ var _factoryPages__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./factoryPages */ "./src/js/factoryPages.js");
+/* harmony import */ var _modalLightbox__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modalLightbox */ "./src/js/modalLightbox.js");
 // on importe le fichier css/scss principal
+
 
 
 var pageActuelle = location.pathname.substring(location.pathname.lastIndexOf('/') + 1);
@@ -678,6 +806,7 @@ if (pageActuelle === 'index.html') {
 
 if (pageActuelle === 'photographer_page.html') {
   (0,_factoryPages__WEBPACK_IMPORTED_MODULE_1__.generatePhotographerPageHtml)();
+  (0,_modalLightbox__WEBPACK_IMPORTED_MODULE_2__.lightbox)();
 }
 })();
 

@@ -164,29 +164,18 @@
         
       
     }
-    &__image{
+    &__figure{
       width: 350px;
       height: 300px;
       margin: 0 0 71px 0;
-      img{
+      &_media{
         cursor: pointer;
         width: 100%;
         height: 100%;
         object-fit: cover;
         border-radius: 5px;
       }
-    }
-    &__video{
-      width: 350px;
-      height: 300px;
-      margin: 0 0 71px 0;
-      video{
-        cursor: pointer;
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        border-radius: 5px;
-      }
+
     }
 
     &__info{
