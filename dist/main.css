@@ -1,6 +1,7 @@
 @import url(https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap);
 body {
   margin: auto;
+  overflow: auto;
 }
 
 .wrapper {
@@ -95,15 +96,17 @@ body {
   z-index: 1;
   top: 0;
   left: 0;
-  height: 100%;
   width: 100%;
+  height: 100%;
   background-color: #FFF;
+  overflow: auto;
 }
 #modal-lightbox .lightbox {
   position: relative;
   width: 1440px;
   height: 1024px;
   margin: auto;
+  margin-bottom: 15px;
 }
 #modal-lightbox .lightbox__left {
   position: absolute;
@@ -151,6 +154,103 @@ body {
   text-align: center;
   top: 77px;
   right: 126px;
+  cursor: pointer;
+}
+
+#modal-form {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(196, 196, 196, 0.4);
+  overflow: auto;
+}
+#modal-form .form {
+  background-color: #DB8876;
+  width: 669px;
+  min-height: 900px;
+  border-radius: 5px;
+  margin: 62px auto;
+  padding: 35px;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  font-family: "DM Sans", sans-serif;
+  position: relative;
+}
+#modal-form .form__titre {
+  margin: 0;
+  margin-bottom: 19px;
+  font-size: 64px;
+  font-weight: 400;
+}
+#modal-form .form__firstname label {
+  font-size: 36px;
+  font-weight: 400;
+  color: #312E2E;
+}
+#modal-form .form__firstname input {
+  width: 100%;
+  height: 68px;
+  border-radius: 5px;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+#modal-form .form__lastname label {
+  font-size: 36px;
+  font-weight: 400;
+  color: #312E2E;
+}
+#modal-form .form__lastname input {
+  width: 100%;
+  height: 68px;
+  border-radius: 5px;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+#modal-form .form__email label {
+  font-size: 36px;
+  font-weight: 400;
+  color: #312E2E;
+}
+#modal-form .form__email input {
+  width: 100%;
+  height: 68px;
+  border-radius: 5px;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+#modal-form .form__message label {
+  font-size: 36px;
+  font-weight: 400;
+  color: #312E2E;
+}
+#modal-form .form__message textarea {
+  width: 100%;
+  min-width: 599px;
+  max-width: 599px;
+  min-height: 170px;
+  border-radius: 5px;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+#modal-form .form__button {
+  margin-top: 26px;
+}
+#modal-form .form__close {
+  position: absolute;
+  top: 35px;
+  right: 35px;
+  width: 42px;
+  height: 42px;
+  font-size: 42px;
+  color: #FFF;
   cursor: pointer;
 }
 

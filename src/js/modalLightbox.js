@@ -1,6 +1,7 @@
 import { getNameFromMediaLink } from './utils'
 import { createLightbox } from './factoryElements'
 
+const body = document.getElementsByTagName('body')
 const modal = document.getElementById('modal-lightbox')
 const close = document.getElementsByClassName('lightbox__close')
 const previous = document.getElementsByClassName('lightbox__left')
@@ -45,10 +46,12 @@ function lightbox () {
 }
 
 function launchModal () {
+  body[0].style.overflow = 'hidden'
   modal.style.display = 'block'
 }
 
 function closeModal () {
+  body[0].style.overflow = 'auto'
   modal.style.display = 'none'
 }
 

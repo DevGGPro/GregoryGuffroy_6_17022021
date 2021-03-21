@@ -321,6 +321,79 @@ function createLightbox (link, alt) {
   section.appendChild(iclose)
 }
 
+function createForm (nom) {
+  const modal = document.getElementById('modal-form')
+
+  const form = document.createElement('form')
+  form.classList.add('form')
+  form.setAttribute('action', '')
+  modal.appendChild(form)
+
+  const h1 = document.createElement('h1')
+  h1.classList.add('form__titre')
+  h1.innerHTML = 'Contactez-moi <br>' + nom
+  form.appendChild(h1)
+
+  const divFirstname = document.createElement('div')
+  divFirstname.classList.add('form__firstname')
+  const labelFirstname = document.createElement('label')
+  labelFirstname.setAttribute('for', 'firstname')
+  labelFirstname.innerHTML = 'Prénom'
+  divFirstname.appendChild(labelFirstname)
+  const inputFirstname = document.createElement('input')
+  inputFirstname.setAttribute('id', 'firstname')
+  inputFirstname.setAttribute('type', 'text')
+  divFirstname.appendChild(inputFirstname)
+  form.appendChild(divFirstname)
+
+  const divLastname = document.createElement('div')
+  divLastname.classList.add('form__lastname')
+  const labelLastname = document.createElement('label')
+  labelLastname.setAttribute('for', 'lastname')
+  labelLastname.innerHTML = 'Nom'
+  divLastname.appendChild(labelLastname)
+  const inputLastname = document.createElement('input')
+  inputLastname.setAttribute('id', 'lastname')
+  inputLastname.setAttribute('type', 'text')
+  divLastname.appendChild(inputLastname)
+  form.appendChild(divLastname)
+
+  const divEmail = document.createElement('div')
+  divEmail.classList.add('form__email')
+  const labelEmail = document.createElement('label')
+  labelEmail.setAttribute('for', 'email')
+  labelEmail.innerHTML = 'Email'
+  divEmail.appendChild(labelEmail)
+  const inputEmail = document.createElement('input')
+  inputEmail.setAttribute('id', 'email')
+  inputEmail.setAttribute('type', 'text')
+  divEmail.appendChild(inputEmail)
+  form.appendChild(divEmail)
+
+  const divMessage = document.createElement('div')
+  divMessage.classList.add('form__message')
+  const labelMessage = document.createElement('label')
+  labelMessage.setAttribute('for', 'message')
+  labelMessage.innerHTML = 'Votre message'
+  divMessage.appendChild(labelMessage)
+  const textarea = document.createElement('textarea')
+  textarea.setAttribute('id', 'message')
+  divMessage.appendChild(textarea)
+  form.appendChild(divMessage)
+
+  const button = document.createElement('button')
+  button.classList.add('form__button')
+  button.classList.add('button')
+  button.innerHTML = 'Envoyer'
+  form.appendChild(button)
+
+  const i = document.createElement('i')
+  i.classList.add('fas')
+  i.classList.add('fa-times')
+  i.classList.add('form__close')
+  form.appendChild(i)
+}
+
 export {
   createHeaderWithNav,
   createMainWithTitle,
@@ -328,5 +401,6 @@ export {
   createSectionPhotographersProfils,
   createAsidePhotographersInfo,
   createSectionPhotographerLightbox,
-  createLightbox
+  createLightbox,
+  createForm
 }

@@ -89,7 +89,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "createSectionPhotographersProfils": () => (/* binding */ createSectionPhotographersProfils),
 /* harmony export */   "createAsidePhotographersInfo": () => (/* binding */ createAsidePhotographersInfo),
 /* harmony export */   "createSectionPhotographerLightbox": () => (/* binding */ createSectionPhotographerLightbox),
-/* harmony export */   "createLightbox": () => (/* binding */ createLightbox)
+/* harmony export */   "createLightbox": () => (/* binding */ createLightbox),
+/* harmony export */   "createForm": () => (/* binding */ createForm)
 /* harmony export */ });
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./utils */ "./src/js/utils.js");
 
@@ -376,6 +377,71 @@ function createLightbox(link, alt) {
   section.appendChild(iclose);
 }
 
+function createForm(nom) {
+  var modal = document.getElementById('modal-form');
+  var form = document.createElement('form');
+  form.classList.add('form');
+  form.setAttribute('action', '');
+  modal.appendChild(form);
+  var h1 = document.createElement('h1');
+  h1.classList.add('form__titre');
+  h1.innerHTML = 'Contactez-moi <br>' + nom;
+  form.appendChild(h1);
+  var divFirstname = document.createElement('div');
+  divFirstname.classList.add('form__firstname');
+  var labelFirstname = document.createElement('label');
+  labelFirstname.setAttribute('for', 'firstname');
+  labelFirstname.innerHTML = 'Prénom';
+  divFirstname.appendChild(labelFirstname);
+  var inputFirstname = document.createElement('input');
+  inputFirstname.setAttribute('id', 'firstname');
+  inputFirstname.setAttribute('type', 'text');
+  divFirstname.appendChild(inputFirstname);
+  form.appendChild(divFirstname);
+  var divLastname = document.createElement('div');
+  divLastname.classList.add('form__lastname');
+  var labelLastname = document.createElement('label');
+  labelLastname.setAttribute('for', 'lastname');
+  labelLastname.innerHTML = 'Nom';
+  divLastname.appendChild(labelLastname);
+  var inputLastname = document.createElement('input');
+  inputLastname.setAttribute('id', 'lastname');
+  inputLastname.setAttribute('type', 'text');
+  divLastname.appendChild(inputLastname);
+  form.appendChild(divLastname);
+  var divEmail = document.createElement('div');
+  divEmail.classList.add('form__email');
+  var labelEmail = document.createElement('label');
+  labelEmail.setAttribute('for', 'email');
+  labelEmail.innerHTML = 'Email';
+  divEmail.appendChild(labelEmail);
+  var inputEmail = document.createElement('input');
+  inputEmail.setAttribute('id', 'email');
+  inputEmail.setAttribute('type', 'text');
+  divEmail.appendChild(inputEmail);
+  form.appendChild(divEmail);
+  var divMessage = document.createElement('div');
+  divMessage.classList.add('form__message');
+  var labelMessage = document.createElement('label');
+  labelMessage.setAttribute('for', 'message');
+  labelMessage.innerHTML = 'Votre message';
+  divMessage.appendChild(labelMessage);
+  var textarea = document.createElement('textarea');
+  textarea.setAttribute('id', 'message');
+  divMessage.appendChild(textarea);
+  form.appendChild(divMessage);
+  var button = document.createElement('button');
+  button.classList.add('form__button');
+  button.classList.add('button');
+  button.innerHTML = 'Envoyer';
+  form.appendChild(button);
+  var i = document.createElement('i');
+  i.classList.add('fas');
+  i.classList.add('fa-times');
+  i.classList.add('form__close');
+  form.appendChild(i);
+}
+
 
 
 /***/ }),
@@ -523,9 +589,7 @@ function generatePhotographerPageHtml() {
   (0,_factoryElements__WEBPACK_IMPORTED_MODULE_2__.createSectionPhotographersProfils)((0,_data__WEBPACK_IMPORTED_MODULE_1__.getPhotographerById)(id));
   var numberOfLikeTotal = (0,_data__WEBPACK_IMPORTED_MODULE_1__.getNumberOfLikeByPhotographerId)(id);
   (0,_factoryElements__WEBPACK_IMPORTED_MODULE_2__.createAsidePhotographersInfo)(numberOfLikeTotal, (0,_data__WEBPACK_IMPORTED_MODULE_1__.getPhotographerById)(id));
-  var likeTotal = document.getElementsByClassName('photographerInfo__like'); // const listeMedia = getListMediaFromPhotographerId(id)
-  // getListMediaFromFactoryPage(listeMedia)
-
+  var likeTotal = document.getElementsByClassName('photographerInfo__like');
   (0,_factoryElements__WEBPACK_IMPORTED_MODULE_2__.createSectionPhotographerLightbox)((0,_data__WEBPACK_IMPORTED_MODULE_1__.getListMediaFromPhotographerId)(id));
   var plike = document.querySelectorAll('span.photographerLightbox__info_like');
   plike.forEach(function (span) {
@@ -557,6 +621,52 @@ function generatePhotographerPageHtml() {
 
 /***/ }),
 
+/***/ "./src/js/modalForm.js":
+/*!*****************************!*\
+  !*** ./src/js/modalForm.js ***!
+  \*****************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "form": () => (/* binding */ form)
+/* harmony export */ });
+/* harmony import */ var _factoryElements__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./factoryElements */ "./src/js/factoryElements.js");
+
+var modal = document.getElementById('modal-form');
+var preventForm = document.getElementsByClassName('form');
+var openForm = document.getElementsByClassName('photographerProfils__contact');
+var closeForm = document.getElementsByClassName('form__close');
+
+function form() {
+  openForm[0].addEventListener('click', function (e) {
+    launchModal();
+    (0,_factoryElements__WEBPACK_IMPORTED_MODULE_0__.createForm)(e.target.previousElementSibling.innerText);
+    preventForm[0].addEventListener('submit', function (e) {
+      e.preventDefault();
+    });
+    closeForm[0].addEventListener('click', closeModal);
+  });
+}
+
+function launchModal() {
+  modal.style.display = 'block';
+}
+
+function closeModal() {
+  modal.style.display = 'none';
+  cleanform();
+}
+
+function cleanform() {
+  var modal = document.getElementById('modal-form');
+  modal.innerHTML = '';
+}
+
+
+
+/***/ }),
+
 /***/ "./src/js/modalLightbox.js":
 /*!*********************************!*\
   !*** ./src/js/modalLightbox.js ***!
@@ -571,6 +681,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _factoryElements__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./factoryElements */ "./src/js/factoryElements.js");
 
 
+var body = document.getElementsByTagName('body');
 var modal = document.getElementById('modal-lightbox');
 var close = document.getElementsByClassName('lightbox__close');
 var previous = document.getElementsByClassName('lightbox__left');
@@ -626,10 +737,12 @@ function lightbox() {
 }
 
 function launchModal() {
+  body[0].style.overflow = 'hidden';
   modal.style.display = 'block';
 }
 
 function closeModal() {
+  body[0].style.overflow = 'auto';
   modal.style.display = 'none';
 }
 
@@ -794,7 +907,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _sass_main_scss__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../sass/main.scss */ "./src/sass/main.scss");
 /* harmony import */ var _factoryPages__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./factoryPages */ "./src/js/factoryPages.js");
 /* harmony import */ var _modalLightbox__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modalLightbox */ "./src/js/modalLightbox.js");
+/* harmony import */ var _modalForm__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modalForm */ "./src/js/modalForm.js");
 // on importe le fichier css/scss principal
+
 
 
 
@@ -807,6 +922,7 @@ if (pageActuelle === 'index.html') {
 if (pageActuelle === 'photographer_page.html') {
   (0,_factoryPages__WEBPACK_IMPORTED_MODULE_1__.generatePhotographerPageHtml)();
   (0,_modalLightbox__WEBPACK_IMPORTED_MODULE_2__.lightbox)();
+  (0,_modalForm__WEBPACK_IMPORTED_MODULE_3__.form)();
 }
 })();
 
