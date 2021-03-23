@@ -1,6 +1,11 @@
 .filtreMenu{
   position: absolute;
   left: 96px;
+  display: none;
+  @include desktop{
+    display: block;
+    top: 0;
+  }
   &__bouton{
     background-color: #901C1C;
     width: 170px;
@@ -25,7 +30,7 @@
       position: absolute;
       font-size: 18px;
       right: 20px;  
-      top: 26px;    
+      top: 26px;  
     }
   }
   &__list{

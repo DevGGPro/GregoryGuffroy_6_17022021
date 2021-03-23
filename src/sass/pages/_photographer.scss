@@ -1,62 +1,92 @@
 #mainPhotographer{
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-
+  @include desktop{
+       padding: 0 100px 100px 100px;
+  }
   .photographerProfils{
-    background-color: $quaternary-color;
-    width: 1240px;
-    height: 313px;
-
+    width: 375px;
     border-radius: 5px;
-
-    padding: 56px 50px;
-    margin-top: -60px;
-    box-sizing: border-box;
-
     position: relative;
+    margin: 30px 0 46px 0;
+    padding: 10px 0 0 0;
+    box-sizing: border-box;
+    @include desktop{
+      background-color: $quaternary-color;
+      width: 100%;
+      padding: 50px;
+      box-sizing: border-box;
+    }
 
     div{
-      display: flex;
-      align-items: center;
+      @include desktop{
+        display: flex;
+        align-items: center;
+      }
     }
     &__name{
-      font-size: 64px;
+      width: 70%;
+      font-size: 36px;
       font-weight: 400;
       color: $secondary-color;
-      margin: 0 118px 0 0;
+      margin: 0 0 0 20px;
       box-sizing: border-box;
+      @include desktop{
+       font-size: 64px; 
+       width: auto;
+       margin: 0 100px 0 0;
+      }
     }
     &__contact{
-      top:63px;
-      left: 450px;
+      position: fixed;
+      z-index: 2;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 18px;
+      font-weight: 700;
+      @include desktop{
+        position: static;
+        z-index: auto;
+        transform: none;
+      }
     }
     &__city{
-      font-size: 24px;
+      font-size: 13px;
       font-weight: 400;
       color: $primary-color;
-      margin: 0;
+      margin: 0 0 5px 20px;
+      box-sizing: border-box;
+      @include desktop{
+        font-size: 24px;
+        margin: 0 0 20px 0;
+      }
     }
     &__tagline{
-      font-size: 18px;
+      font-size: 13px;
       font-weight: 400;
       color: $tertiary-color;
-      margin: 19px 0 0 0;
+      margin: 0 0 5px 20px;
       box-sizing: border-box;
+      @include desktop{
+        font-size: 18px;
+        margin: 0 0 20px 0;
+      }
     }
     &__tags{
-      list-style-type: none;
-      padding: 0;
-      margin-top: 19px;
-      box-sizing: border-box;
-
       display: flex;
+      flex-wrap: wrap;
+      list-style-type: none;
+      margin: 0 0 0 20px;
+      padding: 0 0 0 0;
+      box-sizing: border-box;
+      @include desktop{
+        margin: 0;
+      }
       li{
         font-size: 18px;
         font-weight: 500;
         border-radius: 12px;
         padding: 0 7px;
-        margin-right: 5px ;
+        margin: 5px 5px 0 0;
         box-sizing: border-box;
         a{
           text-decoration: none;
@@ -70,19 +100,22 @@
         }
       }
     }
-
     &__portrait{
       position: absolute;
-      width: 200px;
-      height: 200px;
-
-      top: 56px;
-      right: 50px;
-
+      width: 100px;
+      height: 100px;
+      top: 0px;
+      right: 20px;
       object-fit: cover;
       box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.25);
       border-radius: 50%;
-
+      @include desktop{
+        width: 200px;
+        height: 200px;
+        top: 50%;
+        right: 50px;
+        transform: translateY(-50%); 
+      }
     }
   }
 
@@ -91,23 +124,20 @@
     z-index: 1;
     background-color: $primary-bg-color;
     color: $black-color;
-
     padding: 0 31px;
     box-sizing: border-box;
-
     width: 376px;
     height: 68px;
-
     font-size: 24px;
-
     border-radius: 5px;
-
-    display: flex;
-    align-items: center;
-
     bottom: 0;
     right: 36px;
-
+    display: none;
+    @include desktop{
+      display: block;
+      display: flex;
+      align-items: center;  
+    }
     p{
       font-weight: 500;
     }
@@ -128,21 +158,37 @@
   }
 
   .photographerLightbox{
-    width: 1240px;
+    width: 100%;
     position: relative;
     display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
+    flex-direction: column;
+    align-items: center;
+    @include desktop{
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: space-between;
+    }
+
     &__titre{
       font-size: 18px;
       font-weight: 700;
       margin-bottom: 58px;
       width: 100%;
+      display: none;
+      @include desktop{
+        display: block;
+      }
     }
     &__figure{
-      width: 350px;
-      height: 300px;
-      margin: 0 0 71px 0;
+      width: 335px;
+      height: 190px;
+      margin: 0 0 70px 0;
+      box-sizing: border-box;
+      @include desktop{
+        width: 350px;
+        height: 300px;
+      }
+
       &_media{
         cursor: pointer;
         width: 100%;
@@ -155,7 +201,11 @@
       display: flex;
       justify-content: center;
       color: $primary-color;
-      font-size: 24px;
+      font-size: 14px;
+      @include desktop{
+        font-size: 24px;
+      }
+
       div{
         width: 85%;
         display: flex;
@@ -177,8 +227,13 @@
         cursor: pointer;
       }
       i{
-        font-size: 20px;
-        line-height: 31.53px;
+        font-size: 14px;
+        line-height: 19px;
+        @include desktop{
+          font-size: 20px;
+          line-height: 31px;
+        }
+  
       }
     }
   }

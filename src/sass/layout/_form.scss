@@ -1,7 +1,7 @@
 #modal-form{
   display: none;
   position: fixed;
-  z-index: 1;
+  z-index: 3;
   top: 0;
   left: 0;
   width: 100%;
@@ -11,32 +11,41 @@
 
   .form{
     background-color: $primary-bg-color;
-    width: 669px;
-    min-height: 900px;
+    width: 100%;
+    min-height: 812px;
     border-radius: 5px;
-    margin: 62px auto;
-    padding: 35px;
+    padding: 20px;
     box-sizing: border-box;
     
     font-family: 'DM Sans', sans-serif;
 
     position: relative;
-
+    @include desktop{
+      width: 669px;
+      min-height: 900px;
+      padding: 35px;
+      margin: 62px auto;
+      box-sizing: border-box;
+    }
     &__titre{
       margin: 0;
       margin-bottom: 19px;
-      font-size: 64px;
+      font-size: 36px;
       font-weight: 400;
+      @include desktop{
+        font-size: 64px;
+      }
+
     }
     &__firstname{
       label{
-        font-size: 36px;
+        font-size: 24px;
         font-weight: 400;
         color: $primary-form-text-color;
       }
       input{
         width: 100%;
-        height: 68px;
+        height: 52px;
         border-radius: 5px;
         padding: 0;
         padding-left: 15px;
@@ -47,13 +56,16 @@
     }
     &__lastname{
       label{
-        font-size: 36px;
+        font-size: 24px;
         font-weight: 400;
         color: $primary-form-text-color;
+        @include desktop{
+          font-size: 36px;
+        }
       }
       input{
         width: 100%;
-        height: 68px;
+        height: 52px;
         border-radius: 5px;
         padding: 0;
         padding-left: 15px;
@@ -64,13 +76,16 @@
     }
     &__email{
       label{
-        font-size: 36px;
+        font-size: 24px;
         font-weight: 400;
         color: $primary-form-text-color;
+        @include desktop{
+          font-size: 36px;
+        }
       }
       input{
         width: 100%;
-        height: 68px;
+        height: 52px;
         border-radius: 5px;
         padding: 0;
         padding-left: 15px;
@@ -81,15 +96,16 @@
     }
     &__message{
       label{
-        font-size: 36px;
+        font-size: 24px;
         font-weight: 400;
         color: $primary-form-text-color;
+        @include desktop{
+          font-size: 36px;
+        }
       }
       textarea{
         width: 100%;
-        min-width: 599px;
-        max-width: 599px;
-        min-height: 170px;
+        min-height: 184px;
         border-radius: 5px;
         padding: 15px;
         box-sizing: border-box;
@@ -98,24 +114,33 @@
       }
     }
     &__button{
+      position: absolute;
       margin-top: 26px;
+      right: 50%;
+      transform: translateX(50%);
+      @include desktop{
+        position: static;
+        left: 35px;
+        transform: none;
+      }
     }
     &__close{
       position: absolute;
-      top: 35px;
-      right: 35px;
+      top: 26px;
+      right: 26px;
 
-      width: 42px;
-      height: 42px;
-
-      font-size: 42px;
+      font-size: 18px;
 
       color: $white-color;
 
       cursor: pointer;
+      @include desktop{
+        font-size: 42px;
+      }
     }
     &__erreur{
       font-weight: 500;
+      font-size: 12px;
       color: red;
     }
   }

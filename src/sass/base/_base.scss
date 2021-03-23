@@ -3,10 +3,11 @@ body{
     overflow: auto;
 }
 .wrapper{
-    width: 1440px;
+    width: 375px;
     margin: auto;
-
     position: relative;
-    margin-bottom: 100px;
+    @include desktop{
+        width: 1440px;
+    }
 }
 
