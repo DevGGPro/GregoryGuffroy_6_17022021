@@ -1,4 +1,3 @@
-import { getNameFromMediaLink } from './utils'
 import { createLightbox } from './factoryElements'
 
 const body = document.getElementsByTagName('body')
@@ -15,7 +14,11 @@ function lightbox () {
       index = i
       launchModal()
       cleanLightbox()
-      createLightbox(e.target.attributes.src.nodeValue, getNameFromMediaLink(e.target.attributes.src.nodeValue))
+      if (e.target.localName === 'video') {
+        createLightbox(e.target.attributes.src.nodeValue, e.target.title)
+      } else {
+        createLightbox(e.target.attributes.src.nodeValue, e.target.alt)
+      }
       close[0].addEventListener('click', closeModal)
       previous[0].addEventListener('click', previousMedia)
       next[0].addEventListener('click', nextMedia)
@@ -27,7 +30,11 @@ function lightbox () {
       index = media.length - 1
     }
     cleanLightbox()
-    createLightbox(media[index].attributes.src.nodeValue, getNameFromMediaLink(media[index].attributes.src.nodeValue))
+    if (media[index].tagName === 'VIDEO') {
+      createLightbox(media[index].attributes.src.nodeValue, media[index].title)
+    } else {
+      createLightbox(media[index].attributes.src.nodeValue, media[index].alt)
+    }
     close[0].addEventListener('click', closeModal)
     previous[0].addEventListener('click', previousMedia)
     next[0].addEventListener('click', nextMedia)
@@ -38,7 +45,11 @@ function lightbox () {
       index = 0
     }
     cleanLightbox()
-    createLightbox(media[index].attributes.src.nodeValue, getNameFromMediaLink(media[index].attributes.src.nodeValue))
+    if (media[index].tagName === 'VIDEO') {
+      createLightbox(media[index].attributes.src.nodeValue, media[index].title)
+    } else {
+      createLightbox(media[index].attributes.src.nodeValue, media[index].alt)
+    }
     close[0].addEventListener('click', closeModal)
     previous[0].addEventListener('click', previousMedia)
     next[0].addEventListener('click', nextMedia)
@@ -60,4 +71,4 @@ function cleanLightbox () {
   modal.innerHTML = ''
 }
 
-export { lightbox }
+export { lightbox, cleanLightbox }

@@ -1,4 +1,5 @@
 import data from '../assets/data/FishEyeDataFR.json'
+import { lightbox, cleanLightbox } from './modalLightbox'
 import {
   getPhotographerById,
   getPhotographerByTagsList,
@@ -10,7 +11,8 @@ import {
   createMainWithTitle,
   createSectionPhotographersProfils,
   createAsidePhotographersInfo,
-  createSectionPhotographerLightbox,
+  createFiltreAndSectionPhotographerLightbox,
+  createFigurePhotographerLightbox,
   createAncreIndex
 } from './factoryElements'
 import {
@@ -19,8 +21,13 @@ import {
   deleteFromList,
   changeTagsStyle,
   clearMainIndex,
+  clearFigure,
   ancreController,
-  createPhotographerfromList
+  likeController,
+  createPhotographerfromList,
+  orderByLikes,
+  orderByDate,
+  orderByName
 } from './utils'
 
 function generateIndexHtml () {
@@ -130,40 +137,61 @@ function generatePhotographerPageHtml () {
   const url = new URL(window.location.href)
   const id = url.searchParams.get('id')
 
+  // On créer un header avec ou sans nav
   createHeaderWithNav(false)
 
+  // on créer un main avec un id spécifique et avec ou sans titre principal
   createMainWithTitle('mainPhotographer', false)
 
+  // On créer une section contenant les informations du photographe spécifié dans l'url
   createSectionPhotographersProfils(getPhotographerById(id))
 
-  let numberOfLikeTotal = getNumberOfLikeByPhotographerId(id)
-  createAsidePhotographersInfo(numberOfLikeTotal, getPhotographerById(id))
-  const likeTotal = document.getElementsByClassName('photographerInfo__like')
+  // on créer la section contenant les médias puis on créer et ajoute le filtre de tri
+  createFiltreAndSectionPhotographerLightbox()
 
-  createSectionPhotographerLightbox(getListMediaFromPhotographerId(id))
-  const plike = document.querySelectorAll('span.photographerLightbox__info_like')
-  plike.forEach(function (span) {
-    let isLike = false
-    let numberOfLike = parseInt(span.innerHTML)
-    span.addEventListener('click', like)
+  // on créer des figures contenant les differents médias et on les ajoutent à la section
+  createFigurePhotographerLightbox(orderByLikes(getListMediaFromPhotographerId(id)))
 
-    function like () {
-      if (isLike) {
-        isLike = false
-        numberOfLike -= 1
-        numberOfLikeTotal -= 1
-        likeTotal[0].innerHTML = numberOfLikeTotal
-        span.innerHTML = numberOfLike
-        span.nextSibling.classList.replace('fas', 'far')
-      } else {
-        isLike = true
-        numberOfLike += 1
-        numberOfLikeTotal += 1
-        likeTotal[0].innerHTML = numberOfLikeTotal
-        span.innerHTML = numberOfLike
-        span.nextSibling.classList.replace('far', 'fas')
+  // on recupère le nombre de like total par photographer et on créer l'aside récapitulatif
+  const likeTotalFromData = getNumberOfLikeByPhotographerId(id)
+  createAsidePhotographersInfo(likeTotalFromData, getPhotographerById(id))
+
+  // On contrôle et update les likes de la section et update celui de l'aside
+  likeController(likeTotalFromData)
+
+  // le FiltreMenu
+  const btnMenu = document.getElementsByClassName('filtreMenu__bouton')
+  const ulListMenu = document.getElementsByClassName('filtreMenu__list')
+  const liListMenu = document.querySelectorAll('ul.filtreMenu__list > li')
+  btnMenu[0].addEventListener('click', e => {
+    ulListMenu[0].style.display = 'block'
+  })
+  liListMenu.forEach(li => {
+    li.addEventListener('click', e => {
+      btnMenu[0].innerHTML = e.target.innerText + '<span class="fas fa-chevron-up" aria-hidden="true"></span>'
+      ulListMenu[0].style.display = 'none'
+      if (e.target.innerText === 'Popularité') {
+        clearFigure()
+        createFigurePhotographerLightbox(orderByLikes(getListMediaFromPhotographerId(id)))
+        likeController(likeTotalFromData)
+        cleanLightbox()
+        lightbox()
       }
-    }
+      if (e.target.innerText === 'Date') {
+        clearFigure()
+        createFigurePhotographerLightbox(orderByDate(getListMediaFromPhotographerId(id)))
+        likeController(likeTotalFromData)
+        cleanLightbox()
+        lightbox()
+      }
+      if (e.target.innerText === 'Titre') {
+        clearFigure()
+        createFigurePhotographerLightbox(orderByName(getListMediaFromPhotographerId(id)))
+        likeController(likeTotalFromData)
+        cleanLightbox()
+        lightbox()
+      }
+    })
   })
 }
 

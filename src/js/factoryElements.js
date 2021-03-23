@@ -1,5 +1,3 @@
-import { getNameFromMediaLink } from './utils'
-
 function createHeaderWithNav (boolean) {
   const wrapper = document.getElementsByClassName('wrapper')
   const header = document.createElement('header')
@@ -189,7 +187,7 @@ function createAsidePhotographersInfo (nombreDeLike, photographer) {
   main.appendChild(aside)
 }
 
-function createSectionPhotographerLightbox (listmedia) {
+function createFiltreAndSectionPhotographerLightbox () {
   const main = document.getElementById('mainPhotographer')
 
   const section = document.createElement('section')
@@ -201,44 +199,33 @@ function createSectionPhotographerLightbox (listmedia) {
   h2.innerHTML = 'Trier par'
   section.appendChild(h2)
 
-  const div = document.createElement('div')
-  div.classList.add('photographerLightbox__select')
-  // section.appendChild(div)
+  createFiltreMenu()
+}
 
-  const select = document.createElement('section')
-  const liste = ['Popularité', 'Date', 'Titre']
-  for (const l in liste) {
-    const option = document.createElement('option')
-    option.setAttribute('value', liste[l].toLowerCase())
-    option.innerHTML = liste[l]
-    select.appendChild(option)
-  }
-  div.appendChild(select)
-
-  let name
+function createFigurePhotographerLightbox (listmedia) {
+  const section = document.getElementsByClassName('photographerLightbox')
 
   for (const m in listmedia) {
     const figure = document.createElement('figure')
     if (Object.keys(listmedia[m])[Object.values(listmedia[m]).indexOf(listmedia[m].image)] === 'image') {
-      name = listmedia[m].image
       figure.classList.add('photographerLightbox__figure')
-      section.appendChild(figure)
+      section[0].appendChild(figure)
 
       const img = document.createElement('img')
       img.classList.add('photographerLightbox__figure_media')
       img.setAttribute('src', './assets/images/photos/' + listmedia[m].image)
-      img.setAttribute('alt', getNameFromMediaLink(name))
+      img.setAttribute('alt', listmedia[m].alt)
       figure.appendChild(img)
     }
     if (Object.keys(listmedia[m])[Object.values(listmedia[m]).indexOf(listmedia[m].video)] === 'video') {
-      name = listmedia[m].video
       figure.classList.add('photographerLightbox__figure')
-      section.appendChild(figure)
+      section[0].appendChild(figure)
 
       const video = document.createElement('video')
       video.classList.add('photographerLightbox__figure_media')
       video.setAttribute('src', './assets/videos/' + listmedia[m].video)
       video.setAttribute('type', 'video/mp4')
+      video.setAttribute('title', listmedia[m].alt)
       figure.appendChild(video)
     }
 
@@ -251,7 +238,7 @@ function createSectionPhotographerLightbox (listmedia) {
 
     const pNom = document.createElement('p')
     pNom.classList.add('photographerLightbox__info_nom')
-    pNom.innerHTML = getNameFromMediaLink(name)
+    pNom.innerHTML = listmedia[m].alt
     divFig.appendChild(pNom)
 
     const price = document.createElement('p')
@@ -405,13 +392,46 @@ function createAncreIndex () {
   wrapper[0].appendChild(a)
 }
 
+function createFiltreMenu () {
+  const section = document.getElementsByClassName('photographerLightbox')
+
+  const div = document.createElement('div')
+  div.classList.add('filtreMenu')
+  section[0].appendChild(div)
+
+  const btn = document.createElement('button')
+  btn.classList.add('filtreMenu__bouton')
+  btn.innerHTML = 'Popularité' + '<span class="fas fa-chevron-up"></span>'
+  div.appendChild(btn)
+
+  const ul = document.createElement('ul')
+  ul.classList.add('filtreMenu__list')
+  div.appendChild(ul)
+
+  const li1 = document.createElement('li')
+  li1.classList.add('filtreMenu__list_populaire')
+  li1.innerHTML = 'Popularité' + '<span class="fas fa-chevron-down"></span>'
+  ul.appendChild(li1)
+
+  const li2 = document.createElement('li')
+  li2.classList.add('filtreMenu__list_date')
+  li2.innerHTML = 'Date'
+  ul.appendChild(li2)
+
+  const li3 = document.createElement('li')
+  li3.classList.add('filtreMenu__list_titre')
+  li3.innerHTML = 'Titre'
+  ul.appendChild(li3)
+}
+
 export {
   createHeaderWithNav,
   createMainWithTitle,
   createSectionPhotographers,
   createSectionPhotographersProfils,
   createAsidePhotographersInfo,
-  createSectionPhotographerLightbox,
+  createFiltreAndSectionPhotographerLightbox,
+  createFigurePhotographerLightbox,
   createLightbox,
   createForm,
   createAncreIndex
