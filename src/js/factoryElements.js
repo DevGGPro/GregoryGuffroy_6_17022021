@@ -394,6 +394,17 @@ function createForm (nom) {
   form.appendChild(i)
 }
 
+function createAncreIndex () {
+  const wrapper = document.getElementsByClassName('wrapper')
+
+  const a = document.createElement('a')
+  a.classList.add('ancreIndex')
+  a.setAttribute('href', '#mainIndex')
+  a.innerHTML = 'Passer au contenu'
+
+  wrapper[0].appendChild(a)
+}
+
 export {
   createHeaderWithNav,
   createMainWithTitle,
@@ -402,5 +413,6 @@ export {
   createAsidePhotographersInfo,
   createSectionPhotographerLightbox,
   createLightbox,
-  createForm
+  createForm,
+  createAncreIndex
 }

@@ -1,0 +1,20 @@
+.ancreIndex{
+  background-color: $primary-bg-color;
+  position: fixed;
+  right: 50%;
+  transform: translateX(50%);
+  top: 3px;
+  z-index: 2;
+  display: none;
+  
+  font-family: 'DM Sans', sans-serif;
+  text-decoration: none;
+  color: $black-color;
+  font-weight: 700;
+  font-size: 18px;
+
+  padding: 3px 6px 4px 6px;
+  box-sizing: border-box;
+
+  border-radius: 5px;
+}

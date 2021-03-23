@@ -1,3 +1,7 @@
+import {
+  createSectionPhotographers
+} from './factoryElements'
+
 function clearMainIndex () {
   const main = document.getElementsByTagName('main')
   main.id = 'mainIndex'
@@ -41,4 +45,30 @@ function getNameFromMediaLink (string) {
   return String(string).replace(regex, ' ')
 }
 
-export { clearMainIndex, isInList, addToList, deleteFromList, changeTagsStyle, getNameFromMediaLink }
+function ancreController () {
+  const ancre = document.getElementsByClassName('ancreIndex')
+  window.addEventListener('scroll', (e) => {
+    if (window.scrollY >= 100) {
+      ancre[0].style.display = 'block'
+    } else {
+      ancre[0].style.display = 'none'
+    }
+  })
+}
+
+function createPhotographerfromList (liste) {
+  for (const l in liste) {
+    createSectionPhotographers(liste[l])
+  }
+}
+
+export {
+  clearMainIndex,
+  isInList,
+  addToList,
+  deleteFromList,
+  changeTagsStyle,
+  getNameFromMediaLink,
+  ancreController,
+  createPhotographerfromList
+}

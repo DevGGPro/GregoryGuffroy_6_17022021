@@ -8,16 +8,27 @@ import {
 import {
   createHeaderWithNav,
   createMainWithTitle,
-  createSectionPhotographers,
   createSectionPhotographersProfils,
   createAsidePhotographersInfo,
-  createSectionPhotographerLightbox
+  createSectionPhotographerLightbox,
+  createAncreIndex
 } from './factoryElements'
-import { addToList, isInList, deleteFromList, changeTagsStyle, clearMainIndex } from './utils'
+import {
+  addToList,
+  isInList,
+  deleteFromList,
+  changeTagsStyle,
+  clearMainIndex,
+  ancreController,
+  createPhotographerfromList
+} from './utils'
 
 function generateIndexHtml () {
+  createAncreIndex()
   createHeaderWithNav(true)
   createMainWithTitle('mainIndex', true)
+
+  ancreController()
 
   let navTags
   let listPhotographer
@@ -112,12 +123,6 @@ function generateIndexHtml () {
         li.addEventListener('click', reloadPageSection)
       })
     }
-  }
-}
-
-function createPhotographerfromList (liste) {
-  for (const l in liste) {
-    createSectionPhotographers(liste[l])
   }
 }
 
