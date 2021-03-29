@@ -30,6 +30,10 @@ function formulaire () {
         formInputErreur(inputEmail)
         formInputErreur(inputMessage)
       } else {
+        console.log('Prenom => ' + inputFirstname.value)
+        console.log('Nom => ' + inputLastname.value)
+        console.log('Email => ' + inputEmail.value)
+        console.log('Message => ' + inputMessage.value)
         closeModal()
       }
     })
