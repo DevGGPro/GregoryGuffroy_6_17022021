@@ -41,7 +41,13 @@ function createTags (tagsName) {
   const li = document.createElement('li')
   li.classList.add('tags')
   li.setAttribute('data-value', tagsName.toLowerCase())
-  li.innerHTML = '#' + tagsName
+
+  const a = document.createElement('a')
+  a.setAttribute('href', '')
+  a.innerHTML = '#' + tagsName
+
+  li.appendChild(a)
+
   return li
 }
 

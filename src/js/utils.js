@@ -44,7 +44,7 @@ function deleteFromList (valeur, liste) {
 
 function changeTagsStyle (dom, bgColor, color) {
   dom.style.backgroundColor = bgColor
-  dom.style.color = color
+  dom.firstChild.style.color = color
 }
 
 function ancreController () {
