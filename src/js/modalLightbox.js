@@ -22,6 +22,17 @@ function lightbox () {
       close[0].addEventListener('click', closeModal)
       previous[0].addEventListener('click', previousMedia)
       next[0].addEventListener('click', nextMedia)
+      window.addEventListener('keydown', k => {
+        if (k.key === 'ArrowLeft') {
+          previousMedia()
+        }
+        if (k.key === 'ArrowRight') {
+          nextMedia()
+        }
+        if (k.key === 'Escape') {
+          closeModal()
+        }
+      })
     })
   }
   function previousMedia () {
