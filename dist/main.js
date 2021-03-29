@@ -88,13 +88,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "createSectionPhotographers": () => (/* binding */ createSectionPhotographers),
 /* harmony export */   "createSectionPhotographersProfils": () => (/* binding */ createSectionPhotographersProfils),
 /* harmony export */   "createAsidePhotographersInfo": () => (/* binding */ createAsidePhotographersInfo),
-/* harmony export */   "createSectionPhotographerLightbox": () => (/* binding */ createSectionPhotographerLightbox),
+/* harmony export */   "createFiltreAndSectionPhotographerLightbox": () => (/* binding */ createFiltreAndSectionPhotographerLightbox),
+/* harmony export */   "createFigurePhotographerLightbox": () => (/* binding */ createFigurePhotographerLightbox),
 /* harmony export */   "createLightbox": () => (/* binding */ createLightbox),
 /* harmony export */   "createForm": () => (/* binding */ createForm)
 /* harmony export */ });
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./utils */ "./src/js/utils.js");
-
-
 function createHeaderWithNav(boolean) {
   var wrapper = document.getElementsByClassName('wrapper');
   var header = document.createElement('header');
@@ -118,6 +116,7 @@ function createNav() {
   var header = document.getElementsByClassName('header');
   var nav = document.createElement('nav');
   nav.classList.add('header__nav');
+  createAncreIndex(nav);
   var ul = document.createElement('ul');
   nav.appendChild(ul);
   var tags = ['Portrait', 'Art', 'Fashion', 'Architecture', 'Travel', 'Sport', 'Animals', 'Events'];
@@ -134,7 +133,10 @@ function createTags(tagsName) {
   var li = document.createElement('li');
   li.classList.add('tags');
   li.setAttribute('data-value', tagsName.toLowerCase());
-  li.innerHTML = '#' + tagsName;
+  var a = document.createElement('a');
+  a.setAttribute('href', '');
+  a.innerHTML = '#' + tagsName;
+  li.appendChild(a);
   return li;
 }
 
@@ -164,6 +166,7 @@ function createSectionPhotographers(photographer) {
   portrait.classList.add('photographer__link_portrait');
   portrait.setAttribute('src', './assets/images/photographers/' + photographer.portrait);
   portrait.setAttribute('alt', 'Portrait de ' + photographer.name);
+  portrait.setAttribute('aria-hidden', 'true');
   link.appendChild(portrait);
   var name = document.createElement('h2');
   name.classList.add('photographer__link_name');
@@ -258,7 +261,7 @@ function createAsidePhotographersInfo(nombreDeLike, photographer) {
   main.appendChild(aside);
 }
 
-function createSectionPhotographerLightbox(listmedia) {
+function createFiltreAndSectionPhotographerLightbox() {
   var main = document.getElementById('mainPhotographer');
   var section = document.createElement('section');
   section.classList.add('photographerLightbox');
@@ -267,44 +270,33 @@ function createSectionPhotographerLightbox(listmedia) {
   h2.classList.add('photographerLightbox__titre');
   h2.innerHTML = 'Trier par';
   section.appendChild(h2);
-  var div = document.createElement('div');
-  div.classList.add('photographerLightbox__select'); // section.appendChild(div)
+  createFiltreMenu();
+}
 
-  var select = document.createElement('section');
-  var liste = ['Popularité', 'Date', 'Titre'];
-
-  for (var l in liste) {
-    var option = document.createElement('option');
-    option.setAttribute('value', liste[l].toLowerCase());
-    option.innerHTML = liste[l];
-    select.appendChild(option);
-  }
-
-  div.appendChild(select);
-  var name;
+function createFigurePhotographerLightbox(listmedia) {
+  var section = document.getElementsByClassName('photographerLightbox');
 
   for (var m in listmedia) {
     var figure = document.createElement('figure');
 
     if (Object.keys(listmedia[m])[Object.values(listmedia[m]).indexOf(listmedia[m].image)] === 'image') {
-      name = listmedia[m].image;
       figure.classList.add('photographerLightbox__figure');
-      section.appendChild(figure);
+      section[0].appendChild(figure);
       var img = document.createElement('img');
       img.classList.add('photographerLightbox__figure_media');
       img.setAttribute('src', './assets/images/photos/' + listmedia[m].image);
-      img.setAttribute('alt', (0,_utils__WEBPACK_IMPORTED_MODULE_0__.getNameFromMediaLink)(name));
+      img.setAttribute('alt', listmedia[m].alt);
       figure.appendChild(img);
     }
 
     if (Object.keys(listmedia[m])[Object.values(listmedia[m]).indexOf(listmedia[m].video)] === 'video') {
-      name = listmedia[m].video;
       figure.classList.add('photographerLightbox__figure');
-      section.appendChild(figure);
+      section[0].appendChild(figure);
       var video = document.createElement('video');
       video.classList.add('photographerLightbox__figure_media');
       video.setAttribute('src', './assets/videos/' + listmedia[m].video);
       video.setAttribute('type', 'video/mp4');
+      video.setAttribute('title', listmedia[m].alt);
       figure.appendChild(video);
     }
 
@@ -315,7 +307,7 @@ function createSectionPhotographerLightbox(listmedia) {
     figcaption.appendChild(divFig);
     var pNom = document.createElement('p');
     pNom.classList.add('photographerLightbox__info_nom');
-    pNom.innerHTML = (0,_utils__WEBPACK_IMPORTED_MODULE_0__.getNameFromMediaLink)(name);
+    pNom.innerHTML = listmedia[m].alt;
     divFig.appendChild(pNom);
     var price = document.createElement('p');
     price.classList.add('photographerLightbox__info_price');
@@ -325,9 +317,10 @@ function createSectionPhotographerLightbox(listmedia) {
     span.classList.add('photographerLightbox__info_like');
     span.innerHTML = listmedia[m].likes;
     figcaption.appendChild(span);
-    var i = document.createElement('i');
+    var i = document.createElement('span');
     i.classList.add('far');
     i.classList.add('fa-heart');
+    i.classList.add('photographerLightbox__info_heart');
     figcaption.appendChild(i);
   }
 }
@@ -442,6 +435,40 @@ function createForm(nom) {
   form.appendChild(i);
 }
 
+function createAncreIndex(dom) {
+  var a = document.createElement('a');
+  a.classList.add('ancreIndex');
+  a.setAttribute('href', '#mainIndex');
+  a.innerHTML = 'Passer au contenu';
+  dom.appendChild(a);
+}
+
+function createFiltreMenu() {
+  var section = document.getElementsByClassName('photographerLightbox');
+  var div = document.createElement('div');
+  div.classList.add('filtreMenu');
+  section[0].appendChild(div);
+  var btn = document.createElement('button');
+  btn.classList.add('filtreMenu__bouton');
+  btn.innerHTML = 'Popularité' + '<span class="fas fa-chevron-up"></span>';
+  div.appendChild(btn);
+  var ul = document.createElement('ul');
+  ul.classList.add('filtreMenu__list');
+  div.appendChild(ul);
+  var li1 = document.createElement('li');
+  li1.classList.add('filtreMenu__list_populaire');
+  li1.innerHTML = 'Popularité' + '<span class="fas fa-chevron-down"></span>';
+  ul.appendChild(li1);
+  var li2 = document.createElement('li');
+  li2.classList.add('filtreMenu__list_date');
+  li2.innerHTML = 'Date';
+  ul.appendChild(li2);
+  var li3 = document.createElement('li');
+  li3.classList.add('filtreMenu__list_titre');
+  li3.innerHTML = 'Titre';
+  ul.appendChild(li3);
+}
+
 
 
 /***/ }),
@@ -458,17 +485,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "generatePhotographerPageHtml": () => (/* binding */ generatePhotographerPageHtml)
 /* harmony export */ });
 /* harmony import */ var _assets_data_FishEyeDataFR_json__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../assets/data/FishEyeDataFR.json */ "./src/assets/data/FishEyeDataFR.json");
-/* harmony import */ var _data__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./data */ "./src/js/data.js");
-/* harmony import */ var _factoryElements__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./factoryElements */ "./src/js/factoryElements.js");
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./utils */ "./src/js/utils.js");
+/* harmony import */ var _modalLightbox__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modalLightbox */ "./src/js/modalLightbox.js");
+/* harmony import */ var _data__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./data */ "./src/js/data.js");
+/* harmony import */ var _factoryElements__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./factoryElements */ "./src/js/factoryElements.js");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./utils */ "./src/js/utils.js");
+
 
 
 
 
 
 function generateIndexHtml() {
-  (0,_factoryElements__WEBPACK_IMPORTED_MODULE_2__.createHeaderWithNav)(true);
-  (0,_factoryElements__WEBPACK_IMPORTED_MODULE_2__.createMainWithTitle)('mainIndex', true);
+  (0,_factoryElements__WEBPACK_IMPORTED_MODULE_3__.createHeaderWithNav)(true);
+  (0,_factoryElements__WEBPACK_IMPORTED_MODULE_3__.createMainWithTitle)('mainIndex', true);
+  (0,_utils__WEBPACK_IMPORTED_MODULE_4__.ancreController)();
   var navTags;
   var listPhotographer;
   var listeTags;
@@ -477,17 +507,17 @@ function generateIndexHtml() {
   listeTags = url.searchParams.getAll('tags');
 
   if (listeTags.length === 0) {
-    createPhotographerfromList(_assets_data_FishEyeDataFR_json__WEBPACK_IMPORTED_MODULE_0__.photographers);
+    (0,_utils__WEBPACK_IMPORTED_MODULE_4__.createPhotographerfromList)(_assets_data_FishEyeDataFR_json__WEBPACK_IMPORTED_MODULE_0__.photographers);
     navTags = document.querySelectorAll('li.tags');
   } else {
-    listPhotographer = (0,_data__WEBPACK_IMPORTED_MODULE_1__.getPhotographerByTagsList)(listeTags);
-    createPhotographerfromList(listPhotographer);
+    listPhotographer = (0,_data__WEBPACK_IMPORTED_MODULE_2__.getPhotographerByTagsList)(listeTags);
+    (0,_utils__WEBPACK_IMPORTED_MODULE_4__.createPhotographerfromList)(listPhotographer);
     navTags = document.querySelectorAll('li.tags');
 
     var _loop = function _loop(t) {
       navTags.forEach(function (li) {
         if (li.getAttribute('data-value') === listeTags[t]) {
-          (0,_utils__WEBPACK_IMPORTED_MODULE_3__.changeTagsStyle)(li, '#901C1C', '#FFF');
+          (0,_utils__WEBPACK_IMPORTED_MODULE_4__.changeTagsStyle)(li, '#901C1C', '#FFF');
         }
       });
     };
@@ -503,11 +533,11 @@ function generateIndexHtml() {
   });
 
   function reloadPageSection() {
-    (0,_utils__WEBPACK_IMPORTED_MODULE_3__.clearMainIndex)();
+    (0,_utils__WEBPACK_IMPORTED_MODULE_4__.clearMainIndex)();
     var tag = this.getAttribute('data-value');
 
-    if ((0,_utils__WEBPACK_IMPORTED_MODULE_3__.isInList)(tag, listeTags)) {
-      listeTags = (0,_utils__WEBPACK_IMPORTED_MODULE_3__.deleteFromList)(tag, listeTags);
+    if ((0,_utils__WEBPACK_IMPORTED_MODULE_4__.isInList)(tag, listeTags)) {
+      listeTags = (0,_utils__WEBPACK_IMPORTED_MODULE_4__.deleteFromList)(tag, listeTags);
       url.searchParams.delete('tags');
 
       for (var _t in listeTags) {
@@ -515,23 +545,23 @@ function generateIndexHtml() {
       }
 
       window.history.replaceState(null, null, url);
-      listPhotographer = (0,_data__WEBPACK_IMPORTED_MODULE_1__.getPhotographerByTagsList)(listeTags);
+      listPhotographer = (0,_data__WEBPACK_IMPORTED_MODULE_2__.getPhotographerByTagsList)(listeTags);
 
       if (listeTags.length === 0) {
-        createPhotographerfromList(_assets_data_FishEyeDataFR_json__WEBPACK_IMPORTED_MODULE_0__.photographers);
+        (0,_utils__WEBPACK_IMPORTED_MODULE_4__.createPhotographerfromList)(_assets_data_FishEyeDataFR_json__WEBPACK_IMPORTED_MODULE_0__.photographers);
         navTags = document.querySelectorAll('li.tags');
       }
 
-      createPhotographerfromList(listPhotographer);
+      (0,_utils__WEBPACK_IMPORTED_MODULE_4__.createPhotographerfromList)(listPhotographer);
       navTags = document.querySelectorAll('li.tags');
       navTags.forEach(function (li) {
-        (0,_utils__WEBPACK_IMPORTED_MODULE_3__.changeTagsStyle)(li, '#FFF', '#901C1C');
+        (0,_utils__WEBPACK_IMPORTED_MODULE_4__.changeTagsStyle)(li, '#FFF', '#901C1C');
       });
 
       var _loop2 = function _loop2(_t2) {
         navTags.forEach(function (li) {
           if (li.getAttribute('data-value') === listeTags[_t2]) {
-            (0,_utils__WEBPACK_IMPORTED_MODULE_3__.changeTagsStyle)(li, '#901C1C', '#FFF');
+            (0,_utils__WEBPACK_IMPORTED_MODULE_4__.changeTagsStyle)(li, '#901C1C', '#FFF');
           }
         });
       };
@@ -544,7 +574,7 @@ function generateIndexHtml() {
         li.addEventListener('click', reloadPageSection);
       });
     } else {
-      (0,_utils__WEBPACK_IMPORTED_MODULE_3__.addToList)(tag, listeTags);
+      (0,_utils__WEBPACK_IMPORTED_MODULE_4__.addToList)(tag, listeTags);
       url.searchParams.delete('tags');
 
       for (var _t3 in listeTags) {
@@ -552,14 +582,14 @@ function generateIndexHtml() {
       }
 
       window.history.replaceState(null, null, url);
-      listPhotographer = (0,_data__WEBPACK_IMPORTED_MODULE_1__.getPhotographerByTagsList)(listeTags);
-      createPhotographerfromList(listPhotographer);
+      listPhotographer = (0,_data__WEBPACK_IMPORTED_MODULE_2__.getPhotographerByTagsList)(listeTags);
+      (0,_utils__WEBPACK_IMPORTED_MODULE_4__.createPhotographerfromList)(listPhotographer);
       navTags = document.querySelectorAll('li.tags');
 
       var _loop3 = function _loop3(_t4) {
         navTags.forEach(function (li) {
           if (li.getAttribute('data-value') === listeTags[_t4]) {
-            (0,_utils__WEBPACK_IMPORTED_MODULE_3__.changeTagsStyle)(li, '#901C1C', '#FFF');
+            (0,_utils__WEBPACK_IMPORTED_MODULE_4__.changeTagsStyle)(li, '#901C1C', '#FFF');
           }
         });
       };
@@ -575,45 +605,60 @@ function generateIndexHtml() {
   }
 }
 
-function createPhotographerfromList(liste) {
-  for (var l in liste) {
-    (0,_factoryElements__WEBPACK_IMPORTED_MODULE_2__.createSectionPhotographers)(liste[l]);
-  }
-}
-
 function generatePhotographerPageHtml() {
   var url = new URL(window.location.href);
-  var id = url.searchParams.get('id');
-  (0,_factoryElements__WEBPACK_IMPORTED_MODULE_2__.createHeaderWithNav)(false);
-  (0,_factoryElements__WEBPACK_IMPORTED_MODULE_2__.createMainWithTitle)('mainPhotographer', false);
-  (0,_factoryElements__WEBPACK_IMPORTED_MODULE_2__.createSectionPhotographersProfils)((0,_data__WEBPACK_IMPORTED_MODULE_1__.getPhotographerById)(id));
-  var numberOfLikeTotal = (0,_data__WEBPACK_IMPORTED_MODULE_1__.getNumberOfLikeByPhotographerId)(id);
-  (0,_factoryElements__WEBPACK_IMPORTED_MODULE_2__.createAsidePhotographersInfo)(numberOfLikeTotal, (0,_data__WEBPACK_IMPORTED_MODULE_1__.getPhotographerById)(id));
-  var likeTotal = document.getElementsByClassName('photographerInfo__like');
-  (0,_factoryElements__WEBPACK_IMPORTED_MODULE_2__.createSectionPhotographerLightbox)((0,_data__WEBPACK_IMPORTED_MODULE_1__.getListMediaFromPhotographerId)(id));
-  var plike = document.querySelectorAll('span.photographerLightbox__info_like');
-  plike.forEach(function (span) {
-    var isLike = false;
-    var numberOfLike = parseInt(span.innerHTML);
-    span.addEventListener('click', like);
+  var id = url.searchParams.get('id'); // On créer un header avec ou sans nav
 
-    function like() {
-      if (isLike) {
-        isLike = false;
-        numberOfLike -= 1;
-        numberOfLikeTotal -= 1;
-        likeTotal[0].innerHTML = numberOfLikeTotal;
-        span.innerHTML = numberOfLike;
-        span.nextSibling.classList.replace('fas', 'far');
-      } else {
-        isLike = true;
-        numberOfLike += 1;
-        numberOfLikeTotal += 1;
-        likeTotal[0].innerHTML = numberOfLikeTotal;
-        span.innerHTML = numberOfLike;
-        span.nextSibling.classList.replace('far', 'fas');
+  (0,_factoryElements__WEBPACK_IMPORTED_MODULE_3__.createHeaderWithNav)(false); // on créer un main avec un id spécifique et avec ou sans titre principal
+
+  (0,_factoryElements__WEBPACK_IMPORTED_MODULE_3__.createMainWithTitle)('mainPhotographer', false); // On créer une section contenant les informations du photographe spécifié dans l'url
+
+  (0,_factoryElements__WEBPACK_IMPORTED_MODULE_3__.createSectionPhotographersProfils)((0,_data__WEBPACK_IMPORTED_MODULE_2__.getPhotographerById)(id)); // on créer la section contenant les médias puis on créer et ajoute le filtre de tri
+
+  (0,_factoryElements__WEBPACK_IMPORTED_MODULE_3__.createFiltreAndSectionPhotographerLightbox)(); // on créer des figures contenant les differents médias et on les ajoutent à la section
+
+  (0,_factoryElements__WEBPACK_IMPORTED_MODULE_3__.createFigurePhotographerLightbox)((0,_utils__WEBPACK_IMPORTED_MODULE_4__.orderByLikes)((0,_data__WEBPACK_IMPORTED_MODULE_2__.getListMediaFromPhotographerId)(id))); // on recupère le nombre de like total par photographer et on créer l'aside récapitulatif
+
+  var likeTotalFromData = (0,_data__WEBPACK_IMPORTED_MODULE_2__.getNumberOfLikeByPhotographerId)(id);
+  (0,_factoryElements__WEBPACK_IMPORTED_MODULE_3__.createAsidePhotographersInfo)(likeTotalFromData, (0,_data__WEBPACK_IMPORTED_MODULE_2__.getPhotographerById)(id)); // On contrôle et update les likes de la section et update celui de l'aside
+
+  (0,_utils__WEBPACK_IMPORTED_MODULE_4__.likeController)(likeTotalFromData); // le FiltreMenu
+
+  var btnMenu = document.getElementsByClassName('filtreMenu__bouton');
+  var ulListMenu = document.getElementsByClassName('filtreMenu__list');
+  var liListMenu = document.querySelectorAll('ul.filtreMenu__list > li');
+  btnMenu[0].addEventListener('click', function (e) {
+    ulListMenu[0].style.display = 'block';
+  });
+  liListMenu.forEach(function (li) {
+    li.addEventListener('click', function (e) {
+      btnMenu[0].innerHTML = e.target.innerText + '<span class="fas fa-chevron-up" aria-hidden="true"></span>';
+      ulListMenu[0].style.display = 'none';
+
+      if (e.target.innerText === 'Popularité') {
+        (0,_utils__WEBPACK_IMPORTED_MODULE_4__.clearFigure)();
+        (0,_factoryElements__WEBPACK_IMPORTED_MODULE_3__.createFigurePhotographerLightbox)((0,_utils__WEBPACK_IMPORTED_MODULE_4__.orderByLikes)((0,_data__WEBPACK_IMPORTED_MODULE_2__.getListMediaFromPhotographerId)(id)));
+        (0,_utils__WEBPACK_IMPORTED_MODULE_4__.likeController)(likeTotalFromData);
+        (0,_modalLightbox__WEBPACK_IMPORTED_MODULE_1__.cleanLightbox)();
+        (0,_modalLightbox__WEBPACK_IMPORTED_MODULE_1__.lightbox)();
       }
-    }
+
+      if (e.target.innerText === 'Date') {
+        (0,_utils__WEBPACK_IMPORTED_MODULE_4__.clearFigure)();
+        (0,_factoryElements__WEBPACK_IMPORTED_MODULE_3__.createFigurePhotographerLightbox)((0,_utils__WEBPACK_IMPORTED_MODULE_4__.orderByDate)((0,_data__WEBPACK_IMPORTED_MODULE_2__.getListMediaFromPhotographerId)(id)));
+        (0,_utils__WEBPACK_IMPORTED_MODULE_4__.likeController)(likeTotalFromData);
+        (0,_modalLightbox__WEBPACK_IMPORTED_MODULE_1__.cleanLightbox)();
+        (0,_modalLightbox__WEBPACK_IMPORTED_MODULE_1__.lightbox)();
+      }
+
+      if (e.target.innerText === 'Titre') {
+        (0,_utils__WEBPACK_IMPORTED_MODULE_4__.clearFigure)();
+        (0,_factoryElements__WEBPACK_IMPORTED_MODULE_3__.createFigurePhotographerLightbox)((0,_utils__WEBPACK_IMPORTED_MODULE_4__.orderByName)((0,_data__WEBPACK_IMPORTED_MODULE_2__.getListMediaFromPhotographerId)(id)));
+        (0,_utils__WEBPACK_IMPORTED_MODULE_4__.likeController)(likeTotalFromData);
+        (0,_modalLightbox__WEBPACK_IMPORTED_MODULE_1__.cleanLightbox)();
+        (0,_modalLightbox__WEBPACK_IMPORTED_MODULE_1__.lightbox)();
+      }
+    });
   });
 }
 
@@ -629,21 +674,54 @@ function generatePhotographerPageHtml() {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "form": () => (/* binding */ form)
+/* harmony export */   "formulaire": () => (/* binding */ formulaire)
 /* harmony export */ });
 /* harmony import */ var _factoryElements__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./factoryElements */ "./src/js/factoryElements.js");
 
+var emailRegEx = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 var modal = document.getElementById('modal-form');
-var preventForm = document.getElementsByClassName('form');
+var form = document.getElementsByClassName('form');
 var openForm = document.getElementsByClassName('photographerProfils__contact');
 var closeForm = document.getElementsByClassName('form__close');
+var firstnameIsValide = false;
+var lastnameIsValide = false;
+var emailIsValide = false;
+var messageIsValide = false;
 
-function form() {
+function formulaire() {
   openForm[0].addEventListener('click', function (e) {
     launchModal();
     (0,_factoryElements__WEBPACK_IMPORTED_MODULE_0__.createForm)(e.target.previousElementSibling.innerText);
-    preventForm[0].addEventListener('submit', function (e) {
-      e.preventDefault();
+    var inputFirstname = document.getElementById('firstname');
+    var inputLastname = document.getElementById('lastname');
+    var inputEmail = document.getElementById('email');
+    var inputMessage = document.getElementById('message');
+    form[0].addEventListener('submit', function (e) {
+      if (!firstnameIsValide || !lastnameIsValide || !emailIsValide || !messageIsValide) {
+        e.preventDefault();
+        formInputErreur(inputFirstname);
+        formInputErreur(inputLastname);
+        formInputErreur(inputEmail);
+        formInputErreur(inputMessage);
+      } else {
+        console.log('Prenom => ' + inputFirstname.value);
+        console.log('Nom => ' + inputLastname.value);
+        console.log('Email => ' + inputEmail.value);
+        console.log('Message => ' + inputMessage.value);
+        closeModal();
+      }
+    });
+    inputFirstname.addEventListener('input', function (e) {
+      formInputErreur(inputFirstname);
+    });
+    inputLastname.addEventListener('input', function (e) {
+      formInputErreur(inputLastname);
+    });
+    inputEmail.addEventListener('input', function (e) {
+      formInputErreur(inputEmail);
+    });
+    inputMessage.addEventListener('input', function (e) {
+      formInputErreur(inputMessage);
     });
     closeForm[0].addEventListener('click', closeModal);
   });
@@ -663,6 +741,66 @@ function cleanform() {
   modal.innerHTML = '';
 }
 
+function formInputErreur(dom) {
+  if (dom.parentElement.lastChild.className === 'form__erreur') {
+    dom.parentElement.removeChild(dom.parentElement.lastChild);
+  }
+
+  if (dom.id === 'firstname') {
+    if (dom.value.trim().length < 2) {
+      isErreur(dom, 'Le prénom doit contenir au moins 2 caractères', true);
+      firstnameIsValide = false;
+    } else {
+      isErreur(dom, 'Le prénom doit contenir au moins 2 caractères', false);
+      firstnameIsValide = true;
+    }
+  }
+
+  if (dom.id === 'lastname') {
+    if (dom.value.trim().length < 2) {
+      isErreur(dom, 'Le nom doit contenir au moins 2 caractères', true);
+      lastnameIsValide = false;
+    } else {
+      isErreur(dom, 'Le nom doit contenir au moins 2 caractères', false);
+      lastnameIsValide = true;
+    }
+  }
+
+  if (dom.id === 'email') {
+    if (!emailRegEx.test(dom.value.trim())) {
+      isErreur(dom, 'L\'email doit être valide / ou ne pas être vide', true);
+      emailIsValide = false;
+    } else {
+      isErreur(dom, 'L\'email doit être valide / ou ne pas être vide', false);
+      emailIsValide = true;
+    }
+  }
+
+  if (dom.id === 'message') {
+    if (dom.value.trim().length === 0) {
+      isErreur(dom, 'Le message ne doit pas être vide', true);
+      messageIsValide = false;
+    } else {
+      isErreur(dom, 'Le message ne doit pas être vide', false);
+      messageIsValide = true;
+    }
+  }
+}
+
+function isErreur(dom, message, boolean) {
+  if (boolean) {
+    dom.style.border = 'solid 2px red';
+    dom.style.color = 'red';
+    var spanErreur = document.createElement('span');
+    spanErreur.classList.add('form__erreur');
+    spanErreur.innerHTML = message;
+    dom.parentElement.appendChild(spanErreur);
+  } else {
+    dom.style.border = 'none';
+    dom.style.color = 'black';
+  }
+}
+
 
 
 /***/ }),
@@ -675,11 +813,10 @@ function cleanform() {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "lightbox": () => (/* binding */ lightbox)
+/* harmony export */   "lightbox": () => (/* binding */ lightbox),
+/* harmony export */   "cleanLightbox": () => (/* binding */ cleanLightbox)
 /* harmony export */ });
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./utils */ "./src/js/utils.js");
-/* harmony import */ var _factoryElements__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./factoryElements */ "./src/js/factoryElements.js");
-
+/* harmony import */ var _factoryElements__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./factoryElements */ "./src/js/factoryElements.js");
 
 var body = document.getElementsByTagName('body');
 var modal = document.getElementById('modal-lightbox');
@@ -696,10 +833,29 @@ function lightbox() {
       index = i;
       launchModal();
       cleanLightbox();
-      (0,_factoryElements__WEBPACK_IMPORTED_MODULE_1__.createLightbox)(e.target.attributes.src.nodeValue, (0,_utils__WEBPACK_IMPORTED_MODULE_0__.getNameFromMediaLink)(e.target.attributes.src.nodeValue));
+
+      if (e.target.localName === 'video') {
+        (0,_factoryElements__WEBPACK_IMPORTED_MODULE_0__.createLightbox)(e.target.attributes.src.nodeValue, e.target.title);
+      } else {
+        (0,_factoryElements__WEBPACK_IMPORTED_MODULE_0__.createLightbox)(e.target.attributes.src.nodeValue, e.target.alt);
+      }
+
       close[0].addEventListener('click', closeModal);
       previous[0].addEventListener('click', previousMedia);
       next[0].addEventListener('click', nextMedia);
+      window.addEventListener('keydown', function (k) {
+        if (k.key === 'ArrowLeft') {
+          previousMedia();
+        }
+
+        if (k.key === 'ArrowRight') {
+          nextMedia();
+        }
+
+        if (k.key === 'Escape') {
+          closeModal();
+        }
+      });
     });
   };
 
@@ -715,7 +871,13 @@ function lightbox() {
     }
 
     cleanLightbox();
-    (0,_factoryElements__WEBPACK_IMPORTED_MODULE_1__.createLightbox)(media[index].attributes.src.nodeValue, (0,_utils__WEBPACK_IMPORTED_MODULE_0__.getNameFromMediaLink)(media[index].attributes.src.nodeValue));
+
+    if (media[index].tagName === 'VIDEO') {
+      (0,_factoryElements__WEBPACK_IMPORTED_MODULE_0__.createLightbox)(media[index].attributes.src.nodeValue, media[index].title);
+    } else {
+      (0,_factoryElements__WEBPACK_IMPORTED_MODULE_0__.createLightbox)(media[index].attributes.src.nodeValue, media[index].alt);
+    }
+
     close[0].addEventListener('click', closeModal);
     previous[0].addEventListener('click', previousMedia);
     next[0].addEventListener('click', nextMedia);
@@ -729,7 +891,13 @@ function lightbox() {
     }
 
     cleanLightbox();
-    (0,_factoryElements__WEBPACK_IMPORTED_MODULE_1__.createLightbox)(media[index].attributes.src.nodeValue, (0,_utils__WEBPACK_IMPORTED_MODULE_0__.getNameFromMediaLink)(media[index].attributes.src.nodeValue));
+
+    if (media[index].tagName === 'VIDEO') {
+      (0,_factoryElements__WEBPACK_IMPORTED_MODULE_0__.createLightbox)(media[index].attributes.src.nodeValue, media[index].title);
+    } else {
+      (0,_factoryElements__WEBPACK_IMPORTED_MODULE_0__.createLightbox)(media[index].attributes.src.nodeValue, media[index].alt);
+    }
+
     close[0].addEventListener('click', closeModal);
     previous[0].addEventListener('click', previousMedia);
     next[0].addEventListener('click', nextMedia);
@@ -764,12 +932,21 @@ function cleanLightbox() {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "clearMainIndex": () => (/* binding */ clearMainIndex),
+/* harmony export */   "clearFigure": () => (/* binding */ clearFigure),
 /* harmony export */   "isInList": () => (/* binding */ isInList),
 /* harmony export */   "addToList": () => (/* binding */ addToList),
 /* harmony export */   "deleteFromList": () => (/* binding */ deleteFromList),
 /* harmony export */   "changeTagsStyle": () => (/* binding */ changeTagsStyle),
-/* harmony export */   "getNameFromMediaLink": () => (/* binding */ getNameFromMediaLink)
+/* harmony export */   "ancreController": () => (/* binding */ ancreController),
+/* harmony export */   "likeController": () => (/* binding */ likeController),
+/* harmony export */   "createPhotographerfromList": () => (/* binding */ createPhotographerfromList),
+/* harmony export */   "orderByLikes": () => (/* binding */ orderByLikes),
+/* harmony export */   "orderByDate": () => (/* binding */ orderByDate),
+/* harmony export */   "orderByName": () => (/* binding */ orderByName)
 /* harmony export */ });
+/* harmony import */ var _factoryElements__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./factoryElements */ "./src/js/factoryElements.js");
+
+
 function clearMainIndex() {
   var main = document.getElementsByTagName('main');
   main.id = 'mainIndex';
@@ -777,6 +954,13 @@ function clearMainIndex() {
   var titre = document.createElement('h1');
   titre.innerHTML = 'Nos photographes';
   main[0].appendChild(titre);
+}
+
+function clearFigure() {
+  var figure = document.querySelectorAll('figure.photographerLightbox__figure');
+  figure.forEach(function (e) {
+    e.remove();
+  });
 }
 
 function isInList(valeur, liste) {
@@ -808,12 +992,95 @@ function deleteFromList(valeur, liste) {
 
 function changeTagsStyle(dom, bgColor, color) {
   dom.style.backgroundColor = bgColor;
-  dom.style.color = color;
+  dom.firstChild.style.color = color;
 }
 
-function getNameFromMediaLink(string) {
-  var regex = /(_|Fashion_|Event_|Art_|Sport_|Animals_|Architecture_|Portrait_|Travel_|\.\/assets\/videos\/|\.\/assets\/images\/photos\/)|\.(jpg|mp4)/g;
-  return String(string).replace(regex, ' ');
+function ancreController() {
+  var ancre = document.getElementsByClassName('ancreIndex');
+  window.addEventListener('scroll', function (e) {
+    if (window.scrollY <= 100) {
+      ancre[0].style.display = 'block';
+    } else {
+      ancre[0].style.display = 'none';
+    }
+  });
+}
+
+function likeController(likeTotalFromData) {
+  var asideLike = document.getElementsByClassName('photographerInfo__like');
+  var figureHeart = document.querySelectorAll('span.photographerLightbox__info_heart');
+  figureHeart.forEach(function (span) {
+    var isLike = false;
+    var likeFromFigure = parseInt(span.previousSibling.innerHTML);
+    span.addEventListener('click', function (e) {
+      if (isLike) {
+        isLike = false;
+        likeFromFigure -= 1;
+        likeTotalFromData -= 1;
+        asideLike[0].innerHTML = likeTotalFromData;
+        span.previousSibling.innerHTML = likeFromFigure;
+        span.classList.replace('fas', 'far');
+      } else {
+        isLike = true;
+        likeFromFigure += 1;
+        likeTotalFromData += 1;
+        asideLike[0].innerHTML = likeTotalFromData;
+        span.previousSibling.innerHTML = likeFromFigure;
+        span.classList.replace('far', 'fas');
+      }
+    });
+  });
+}
+
+function createPhotographerfromList(liste) {
+  for (var l in liste) {
+    (0,_factoryElements__WEBPACK_IMPORTED_MODULE_0__.createSectionPhotographers)(liste[l]);
+  }
+}
+
+function orderByLikes(list) {
+  return list.sort(function compare(a, b) {
+    if (a.likes < b.likes) {
+      return -1;
+    }
+
+    if (a.likes > b.likes) {
+      return 1;
+    }
+
+    return 0;
+  });
+}
+
+function orderByDate(list) {
+  return list.sort(function (a, b) {
+    a = new Date(a.date);
+    b = new Date(b.date);
+
+    if (a < b) {
+      return -1;
+    }
+
+    if (a > b) {
+      return 1;
+    }
+
+    return 0;
+  });
+}
+
+function orderByName(list) {
+  return list.sort(function (a, b) {
+    if (a.alt < b.alt) {
+      return -1;
+    }
+
+    if (a.alt > b.alt) {
+      return 1;
+    }
+
+    return 0;
+  });
 }
 
 
@@ -838,7 +1105,7 @@ __webpack_require__.r(__webpack_exports__);
   \********************************************/
 /***/ ((module) => {
 
-module.exports = JSON.parse('{"photographers":[{"name":"Mimi Keel","id":243,"city":"London","country":"UK","tags":["portrait","events","travel","animals"],"tagline":"Voir le beau dans le quotidien","price":400,"portrait":"MimiKeel.jpg"},{"name":"Ellie-Rose Wilkens","id":930,"city":"Paris","country":"France","tags":["sport","architecture"],"tagline":"Capturer des compositions complexes","price":250,"portrait":"EllieRoseWilkens.jpg"},{"name":"Tracy Galindo","id":82,"city":"Montreal","country":"Canada","tags":["art","fashion","events"],"tagline":"Photographe freelance","price":500,"portrait":"TracyGalindo.jpg"},{"name":"Nabeel Bradford","id":527,"city":"Mexico City","country":"Mexico","tags":["travel","portrait"],"tagline":"Toujours aller de l\'avant","price":350,"portrait":"NabeelBradford.jpg"},{"name":"Rhode Dubois","id":925,"city":"Barcelona","country":"Spain","tags":["sport","fashion","events","animals"],"tagline":"Je crée des souvenirs","price":275,"portrait":"RhodeDubois.jpg"},{"name":"Marcel Nikolic","id":195,"city":"Berlin","country":"Germany","tags":["travel","architecture"],"tagline":"Toujours à la recherche de LA photo","price":300,"portrait":"MarcelNikolic.jpg"}],"media":[{"id":342550,"photographerId":82,"image":"Fashion_Yellow_Beach.jpg","tags":["fashion"],"likes":62,"date":"2011-12-08","price":55},{"id":8520927,"photographerId":82,"image":"Fashion_Urban_Jungle.jpg","tags":["fashion"],"likes":11,"date":"2011-11-06","price":55},{"id":9025895,"photographerId":82,"image":"Fashion_Pattern_on_Pattern.jpg","tags":["fashion"],"likes":72,"date":"2013-08-12","price":55},{"id":9275938,"photographerId":82,"image":"Event_WeddingGazebo.jpg","tags":["events"],"likes":69,"date":"2018-02-22","price":55},{"id":2053494,"photographerId":82,"image":"Event_Sparklers.jpg","tags":["events"],"likes":2,"date":"2020-05-25","price":55},{"id":7324238,"photographerId":82,"image":"Event_18thAnniversary.jpg","tags":["events"],"likes":33,"date":"2019-06-12","price":55},{"id":8328953,"photographerId":82,"video":"Art_Wooden_Horse_Sculpture.mp4","tags":["art"],"likes":24,"date":"2011-12-08","price":100},{"id":7502053,"photographerId":82,"image":"Art_Triangle_Man.jpg","tags":["art"],"likes":88,"date":"2007-05-07","price":55},{"id":8523492,"photographerId":82,"image":"Art_Purple_light.jpg","tags":["art"],"likes":24,"date":"2018-05-05","price":55},{"id":75902334,"photographerId":82,"image":"Art_Mine.jpg","tags":["art"],"likes":75,"date":"2019-11-25","price":55},{"id":73852953,"photographerId":925,"image":"Sport_2000_with_8.jpg","tags":["sport"],"likes":52,"date":"2013-02-30","price":70},{"id":92758372,"photographerId":925,"image":"Fashion_Wings.jpg","tags":["fashion"],"likes":58,"date":"2018-07-17","price":70},{"id":32958383,"photographerId":925,"image":"Fashion_Melody_Red_on_Stripes.jpg","tags":["fashion"],"likes":11,"date":"2019-08-12","price":70},{"id":928587383,"photographerId":925,"image":"Event_VentureConference.jpg","tags":["events"],"likes":2,"date":"2019-01-02","price":70},{"id":725639493,"photographerId":925,"image":"Event_ProductPitch.jpg","tags":["events"],"likes":3,"date":"2019-05-20","price":70},{"id":23394384,"photographerId":925,"image":"Event_KeyboardCheck.jpg","tags":["events"],"likes":52,"date":"2019-07-18","price":70},{"id":87367293,"photographerId":925,"image":"Event_Emcee.jpg","tags":["events"],"likes":23,"date":"2018-02-22","price":70},{"id":593834784,"photographerId":925,"image":"Animals_Majesty.jpg","tags":["animals"],"likes":52,"date":"2017-03-13","price":70},{"id":83958935,"photographerId":925,"video":"Animals_Puppiness.mp4","tags":["animals"],"likes":52,"date":"2016-06-12","price":70},{"id":394583434,"photographerId":527,"video":"Travel_Rock_Mountains.mp4","tags":["travel"],"likes":23,"date":"2017-03-18","price":45},{"id":343423425,"photographerId":527,"image":"Travel_Outdoor_Baths.jpg","tags":["travel"],"likes":101,"date":"2017-04-03","price":45},{"id":73434243,"photographerId":527,"image":"Travel_Road_into_Hill.jpg","tags":["travel"],"likes":99,"date":"2018-04-30","price":45},{"id":23425523,"photographerId":527,"image":"Travel_Bridge_into_Forest.jpg","tags":["travel"],"likes":34,"date":"2016-04-05","price":45},{"id":23134513,"photographerId":527,"image":"Travel_Boat_Wanderer.jpg","tags":["travel"],"likes":23,"date":"2017-03-18","price":45},{"id":92352352,"photographerId":527,"image":"Portrait_Sunkissed.jpg","tags":["portrait"],"likes":66,"date":"2018-05-24","price":45},{"id":34513453,"photographerId":527,"image":"Portrait_Shaw.jpg","tags":["portait"],"likes":52,"date":"2017-04-21","price":45},{"id":23523533,"photographerId":527,"image":"Portrait_Alexandra.jpg","tags":["portait"],"likes":95,"date":"2018-11-02","price":45},{"id":525834234,"photographerId":527,"image":"Portrait_AfternoonBreak.jpg","tags":["portait"],"likes":25,"date":"2019-01-02","price":45},{"id":623534343,"photographerId":243,"image":"Travel_Lonesome.jpg","tags":["travel"],"likes":88,"date":"2019-02-03","price":45},{"id":625025343,"photographerId":243,"image":"Travel_HillsideColor.jpg","tags":["travel"],"likes":85,"date":"2019-04-03","price":45},{"id":2525345343,"photographerId":243,"image":"Portrait_Wednesday.jpg","tags":["portait"],"likes":34,"date":"2019-04-07","price":45},{"id":2523434634,"photographerId":243,"image":"Portrait_Nora.jpg","tags":["portait"],"likes":63,"date":"2019-04-07","price":45},{"id":398847109,"photographerId":243,"image":"Portrait_Background.jpg","tags":["portait"],"likes":55,"date":"2019-06-20","price":45},{"id":2534342,"photographerId":243,"image":"Event_SeasideWedding.jpg","tags":["events"],"likes":25,"date":"2019-06-21","price":45},{"id":65235234,"photographerId":243,"image":"Event_PintoWedding.jpg","tags":["events"],"likes":52,"date":"2019-06-25","price":45},{"id":23523434,"photographerId":243,"image":"Event_BenevidesWedding.jpg","tags":["events"],"likes":77,"date":"2019-06-28","price":45},{"id":5234343,"photographerId":243,"video":"Animals_Wild_Horses_in_the_mountains.mp4","tags":["animals"],"likes":142,"date":"2019-08-23","price":60},{"id":95234343,"photographerId":243,"image":"Animals_Rainbow.jpg","tags":["animals"],"likes":59,"date":"2019-07-02","price":60},{"id":52343416,"photographerId":195,"image":"Travel_Tower.jpg","tags":["travel"],"likes":25,"date":"2019-04-03","price":60},{"id":2523434,"photographerId":195,"image":"Travel_SunsetonCanals.jpg","tags":["travel"],"likes":53,"date":"2019-05-06","price":60},{"id":95293534,"photographerId":195,"image":"Travel_OpenMountain.jpg","tags":["travel"],"likes":33,"date":"2019-05-12","price":60},{"id":356234343,"photographerId":195,"image":"Travel_Bike_and_Stair.jpg","tags":["travel"],"likes":53,"date":"2019-06-20","price":60},{"id":235234343,"photographerId":195,"image":"Travel_Adventure_Door.jpg","tags":["travel"],"likes":63,"date":"2019-06-26","price":60},{"id":6234234343,"photographerId":195,"image":"Architecture_Contrast.jpg","tags":["architecture"],"likes":52,"date":"2019-06-30","price":60},{"id":6525666253,"photographerId":195,"image":"Architecture_On_a_hill.jpg","tags":["architecture"],"likes":63,"date":"2019-07-20","price":60},{"id":98252523433,"photographerId":195,"image":"Architecture_Dome.jpg","tags":["architecture"],"likes":88,"date":"2020-01-05","price":60},{"id":9259398453,"photographerId":195,"video":"Architecture_coverr_circle_empty_highway_in_buenos_aires.mp4","tags":["architecture"],"likes":57,"date":"2020-01-20","price":65},{"id":3523523534,"photographerId":195,"image":"Architecture_Corner_Room.jpg","tags":["architecture"],"likes":54,"date":"2020-05-05","price":60},{"id":952343423,"photographerId":930,"video":"Sport_Tricks_in_the_air.mp4","tags":["sport"],"likes":150,"date":"2018-02-30","price":70},{"id":235234343,"photographerId":930,"image":"Sport_Next_Hold.jpg","tags":["sport"],"likes":101,"date":"2018-03-05","price":65},{"id":235343222,"photographerId":930,"image":"sport_water_tunnel.jpg","tags":["sport"],"likes":103,"date":"2018-03-10","price":70},{"id":7775342343,"photographerId":930,"image":"Sport_Sky_Cross.jpg","tags":["sport"],"likes":77,"date":"2018-04-16","price":50},{"id":9253445784,"photographerId":930,"image":"Sport_Race_End.jpg","tags":["sport"],"likes":88,"date":"2018-04-22","price":65},{"id":22299394,"photographerId":930,"image":"Sport_Jump.jpg","tags":["sport"],"likes":95,"date":"2018-04-27","price":70},{"id":3452342633,"photographerId":930,"image":"Architecture_White_Light.jpg","tags":["architecture"],"likes":52,"date":"2018-05-03","price":75},{"id":939234243,"photographerId":930,"image":"Architecture_Water_on_Modern.jpg","tags":["architecture"],"likes":55,"date":"2018-05-10","price":72},{"id":222959233,"photographerId":930,"image":"Architecture_Horseshoe.jpg","tags":["architecture"],"likes":85,"date":"2018-05-15","price":71},{"id":965933434,"photographerId":930,"image":"Architecture_Cross_Bar.jpg","tags":["architecture"],"likes":66,"date":"2018-05-20","price":58},{"id":777723343,"photographerId":930,"image":"Architecture_Connected_Curves.jpg","tags":["architecture"],"likes":79,"date":"2018-05-21","price":80}]}');
+module.exports = JSON.parse('{"photographers":[{"name":"Mimi Keel","id":243,"city":"London","country":"UK","tags":["portrait","events","travel","animals"],"tagline":"Voir le beau dans le quotidien","price":400,"portrait":"MimiKeel.jpg"},{"name":"Ellie-Rose Wilkens","id":930,"city":"Paris","country":"France","tags":["sport","architecture"],"tagline":"Capturer des compositions complexes","price":250,"portrait":"EllieRoseWilkens.jpg"},{"name":"Tracy Galindo","id":82,"city":"Montreal","country":"Canada","tags":["art","fashion","events"],"tagline":"Photographe freelance","price":500,"portrait":"TracyGalindo.jpg"},{"name":"Nabeel Bradford","id":527,"city":"Mexico City","country":"Mexico","tags":["travel","portrait"],"tagline":"Toujours aller de l\'avant","price":350,"portrait":"NabeelBradford.jpg"},{"name":"Rhode Dubois","id":925,"city":"Barcelona","country":"Spain","tags":["sport","fashion","events","animals"],"tagline":"Je crée des souvenirs","price":275,"portrait":"RhodeDubois.jpg"},{"name":"Marcel Nikolic","id":195,"city":"Berlin","country":"Germany","tags":["travel","architecture"],"tagline":"Toujours à la recherche de LA photo","price":300,"portrait":"MarcelNikolic.jpg"}],"media":[{"id":342550,"photographerId":82,"image":"Fashion_Yellow_Beach.jpg","alt":"Yellow Beach","tags":["fashion"],"likes":62,"date":"2011-12-08","price":55},{"id":8520927,"photographerId":82,"image":"Fashion_Urban_Jungle.jpg","alt":"Urban Jungle","tags":["fashion"],"likes":11,"date":"2011-11-06","price":55},{"id":9025895,"photographerId":82,"image":"Fashion_Pattern_on_Pattern.jpg","alt":"Pattern on Pattern","tags":["fashion"],"likes":72,"date":"2013-08-12","price":55},{"id":9275938,"photographerId":82,"image":"Event_WeddingGazebo.jpg","alt":"Gazebo Wedding","tags":["events"],"likes":69,"date":"2018-02-22","price":55},{"id":2053494,"photographerId":82,"image":"Event_Sparklers.jpg","alt":"Sparklers","tags":["events"],"likes":2,"date":"2020-05-25","price":55},{"id":7324238,"photographerId":82,"image":"Event_18thAnniversary.jpg","alt":"18th Anniversary","tags":["events"],"likes":33,"date":"2019-06-12","price":55},{"id":8328953,"photographerId":82,"video":"Art_Wooden_Horse_Sculpture.mp4","alt":"Wooden Horse Sculpture","tags":["art"],"likes":24,"date":"2011-12-08","price":100},{"id":7502053,"photographerId":82,"image":"Art_Triangle_Man.jpg","alt":"Triangle Man","tags":["art"],"likes":88,"date":"2007-05-07","price":55},{"id":8523492,"photographerId":82,"image":"Art_Purple_light.jpg","alt":"Purple Light","tags":["art"],"likes":24,"date":"2018-05-05","price":55},{"id":75902334,"photographerId":82,"image":"Art_Mine.jpg","alt":"Mine","tags":["art"],"likes":75,"date":"2019-11-25","price":55},{"id":73852953,"photographerId":925,"image":"Sport_2000_with_8.jpg","alt":"2000 with 8","tags":["sport"],"likes":52,"date":"2013-02-30","price":70},{"id":92758372,"photographerId":925,"image":"Fashion_Wings.jpg","alt":"Wings","tags":["fashion"],"likes":58,"date":"2018-07-17","price":70},{"id":32958383,"photographerId":925,"image":"Fashion_Melody_Red_on_Stripes.jpg","alt":"Melody Red on Stripes","tags":["fashion"],"likes":11,"date":"2019-08-12","price":70},{"id":928587383,"photographerId":925,"image":"Event_VentureConference.jpg","alt":"Venture Conference","tags":["events"],"likes":2,"date":"2019-01-02","price":70},{"id":725639493,"photographerId":925,"image":"Event_ProductPitch.jpg","alt":"Product Pitch","tags":["events"],"likes":3,"date":"2019-05-20","price":70},{"id":23394384,"photographerId":925,"image":"Event_KeyboardCheck.jpg","alt":"Keyboard Check","tags":["events"],"likes":52,"date":"2019-07-18","price":70},{"id":87367293,"photographerId":925,"image":"Event_Emcee.jpg","alt":"Emcee","tags":["events"],"likes":23,"date":"2018-02-22","price":70},{"id":593834784,"photographerId":925,"image":"Animals_Majesty.jpg","alt":"Majesty","tags":["animals"],"likes":52,"date":"2017-03-13","price":70},{"id":83958935,"photographerId":925,"video":"Animals_Puppiness.mp4","alt":"Puppiness","tags":["animals"],"likes":52,"date":"2016-06-12","price":70},{"id":394583434,"photographerId":527,"video":"Travel_Rock_Mountains.mp4","alt":"Rock Mountains","tags":["travel"],"likes":23,"date":"2017-03-18","price":45},{"id":343423425,"photographerId":527,"image":"Travel_Outdoor_Baths.jpg","alt":"Outdoor Baths","tags":["travel"],"likes":101,"date":"2017-04-03","price":45},{"id":73434243,"photographerId":527,"image":"Travel_Road_into_Hill.jpg","alt":"Road into Hill","tags":["travel"],"likes":99,"date":"2018-04-30","price":45},{"id":23425523,"photographerId":527,"image":"Travel_Bridge_into_Forest.jpg","alt":"Bridge into Forest","tags":["travel"],"likes":34,"date":"2016-04-05","price":45},{"id":23134513,"photographerId":527,"image":"Travel_Boat_Wanderer.jpg","alt":"Boat Wanderer","tags":["travel"],"likes":23,"date":"2017-03-18","price":45},{"id":92352352,"photographerId":527,"image":"Portrait_Sunkissed.jpg","alt":"Sun Kissed","tags":["portrait"],"likes":66,"date":"2018-05-24","price":45},{"id":34513453,"photographerId":527,"image":"Portrait_Shaw.jpg","alt":"Shaw","tags":["portait"],"likes":52,"date":"2017-04-21","price":45},{"id":23523533,"photographerId":527,"image":"Portrait_Alexandra.jpg","alt":"Alexandra","tags":["portait"],"likes":95,"date":"2018-11-02","price":45},{"id":525834234,"photographerId":527,"image":"Portrait_AfternoonBreak.jpg","alt":"Afternoon Break","tags":["portait"],"likes":25,"date":"2019-01-02","price":45},{"id":623534343,"photographerId":243,"image":"Travel_Lonesome.jpg","alt":"Lonesome","tags":["travel"],"likes":88,"date":"2019-02-03","price":45},{"id":625025343,"photographerId":243,"image":"Travel_HillsideColor.jpg","alt":"Hillside Color","tags":["travel"],"likes":85,"date":"2019-04-03","price":45},{"id":2525345343,"photographerId":243,"image":"Portrait_Wednesday.jpg","alt":"Wednesday","tags":["portait"],"likes":34,"date":"2019-04-07","price":45},{"id":2523434634,"photographerId":243,"image":"Portrait_Nora.jpg","alt":"Nora","tags":["portait"],"likes":63,"date":"2019-04-07","price":45},{"id":398847109,"photographerId":243,"image":"Portrait_Background.jpg","alt":"Background","tags":["portait"],"likes":55,"date":"2019-06-20","price":45},{"id":2534342,"photographerId":243,"image":"Event_SeasideWedding.jpg","alt":"Seaside Wedding","tags":["events"],"likes":25,"date":"2019-06-21","price":45},{"id":65235234,"photographerId":243,"image":"Event_PintoWedding.jpg","alt":"Pinto Wedding","tags":["events"],"likes":52,"date":"2019-06-25","price":45},{"id":23523434,"photographerId":243,"image":"Event_BenevidesWedding.jpg","alt":"Benevides Wedding","tags":["events"],"likes":77,"date":"2019-06-28","price":45},{"id":5234343,"photographerId":243,"video":"Animals_Wild_Horses_in_the_mountains.mp4","alt":"Wild Horses in the Mountains","tags":["animals"],"likes":142,"date":"2019-08-23","price":60},{"id":95234343,"photographerId":243,"image":"Animals_Rainbow.jpg","alt":"Rainbow","tags":["animals"],"likes":59,"date":"2019-07-02","price":60},{"id":52343416,"photographerId":195,"image":"Travel_Tower.jpg","alt":"Tower","tags":["travel"],"likes":25,"date":"2019-04-03","price":60},{"id":2523434,"photographerId":195,"image":"Travel_SunsetonCanals.jpg","alt":"Sunset on Canals","tags":["travel"],"likes":53,"date":"2019-05-06","price":60},{"id":95293534,"photographerId":195,"image":"Travel_OpenMountain.jpg","alt":"Open Mountain","tags":["travel"],"likes":33,"date":"2019-05-12","price":60},{"id":356234343,"photographerId":195,"image":"Travel_Bike_and_Stair.jpg","alt":"Bike and Stair","tags":["travel"],"likes":53,"date":"2019-06-20","price":60},{"id":235234343,"photographerId":195,"image":"Travel_Adventure_Door.jpg","alt":"Adventure Door","tags":["travel"],"likes":63,"date":"2019-06-26","price":60},{"id":6234234343,"photographerId":195,"image":"Architecture_Contrast.jpg","alt":"Contrast","tags":["architecture"],"likes":52,"date":"2019-06-30","price":60},{"id":6525666253,"photographerId":195,"image":"Architecture_On_a_hill.jpg","alt":"On a Hill","tags":["architecture"],"likes":63,"date":"2019-07-20","price":60},{"id":98252523433,"photographerId":195,"image":"Architecture_Dome.jpg","alt":"Dome","tags":["architecture"],"likes":88,"date":"2020-01-05","price":60},{"id":9259398453,"photographerId":195,"video":"Architecture_coverr_circle_empty_highway_in_buenos_aires.mp4","alt":"Highway in Buenos Aires","tags":["architecture"],"likes":57,"date":"2020-01-20","price":65},{"id":3523523534,"photographerId":195,"image":"Architecture_Corner_Room.jpg","alt":"Corner Room","tags":["architecture"],"likes":54,"date":"2020-05-05","price":60},{"id":952343423,"photographerId":930,"video":"Sport_Tricks_in_the_air.mp4","alt":"Tricks in the Air","tags":["sport"],"likes":150,"date":"2018-02-30","price":70},{"id":235234343,"photographerId":930,"image":"Sport_Next_Hold.jpg","alt":"Next Hold","tags":["sport"],"likes":101,"date":"2018-03-05","price":65},{"id":235343222,"photographerId":930,"image":"Sport_water_tunnel.jpg","alt":"Water Tunnel","tags":["sport"],"likes":103,"date":"2018-03-10","price":70},{"id":7775342343,"photographerId":930,"image":"Sport_Sky_Cross.jpg","alt":"Sky Cross","tags":["sport"],"likes":77,"date":"2018-04-16","price":50},{"id":9253445784,"photographerId":930,"image":"Sport_Race_End.jpg","alt":"Race End","tags":["sport"],"likes":88,"date":"2018-04-22","price":65},{"id":22299394,"photographerId":930,"image":"Sport_Jump.jpg","alt":"Jump","tags":["sport"],"likes":95,"date":"2018-04-27","price":70},{"id":3452342633,"photographerId":930,"image":"Architecture_White_Light.jpg","alt":"White Light","tags":["architecture"],"likes":52,"date":"2018-05-03","price":75},{"id":939234243,"photographerId":930,"image":"Architecture_Water_on_Modern.jpg","alt":"Water on Modern","tags":["architecture"],"likes":55,"date":"2018-05-10","price":72},{"id":222959233,"photographerId":930,"image":"Architecture_Horseshoe.jpg","alt":"Horseshoe","tags":["architecture"],"likes":85,"date":"2018-05-15","price":71},{"id":965933434,"photographerId":930,"image":"Architecture_Cross_Bar.jpg","alt":"Cross Bar","tags":["architecture"],"likes":66,"date":"2018-05-20","price":58},{"id":777723343,"photographerId":930,"image":"Architecture_Connected_Curves.jpg","alt":"Connected Curves","tags":["architecture"],"likes":79,"date":"2018-05-21","price":80}]}');
 
 /***/ })
 
@@ -922,7 +1189,7 @@ if (pageActuelle === 'index.html') {
 if (pageActuelle === 'photographer_page.html') {
   (0,_factoryPages__WEBPACK_IMPORTED_MODULE_1__.generatePhotographerPageHtml)();
   (0,_modalLightbox__WEBPACK_IMPORTED_MODULE_2__.lightbox)();
-  (0,_modalForm__WEBPACK_IMPORTED_MODULE_3__.form)();
+  (0,_modalForm__WEBPACK_IMPORTED_MODULE_3__.formulaire)();
 }
 })();
 

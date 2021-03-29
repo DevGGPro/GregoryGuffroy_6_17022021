@@ -2,6 +2,7 @@ function createHeaderWithNav (boolean) {
   const wrapper = document.getElementsByClassName('wrapper')
   const header = document.createElement('header')
   header.classList.add('header')
+  header.setAttribute('role', 'header')
 
   const a = document.createElement('a')
   a.classList.add('header__image')
@@ -24,6 +25,8 @@ function createNav () {
 
   const nav = document.createElement('nav')
   nav.classList.add('header__nav')
+  nav.setAttribute('role', 'navigation')
+  nav.setAttribute('aria-label', 'photographers categories by HashTags')
 
   createAncreIndex(nav)
 
@@ -43,9 +46,11 @@ function createTags (tagsName) {
   const li = document.createElement('li')
   li.classList.add('tags')
   li.setAttribute('data-value', tagsName.toLowerCase())
+  li.setAttribute('aria-label', 'HashTag ' + tagsName.toLowerCase())
 
   const a = document.createElement('a')
   a.setAttribute('href', '')
+  a.setAttribute('aria-label', 'HashTag ' + tagsName.toLowerCase())
   a.innerHTML = '#' + tagsName
 
   li.appendChild(a)
@@ -58,6 +63,8 @@ function createMainWithTitle (id, boolean) {
 
   const main = document.createElement('main')
   main.setAttribute('id', id)
+  main.setAttribute('role', 'main')
+  main.setAttribute('aria-label', 'photographers list')
 
   if (boolean) {
     const h1 = document.createElement('h1')
@@ -73,6 +80,7 @@ function createSectionPhotographers (photographer) {
 
   const sectionPhotographer = document.createElement('section')
   sectionPhotographer.classList.add('photographer')
+  sectionPhotographer.setAttribute('aria-label', 'photographers ' + photographer.name)
 
   const link = document.createElement('a')
   link.classList.add('photographer__link')
@@ -82,7 +90,7 @@ function createSectionPhotographers (photographer) {
   const portrait = document.createElement('img')
   portrait.classList.add('photographer__link_portrait')
   portrait.setAttribute('src', './assets/images/photographers/' + photographer.portrait)
-  portrait.setAttribute('alt', 'Portrait de ' + photographer.name)
+  portrait.setAttribute('alt', '')
   link.appendChild(portrait)
 
   const name = document.createElement('h2')
