@@ -257,9 +257,10 @@ function createFigurePhotographerLightbox (listmedia) {
     span.innerHTML = listmedia[m].likes
     figcaption.appendChild(span)
 
-    const i = document.createElement('i')
+    const i = document.createElement('span')
     i.classList.add('far')
     i.classList.add('fa-heart')
+    i.classList.add('photographerLightbox__info_heart')
     figcaption.appendChild(i)
   }
 }

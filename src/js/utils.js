@@ -50,20 +50,20 @@ function changeTagsStyle (dom, bgColor, color) {
 function ancreController () {
   const ancre = document.getElementsByClassName('ancreIndex')
   window.addEventListener('scroll', (e) => {
-    if (window.scrollY >= 100) {
-      ancre[0].style.display = 'none'
-    } else {
+    if (window.scrollY <= 100) {
       ancre[0].style.display = 'block'
+    } else {
+      ancre[0].style.display = 'none'
     }
   })
 }
 
 function likeController (likeTotalFromData) {
   const asideLike = document.getElementsByClassName('photographerInfo__like')
-  const figureLike = document.querySelectorAll('span.photographerLightbox__info_like')
-  figureLike.forEach(function (span) {
+  const figureHeart = document.querySelectorAll('span.photographerLightbox__info_heart')
+  figureHeart.forEach(function (span) {
     let isLike = false
-    let likeFromFigure = parseInt(span.innerHTML)
+    let likeFromFigure = parseInt(span.previousSibling.innerHTML)
     span.addEventListener('click', e => {
       if (isLike) {
         isLike = false
@@ -72,8 +72,8 @@ function likeController (likeTotalFromData) {
         likeTotalFromData -= 1
         asideLike[0].innerHTML = likeTotalFromData
 
-        span.innerHTML = likeFromFigure
-        span.nextSibling.classList.replace('fas', 'far')
+        span.previousSibling.innerHTML = likeFromFigure
+        span.classList.replace('fas', 'far')
       } else {
         isLike = true
         likeFromFigure += 1
@@ -81,8 +81,8 @@ function likeController (likeTotalFromData) {
         likeTotalFromData += 1
         asideLike[0].innerHTML = likeTotalFromData
 
-        span.innerHTML = likeFromFigure
-        span.nextSibling.classList.replace('far', 'fas')
+        span.previousSibling.innerHTML = likeFromFigure
+        span.classList.replace('far', 'fas')
       }
     })
   })
