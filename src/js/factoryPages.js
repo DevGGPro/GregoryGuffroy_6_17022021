@@ -12,8 +12,7 @@ import {
   createSectionPhotographersProfils,
   createAsidePhotographersInfo,
   createFiltreAndSectionPhotographerLightbox,
-  createFigurePhotographerLightbox,
-  createAncreIndex
+  createFigurePhotographerLightbox
 } from './factoryElements'
 import {
   addToList,
@@ -31,7 +30,6 @@ import {
 } from './utils'
 
 function generateIndexHtml () {
-  createAncreIndex()
   createHeaderWithNav(true)
   createMainWithTitle('mainIndex', true)
 

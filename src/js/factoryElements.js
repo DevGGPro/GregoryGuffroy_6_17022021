@@ -25,6 +25,8 @@ function createNav () {
   const nav = document.createElement('nav')
   nav.classList.add('header__nav')
 
+  createAncreIndex(nav)
+
   const ul = document.createElement('ul')
   nav.appendChild(ul)
 
@@ -388,15 +390,13 @@ function createForm (nom) {
   form.appendChild(i)
 }
 
-function createAncreIndex () {
-  const wrapper = document.getElementsByClassName('wrapper')
-
+function createAncreIndex (dom) {
   const a = document.createElement('a')
   a.classList.add('ancreIndex')
   a.setAttribute('href', '#mainIndex')
   a.innerHTML = 'Passer au contenu'
 
-  wrapper[0].appendChild(a)
+  dom.appendChild(a)
 }
 
 function createFiltreMenu () {
@@ -440,6 +440,5 @@ export {
   createFiltreAndSectionPhotographerLightbox,
   createFigurePhotographerLightbox,
   createLightbox,
-  createForm,
-  createAncreIndex
+  createForm
 }
