@@ -51,9 +51,9 @@ function ancreController () {
   const ancre = document.getElementsByClassName('ancreIndex')
   window.addEventListener('scroll', (e) => {
     if (window.scrollY >= 100) {
-      ancre[0].style.display = 'block'
-    } else {
       ancre[0].style.display = 'none'
+    } else {
+      ancre[0].style.display = 'block'
     }
   })
 }
