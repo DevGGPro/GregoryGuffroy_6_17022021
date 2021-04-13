@@ -24,6 +24,7 @@
     position: relative;
     @include desktop{
       width: 669px;
+      max-width: 669px;
       min-height: 900px;
       padding: 35px;
       margin: 62px auto;

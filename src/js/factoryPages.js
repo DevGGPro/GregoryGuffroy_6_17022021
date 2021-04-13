@@ -29,15 +29,20 @@ import {
   orderByName
 } from './utils'
 
+/**
+ * Generate content of index.html
+ */
 function generateIndexHtml () {
   createHeaderWithNav(true)
   createMainWithTitle('mainIndex', true)
 
   ancreController()
 
+  // HTMLElement[] de tout les tags de la page, nav + section profils
   let navTags
-  let listPhotographer
+  // une liste des tags cliqués ou présent dans l'url
   let listeTags
+  let listPhotographer
 
   const url = new URL(window.location.href)
 
@@ -49,9 +54,7 @@ function generateIndexHtml () {
   } else {
     listPhotographer = getPhotographerByTagsList(listeTags)
     createPhotographerfromList(listPhotographer)
-
     navTags = document.querySelectorAll('li.tags')
-
     for (const t in listeTags) {
       navTags.forEach(function (li) {
         if (li.getAttribute('data-value') === listeTags[t]) {
@@ -60,39 +63,44 @@ function generateIndexHtml () {
       })
     }
   }
-
-  // Quand on click sur un tag
+  // on appel la fonction reloadPageSection au click sur un tag
   navTags.forEach(function (li) {
     li.addEventListener('click', reloadPageSection)
   })
 
   function reloadPageSection () {
     clearMainIndex()
-
+    // on recup la valeur du tag cliqué
     const tag = this.getAttribute('data-value')
 
+    // -------------------- si le tag est dans la liste --------------------
     if (isInList(tag, listeTags)) {
+      // on le supprime de la liste
       listeTags = deleteFromList(tag, listeTags)
 
+      // on supprime tout les tags de l'url, recréer l'url à partir de la liste puis la remplace
       url.searchParams.delete('tags')
       for (const t in listeTags) {
         url.searchParams.append('tags', listeTags[t])
       }
       window.history.replaceState(null, null, url)
 
+      // on recharge le contenu du main (les photographes) à partir de la nouvelle liste de tags
       listPhotographer = getPhotographerByTagsList(listeTags)
       if (listeTags.length === 0) {
         createPhotographerfromList(data.photographers)
         navTags = document.querySelectorAll('li.tags')
       }
-
       createPhotographerfromList(listPhotographer)
 
+      // on actualise la liste de tout les tags présent dans la page
       navTags = document.querySelectorAll('li.tags')
 
+      // on réinitialise le style de tout les tags
       navTags.forEach(function (li) {
         changeTagsStyle(li, '#FFF', '#901C1C')
       })
+      // On change le style des tags toujours présent dans la liste
       for (const t in listeTags) {
         navTags.forEach(function (li) {
           if (li.getAttribute('data-value') === listeTags[t]) {
@@ -100,23 +108,31 @@ function generateIndexHtml () {
           }
         })
       }
+      // on appel la fonction reloadPageSection au click sur un tag
       navTags.forEach(function (li) {
         li.addEventListener('click', reloadPageSection)
       })
+
+    // -------------------- Si le tag n'est pas dans la liste --------------------
     } else {
+      // on l'ajoute dans la liste
       addToList(tag, listeTags)
 
+      // on supprime tout les tags de l'url, recréer l'url à partir de la liste puis la remplace
       url.searchParams.delete('tags')
       for (const t in listeTags) {
         url.searchParams.append('tags', listeTags[t])
       }
       window.history.replaceState(null, null, url)
 
+      // on recharge le contenu du main (les photographes) à partir de la nouvelle liste de tags
       listPhotographer = getPhotographerByTagsList(listeTags)
       createPhotographerfromList(listPhotographer)
 
+      // on actualise la liste de tout les tags présent dans la page
       navTags = document.querySelectorAll('li.tags')
 
+      // On change le style des tags présent dans la liste
       for (const t in listeTags) {
         navTags.forEach(function (li) {
           if (li.getAttribute('data-value') === listeTags[t]) {
@@ -124,6 +140,8 @@ function generateIndexHtml () {
           }
         })
       }
+
+      // on appel la fonction reloadPageSection au click sur un tag
       navTags.forEach(function (li) {
         li.addEventListener('click', reloadPageSection)
       })
@@ -131,6 +149,9 @@ function generateIndexHtml () {
   }
 }
 
+/**
+ * Generate content of photographer_page.html
+ */
 function generatePhotographerPageHtml () {
   const url = new URL(window.location.href)
   const id = url.searchParams.get('id')
