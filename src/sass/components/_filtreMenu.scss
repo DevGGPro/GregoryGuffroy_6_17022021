@@ -1,0 +1,90 @@
+.filtreMenu{
+  position: absolute;
+  left: 96px;
+  display: none;
+  @include desktop{
+    display: block;
+    top: 0;
+  }
+  &__bouton{
+    background-color: #901C1C;
+    width: 170px;
+    height: 70px;
+  
+    border: none;
+    border-radius: 5px;
+    
+    padding: 23px 20px;
+    box-sizing: border-box;
+    
+    color: white;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+    text-align: left;
+    
+    cursor: pointer;
+    position: relative;
+
+    span{
+      position: absolute;
+      font-size: 18px;
+      right: 20px;  
+      top: 26px;  
+    }
+  }
+  &__list{
+    background-color: #901C1C;
+    width: 170px;
+    height: 170px;
+    
+    list-style-type: none;
+    border-radius: 5px;
+    
+    padding: 24px 10px 0 10px;
+    margin: 0;
+    box-sizing: border-box;
+  
+    color: white;
+    font-size: 18px;
+    font-weight: 700;
+  
+    display: flex;
+    flex-direction: column;
+
+    position: absolute;
+    top: 0;
+
+    display: none;
+
+    li{
+      font-family: 'DM Sans', sans-serif;
+      padding: 0 10px;
+      box-sizing: border-box;
+      cursor: pointer;
+    }
+    &_populaire{
+      height: 25%;
+      position: relative;  
+      span{
+        position: absolute;
+        pointer-events: none; 
+        font-size: 18px;
+        right: 10px;  
+        top: 2px;      
+      }  
+    }   
+    &_date{
+      height: 35%;
+      display: flex;
+      align-items: center;
+      border-top: solid 1px white;
+        } 
+    &_titre{
+      height: 35%;
+      display: flex;
+      align-items: center;
+      border-top: solid 1px white;
+    }  
+  }
+}

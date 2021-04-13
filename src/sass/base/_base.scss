@@ -1,7 +1,18 @@
 body{
     margin: auto;
+    overflow: auto;
+    box-sizing: border-box;
 }
 .wrapper{
-    width: 1440px;
+    width: 375px;
     margin: auto;
+    position: relative;
+    @include desktop{
+        width: 1440px;
+    }
 }
+
+.hidden{
+    display: none;
+}
+

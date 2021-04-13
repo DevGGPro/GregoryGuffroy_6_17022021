@@ -1,9 +1,11 @@
 .tags{
-    color: $primary-color;
     border: 0.5px solid #C4C4C4;
-    border-radius: 11px;
-    padding: 2px 6.5px;
-    box-sizing: border-box;
-    font-size: 12px;
-    font-weight: 500;
+    color: $primary-color;
+    &:hover{
+        cursor: pointer;
+    }
+    a{
+        text-decoration: none;
+        color: $primary-color;
+    }
 }

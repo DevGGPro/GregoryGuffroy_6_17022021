@@ -1,5 +1,6 @@
 // Utils
 @import './utils/variables';
+@import './utils/mixins';
 
 // Base
 @import './base/base';
@@ -7,9 +8,15 @@
 
 // Components
 @import './components/tags';
+@import './components/button';
+@import './components/ancreIndex';
+@import './components/filtreMenu';
 
 // Layout
 @import './layout/header';
+@import './layout/lightbox';
+@import './layout/form';
 
 // Pages
-@import './pages/index.scss';
+@import './pages/index';
+@import './pages/photographer';
