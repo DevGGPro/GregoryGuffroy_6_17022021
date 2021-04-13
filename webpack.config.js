@@ -5,7 +5,7 @@ const path = require('path')
 
 module.exports = {
   // Mode development ou production pour minimize
-  mode: 'development',
+  mode: 'production',
 
   target: 'web',
 
@@ -88,8 +88,5 @@ module.exports = {
 
   devServer: {
     contentBase: './dist'
-  },
-
-  devtool: 'source-map'
-
+  }
 }
