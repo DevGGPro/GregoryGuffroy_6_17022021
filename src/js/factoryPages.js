@@ -40,7 +40,7 @@ function generateIndexHtml () {
 
   // HTMLElement[] de tout les tags de la page, nav + section profils
   let navTags
-  // une liste des tags cliqués ou présent dans l'url
+  // une liste des tags cliqués ou présents dans l'url
   let listeTags
   let listPhotographer
 
@@ -63,14 +63,14 @@ function generateIndexHtml () {
       })
     }
   }
-  // on appel la fonction reloadPageSection au click sur un tag
+  // on appelle la fonction reloadPageSection au click sur un tag
   navTags.forEach(function (li) {
     li.addEventListener('click', reloadPageSection)
   })
 
   function reloadPageSection () {
     clearMainIndex()
-    // on recup la valeur du tag cliqué
+    // on recupère la valeur du tag cliqué
     const tag = this.getAttribute('data-value')
 
     // -------------------- si le tag est dans la liste --------------------
@@ -78,7 +78,7 @@ function generateIndexHtml () {
       // on le supprime de la liste
       listeTags = deleteFromList(tag, listeTags)
 
-      // on supprime tout les tags de l'url, recréer l'url à partir de la liste puis la remplace
+      // on supprime tout les tags de l'url, recrée l'url à partir de la liste puis la remplace
       url.searchParams.delete('tags')
       for (const t in listeTags) {
         url.searchParams.append('tags', listeTags[t])
@@ -93,14 +93,14 @@ function generateIndexHtml () {
       }
       createPhotographerfromList(listPhotographer)
 
-      // on actualise la liste de tout les tags présent dans la page
+      // on actualise la liste de tout les tags présents dans la page
       navTags = document.querySelectorAll('li.tags')
 
       // on réinitialise le style de tout les tags
       navTags.forEach(function (li) {
         changeTagsStyle(li, '#FFF', '#901C1C')
       })
-      // On change le style des tags toujours présent dans la liste
+      // On change le style des tags toujours présents dans la liste
       for (const t in listeTags) {
         navTags.forEach(function (li) {
           if (li.getAttribute('data-value') === listeTags[t]) {
@@ -108,7 +108,7 @@ function generateIndexHtml () {
           }
         })
       }
-      // on appel la fonction reloadPageSection au click sur un tag
+      // on appelle la fonction reloadPageSection au click sur un tag
       navTags.forEach(function (li) {
         li.addEventListener('click', reloadPageSection)
       })
@@ -118,7 +118,7 @@ function generateIndexHtml () {
       // on l'ajoute dans la liste
       addToList(tag, listeTags)
 
-      // on supprime tout les tags de l'url, recréer l'url à partir de la liste puis la remplace
+      // on supprime tout les tags de l'url, recrée l'url à partir de la liste puis la remplace
       url.searchParams.delete('tags')
       for (const t in listeTags) {
         url.searchParams.append('tags', listeTags[t])
@@ -129,10 +129,10 @@ function generateIndexHtml () {
       listPhotographer = getPhotographerByTagsList(listeTags)
       createPhotographerfromList(listPhotographer)
 
-      // on actualise la liste de tout les tags présent dans la page
+      // on actualise la liste de tout les tags présents dans la page
       navTags = document.querySelectorAll('li.tags')
 
-      // On change le style des tags présent dans la liste
+      // On change le style des tags présents dans la liste
       for (const t in listeTags) {
         navTags.forEach(function (li) {
           if (li.getAttribute('data-value') === listeTags[t]) {
@@ -141,7 +141,7 @@ function generateIndexHtml () {
         })
       }
 
-      // on appel la fonction reloadPageSection au click sur un tag
+      // on appelle la fonction reloadPageSection au click sur un tag
       navTags.forEach(function (li) {
         li.addEventListener('click', reloadPageSection)
       })
@@ -156,22 +156,22 @@ function generatePhotographerPageHtml () {
   const url = new URL(window.location.href)
   const id = url.searchParams.get('id')
 
-  // On créer un header avec ou sans nav
+  // On crée un header avec ou sans nav
   createHeaderWithNav(false)
 
-  // on créer un main avec un id spécifique et avec ou sans titre principal
+  // on crée un main avec un id spécifique et avec ou sans titre principal
   createMainWithTitle('mainPhotographer', false)
 
-  // On créer une section contenant les informations du photographe spécifié dans l'url
+  // On crée une section contenant les informations du photographe spécifié dans l'url
   createSectionPhotographersProfils(getPhotographerById(id))
 
-  // on créer la section contenant les médias puis on créer et ajoute le filtre de tri
+  // on crée la section contenant les médias puis on crée et ajoute le filtre de tri
   createFiltreAndSectionPhotographerLightbox()
 
-  // on créer des figures contenant les differents médias et on les ajoutent à la section
+  // on crée des figures contenant les differents médias et on les ajoute à la section
   createFigurePhotographerLightbox(orderByLikes(getListMediaFromPhotographerId(id)))
 
-  // on recupère le nombre de like total par photographer et on créer l'aside récapitulatif
+  // on recupère le nombre de like total par photographer et on crée l'aside récapitulatif
   const likeTotalFromData = getNumberOfLikeByPhotographerId(id)
   createAsidePhotographersInfo(likeTotalFromData, getPhotographerById(id))
 
