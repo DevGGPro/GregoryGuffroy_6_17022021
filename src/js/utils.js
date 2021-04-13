@@ -60,11 +60,19 @@ function ancreController () {
 
 function likeController (likeTotalFromData) {
   const asideLike = document.getElementsByClassName('photographerInfo__like')
-  const figureHeart = document.querySelectorAll('span.photographerLightbox__info_heart')
+  const figureHeart = document.querySelectorAll('i.photographerLightbox__info_heart')
   figureHeart.forEach(function (span) {
     let isLike = false
     let likeFromFigure = parseInt(span.previousSibling.innerHTML)
     span.addEventListener('click', e => {
+      updateLike()
+    })
+    span.addEventListener('keydown', k => {
+      if (k.key === 'Enter') {
+        updateLike()
+      }
+    })
+    function updateLike () {
       if (isLike) {
         isLike = false
         likeFromFigure -= 1
@@ -84,7 +92,7 @@ function likeController (likeTotalFromData) {
         span.previousSibling.innerHTML = likeFromFigure
         span.classList.replace('far', 'fas')
       }
-    })
+    }
   })
 }
 

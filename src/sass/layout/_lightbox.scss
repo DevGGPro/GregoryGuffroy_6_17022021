@@ -72,6 +72,7 @@
       transform: translateY(-50%);
       right: 25px;
       cursor: pointer;
+      
       @include desktop{
         font-size: 48px;
         right: 131px;
@@ -84,7 +85,10 @@
       
       font-size: 14px;
       text-align: center;
-      
+
+      background: none;
+      border: none;
+
       top: 286px;
       right: 25px;
       cursor: pointer;

@@ -68,6 +68,7 @@
       position: relative;  
       span{
         position: absolute;
+        pointer-events: none; 
         font-size: 18px;
         right: 10px;  
         top: 2px;      
@@ -84,6 +85,6 @@
       display: flex;
       align-items: center;
       border-top: solid 1px white;
-        }  
+    }  
   }
 }

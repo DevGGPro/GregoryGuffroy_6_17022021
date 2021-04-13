@@ -9,6 +9,8 @@
   background: rgba(196, 196, 196, 0.4);
   overflow: auto;
 
+  box-sizing: border-box;
+
   .form{
     background-color: $primary-bg-color;
     width: 100%;
@@ -42,6 +44,9 @@
         font-size: 24px;
         font-weight: 400;
         color: $primary-form-text-color;
+        @include desktop{
+          font-size: 36px;
+        }
       }
       input{
         width: 100%;
@@ -131,6 +136,9 @@
 
       font-size: 18px;
 
+      background: none;
+      border: none;
+
       color: $white-color;
 
       cursor: pointer;
@@ -142,6 +150,10 @@
       font-weight: 500;
       font-size: 12px;
       color: red;
+      @include desktop{
+        font-size: 24px;
+      }
+
     }
   }
 }

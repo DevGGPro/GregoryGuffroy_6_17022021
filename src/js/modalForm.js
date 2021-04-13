@@ -1,6 +1,7 @@
 import { createForm } from './factoryElements'
 const emailRegEx = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 const modal = document.getElementById('modal-form')
+const wrapper = document.getElementsByClassName('wrapper')
 
 const form = document.getElementsByClassName('form')
 
@@ -15,7 +16,8 @@ let messageIsValide = false
 function formulaire () {
   openForm[0].addEventListener('click', function (e) {
     launchModal()
-    createForm(e.target.previousElementSibling.innerText)
+    createForm(e.target.previousSibling.alt)
+    focusFirstInput()
 
     const inputFirstname = document.getElementById('firstname')
     const inputLastname = document.getElementById('lastname')
@@ -49,17 +51,38 @@ function formulaire () {
     inputMessage.addEventListener('input', (e) => {
       formInputErreur(inputMessage)
     })
-
-    closeForm[0].addEventListener('click', closeModal)
+    closeForm[0].addEventListener('keydown', e => {
+      if (e.key === 'Tab') {
+        e.preventDefault()
+        focusFirstInput()
+      }
+    })
+    closeForm[0].addEventListener('click', e => {
+      closeModal()
+    })
+    window.addEventListener('keydown', k => {
+      if (k.key === 'Escape') {
+        closeModal()
+      }
+    })
   })
+}
+
+function focusFirstInput () {
+  const inputFirstname = document.getElementById('firstname')
+  inputFirstname.focus()
 }
 
 function launchModal () {
   modal.style.display = 'block'
+  modal.setAttribute('aria-hidden', 'false')
+  wrapper[0].setAttribute('aria-hidden', 'true')
 }
 
 function closeModal () {
   modal.style.display = 'none'
+  modal.setAttribute('aria-hidden', 'true')
+  wrapper[0].setAttribute('aria-hidden', 'false')
   cleanform()
 }
 
@@ -76,36 +99,44 @@ function formInputErreur (dom) {
     if (dom.value.trim().length < 2) {
       isErreur(dom, 'Le prénom doit contenir au moins 2 caractères', true)
       firstnameIsValide = false
+      dom.setAttribute('aria-invalid', 'true')
     } else {
       isErreur(dom, 'Le prénom doit contenir au moins 2 caractères', false)
       firstnameIsValide = true
+      dom.setAttribute('aria-invalid', 'false')
     }
   }
   if (dom.id === 'lastname') {
     if (dom.value.trim().length < 2) {
       isErreur(dom, 'Le nom doit contenir au moins 2 caractères', true)
       lastnameIsValide = false
+      dom.setAttribute('aria-invalid', 'true')
     } else {
       isErreur(dom, 'Le nom doit contenir au moins 2 caractères', false)
       lastnameIsValide = true
+      dom.setAttribute('aria-invalid', 'false')
     }
   }
   if (dom.id === 'email') {
     if (!emailRegEx.test(dom.value.trim())) {
       isErreur(dom, 'L\'email doit être valide / ou ne pas être vide', true)
       emailIsValide = false
+      dom.setAttribute('aria-invalid', 'true')
     } else {
       isErreur(dom, 'L\'email doit être valide / ou ne pas être vide', false)
       emailIsValide = true
+      dom.setAttribute('aria-invalid', 'false')
     }
   }
   if (dom.id === 'message') {
     if (dom.value.trim().length === 0) {
       isErreur(dom, 'Le message ne doit pas être vide', true)
       messageIsValide = false
+      dom.setAttribute('aria-invalid', 'true')
     } else {
       isErreur(dom, 'Le message ne doit pas être vide', false)
       messageIsValide = true
+      dom.setAttribute('aria-invalid', 'false')
     }
   }
 }

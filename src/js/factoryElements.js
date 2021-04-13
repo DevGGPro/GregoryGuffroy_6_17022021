@@ -3,6 +3,7 @@ function createHeaderWithNav (boolean) {
   const header = document.createElement('header')
   header.classList.add('header')
   header.setAttribute('role', 'header')
+  header.setAttribute('aria-hidden', 'false')
 
   const a = document.createElement('a')
   a.classList.add('header__image')
@@ -126,24 +127,16 @@ function createSectionPhotographers (photographer) {
 
 function createSectionPhotographersProfils (photographer) {
   const main = document.getElementById('mainPhotographer')
+  main.setAttribute('role', 'main')
 
   const section = document.createElement('section')
   section.classList.add('photographerProfils')
-
-  const div = document.createElement('div')
+  section.setAttribute('aria-label', 'photographer informations')
 
   const h1 = document.createElement('h1')
   h1.classList.add('photographerProfils__name')
   h1.innerHTML = photographer.name
-  div.appendChild(h1)
-
-  const button = document.createElement('button')
-  button.classList.add('photographerProfils__contact')
-  button.classList.add('button')
-  button.innerHTML = 'Contactez-moi'
-  div.appendChild(button)
-
-  section.appendChild(div)
+  section.appendChild(h1)
 
   const pCity = document.createElement('p')
   pCity.classList.add('photographerProfils__city')
@@ -166,6 +159,7 @@ function createSectionPhotographersProfils (photographer) {
 
     const a = document.createElement('a')
     a.setAttribute('href', 'index.html?tags=' + photographer.tags[t].toLowerCase())
+    a.setAttribute('aria-label', 'HashTag ' + photographer.tags[t].toLowerCase())
     a.innerHTML = '#' + photographer.tags[t].toLowerCase()
     li.appendChild(a)
   }
@@ -174,7 +168,14 @@ function createSectionPhotographersProfils (photographer) {
   image.classList.add('photographerProfils__portrait')
   image.setAttribute('src', './assets/images/photographers/' + photographer.portrait)
   image.setAttribute('alt', photographer.name)
+  image.setAttribute('aria-hidden', 'true')
   section.appendChild(image)
+
+  const button = document.createElement('button')
+  button.classList.add('photographerProfils__contact')
+  button.classList.add('button')
+  button.innerHTML = 'Contactez-moi'
+  section.appendChild(button)
 
   main.appendChild(section)
 }
@@ -208,12 +209,14 @@ function createFiltreAndSectionPhotographerLightbox () {
 
   const section = document.createElement('section')
   section.classList.add('photographerLightbox')
+  section.setAttribute('aria-label', 'photographer gallery')
   main.appendChild(section)
 
-  const h2 = document.createElement('h2')
-  h2.classList.add('photographerLightbox__titre')
-  h2.innerHTML = 'Trier par'
-  section.appendChild(h2)
+  const span = document.createElement('span')
+  span.classList.add('photographerLightbox__titre')
+  span.setAttribute('id', 'filterGallery')
+  span.innerHTML = 'Trier par'
+  section.appendChild(span)
 
   createFiltreMenu()
 }
@@ -231,6 +234,8 @@ function createFigurePhotographerLightbox (listmedia) {
       img.classList.add('photographerLightbox__figure_media')
       img.setAttribute('src', './assets/images/photos/' + listmedia[m].image)
       img.setAttribute('alt', listmedia[m].alt)
+      img.setAttribute('tabindex', '0')
+
       figure.appendChild(img)
     }
     if (Object.keys(listmedia[m])[Object.values(listmedia[m]).indexOf(listmedia[m].video)] === 'video') {
@@ -267,10 +272,13 @@ function createFigurePhotographerLightbox (listmedia) {
     span.innerHTML = listmedia[m].likes
     figcaption.appendChild(span)
 
-    const i = document.createElement('span')
+    const i = document.createElement('i')
+    i.classList.add('photographerLightbox__info_heart')
     i.classList.add('far')
     i.classList.add('fa-heart')
-    i.classList.add('photographerLightbox__info_heart')
+    i.setAttribute('aria-label', 'likes')
+    i.setAttribute('tabindex', '0')
+
     figcaption.appendChild(i)
   }
 }
@@ -280,14 +288,18 @@ function createLightbox (link, alt) {
 
   const section = document.createElement('section')
   section.classList.add('lightbox')
+  section.setAttribute('aria-label', 'image closeup view')
   modal.appendChild(section)
 
-  const ileft = document.createElement('i')
-  ileft.classList.add('fas')
-  ileft.classList.add('fa-chevron-left')
+  // lien préccedent
+  const ileft = document.createElement('a')
   ileft.classList.add('lightbox__left')
+  ileft.setAttribute('href', '#')
+  ileft.setAttribute('aria-label', 'previous image')
+  ileft.innerHTML = '<i class="fas fa-chevron-left" aria-hidden="true"></i>'
   section.appendChild(ileft)
 
+  // image/video + texte
   const figure = document.createElement('figure')
   figure.classList.add('lightbox__figure')
   section.appendChild(figure)
@@ -304,6 +316,7 @@ function createLightbox (link, alt) {
     image.classList.add('lightbox__figure_media')
     image.setAttribute('src', link)
     image.setAttribute('alt', alt)
+    image.setAttribute('aria-label', alt)
     figure.appendChild(image)
   }
 
@@ -312,16 +325,19 @@ function createLightbox (link, alt) {
   figcaption.innerHTML = alt
   figure.appendChild(figcaption)
 
-  const iright = document.createElement('i')
-  iright.classList.add('fas')
-  iright.classList.add('fa-chevron-right')
+  // lien suivant
+  const iright = document.createElement('a')
   iright.classList.add('lightbox__right')
+  iright.setAttribute('href', '#')
+  iright.setAttribute('aria-label', 'next image')
+  iright.innerHTML = '<i class="fas fa-chevron-right" aria-hidden="true"></i>'
   section.appendChild(iright)
 
-  const iclose = document.createElement('i')
-  iclose.classList.add('fas')
-  iclose.classList.add('fa-times')
+  // Bouton fermer
+  const iclose = document.createElement('button')
   iclose.classList.add('lightbox__close')
+  iclose.setAttribute('aria-label', 'close dialog')
+  iclose.innerHTML = '<i class="fas fa-times" aria-hidden="true"></i>'
   section.appendChild(iclose)
 }
 
@@ -334,68 +350,101 @@ function createForm (nom) {
   modal.appendChild(form)
 
   const h1 = document.createElement('h1')
+  h1.setAttribute('id', 'titre')
   h1.classList.add('form__titre')
   h1.innerHTML = 'Contactez-moi <br>' + nom
   form.appendChild(h1)
 
+  // Firstname
   const divFirstname = document.createElement('div')
   divFirstname.classList.add('form__firstname')
+
   const labelFirstname = document.createElement('label')
+  labelFirstname.setAttribute('id', 'LabelFirstname')
   labelFirstname.setAttribute('for', 'firstname')
   labelFirstname.innerHTML = 'Prénom'
   divFirstname.appendChild(labelFirstname)
+
   const inputFirstname = document.createElement('input')
   inputFirstname.setAttribute('id', 'firstname')
   inputFirstname.setAttribute('type', 'text')
+  inputFirstname.setAttribute('aria-labelledby', 'labelFirstname')
+  inputFirstname.setAttribute('aria-required', 'true')
+  inputFirstname.setAttribute('aria-invalid', 'true')
   divFirstname.appendChild(inputFirstname)
   form.appendChild(divFirstname)
 
+  // Lastname
   const divLastname = document.createElement('div')
   divLastname.classList.add('form__lastname')
+
   const labelLastname = document.createElement('label')
+  labelLastname.setAttribute('id', 'labelLastname')
   labelLastname.setAttribute('for', 'lastname')
   labelLastname.innerHTML = 'Nom'
   divLastname.appendChild(labelLastname)
+
   const inputLastname = document.createElement('input')
   inputLastname.setAttribute('id', 'lastname')
   inputLastname.setAttribute('type', 'text')
+  inputLastname.setAttribute('aria-labelledby', 'labelLastname')
+  inputLastname.setAttribute('aria-required', 'true')
+  inputLastname.setAttribute('aria-invalid', 'true')
+
   divLastname.appendChild(inputLastname)
   form.appendChild(divLastname)
 
+  // Email
   const divEmail = document.createElement('div')
   divEmail.classList.add('form__email')
+
   const labelEmail = document.createElement('label')
+  labelEmail.setAttribute('id', 'LabelEmail')
   labelEmail.setAttribute('for', 'email')
   labelEmail.innerHTML = 'Email'
   divEmail.appendChild(labelEmail)
+
   const inputEmail = document.createElement('input')
   inputEmail.setAttribute('id', 'email')
   inputEmail.setAttribute('type', 'text')
+  inputEmail.setAttribute('aria-labelledby', 'labelEmail')
+  inputEmail.setAttribute('aria-required', 'true')
+  inputEmail.setAttribute('aria-invalid', 'true')
+
   divEmail.appendChild(inputEmail)
   form.appendChild(divEmail)
 
+  // Message
   const divMessage = document.createElement('div')
   divMessage.classList.add('form__message')
+
   const labelMessage = document.createElement('label')
   labelMessage.setAttribute('for', 'message')
   labelMessage.innerHTML = 'Votre message'
   divMessage.appendChild(labelMessage)
+
   const textarea = document.createElement('textarea')
   textarea.setAttribute('id', 'message')
+  textarea.setAttribute('aria-required', 'true')
+  textarea.setAttribute('aria-invalid', 'true')
+
   divMessage.appendChild(textarea)
   form.appendChild(divMessage)
 
+  // Bouton envoyer
   const button = document.createElement('button')
   button.classList.add('form__button')
   button.classList.add('button')
+  button.setAttribute('value', 'send')
   button.innerHTML = 'Envoyer'
   form.appendChild(button)
 
-  const i = document.createElement('i')
-  i.classList.add('fas')
-  i.classList.add('fa-times')
-  i.classList.add('form__close')
-  form.appendChild(i)
+  // Bouton fermer
+  const buttonClose = document.createElement('button')
+  buttonClose.classList.add('form__close')
+  buttonClose.setAttribute('aria-label', 'Close Contact form')
+  buttonClose.innerHTML = '<i class="fas fa-times" aria-hidden="true"></i>'
+  form.appendChild(buttonClose)
 }
 
 function createAncreIndex (dom) {
@@ -417,24 +466,39 @@ function createFiltreMenu () {
   const btn = document.createElement('button')
   btn.classList.add('filtreMenu__bouton')
   btn.innerHTML = 'Popularité' + '<span class="fas fa-chevron-up"></span>'
+  btn.setAttribute('aria-haspopup', 'true')
+  btn.setAttribute('aria-expanded', 'false')
+  btn.setAttribute('aria-labelledby', 'filterGallery')
   div.appendChild(btn)
 
   const ul = document.createElement('ul')
+  ul.setAttribute('id', 'listbox')
   ul.classList.add('filtreMenu__list')
+  ul.setAttribute('role', 'listbox')
+  ul.setAttribute('aria-labelledby', 'filterGallery')
   div.appendChild(ul)
 
   const li1 = document.createElement('li')
   li1.classList.add('filtreMenu__list_populaire')
+  li1.setAttribute('role', 'option')
+  li1.setAttribute('tabindex', '0')
+  li1.setAttribute('aria-label', 'Trier par popularité')
   li1.innerHTML = 'Popularité' + '<span class="fas fa-chevron-down"></span>'
   ul.appendChild(li1)
 
   const li2 = document.createElement('li')
   li2.classList.add('filtreMenu__list_date')
+  li2.setAttribute('role', 'option')
+  li2.setAttribute('tabindex', '0')
+  li2.setAttribute('aria-label', 'Trier par data')
   li2.innerHTML = 'Date'
   ul.appendChild(li2)
 
   const li3 = document.createElement('li')
   li3.classList.add('filtreMenu__list_titre')
+  li3.setAttribute('role', 'option')
+  li3.setAttribute('tabindex', '0')
+  li3.setAttribute('aria-label', 'Trier par ordre alphabétique')
   li3.innerHTML = 'Titre'
   ul.appendChild(li3)
 }

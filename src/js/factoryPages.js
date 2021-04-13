@@ -163,10 +163,13 @@ function generatePhotographerPageHtml () {
   const liListMenu = document.querySelectorAll('ul.filtreMenu__list > li')
   btnMenu[0].addEventListener('click', e => {
     ulListMenu[0].style.display = 'block'
+    btnMenu[0].setAttribute('aria-expanded', 'true')
   })
   liListMenu.forEach(li => {
+    // le FiltreMenu navigation souris
     li.addEventListener('click', e => {
       btnMenu[0].innerHTML = e.target.innerText + '<span class="fas fa-chevron-up" aria-hidden="true"></span>'
+      btnMenu[0].setAttribute('aria-expanded', 'false')
       ulListMenu[0].style.display = 'none'
       if (e.target.innerText === 'Popularité') {
         clearFigure()
@@ -188,6 +191,45 @@ function generatePhotographerPageHtml () {
         likeController(likeTotalFromData)
         cleanLightbox()
         lightbox()
+      }
+    })
+
+    // le FiltreMenu navigation clavier
+    li.addEventListener('keydown', e => {
+      if (e.key === 'Enter' && e.target.innerText === 'Popularité') {
+        btnMenu[0].innerHTML = e.target.innerText + '<span class="fas fa-chevron-up" aria-hidden="true"></span>'
+        btnMenu[0].setAttribute('aria-expanded', 'false')
+        ulListMenu[0].style.display = 'none'
+        clearFigure()
+        createFigurePhotographerLightbox(orderByLikes(getListMediaFromPhotographerId(id)))
+        likeController(likeTotalFromData)
+        cleanLightbox()
+        lightbox()
+      }
+      if (e.key === 'Enter' && e.target.innerText === 'Date') {
+        btnMenu[0].innerHTML = e.target.innerText + '<span class="fas fa-chevron-up" aria-hidden="true"></span>'
+        btnMenu[0].setAttribute('aria-expanded', 'false')
+        ulListMenu[0].style.display = 'none'
+        clearFigure()
+        createFigurePhotographerLightbox(orderByDate(getListMediaFromPhotographerId(id)))
+        likeController(likeTotalFromData)
+        cleanLightbox()
+        lightbox()
+      }
+      if (e.key === 'Enter' && e.target.innerText === 'Titre') {
+        btnMenu[0].innerHTML = e.target.innerText + '<span class="fas fa-chevron-up" aria-hidden="true"></span>'
+        btnMenu[0].setAttribute('aria-expanded', 'false')
+        ulListMenu[0].style.display = 'none'
+        clearFigure()
+        createFigurePhotographerLightbox(orderByName(getListMediaFromPhotographerId(id)))
+        likeController(likeTotalFromData)
+        cleanLightbox()
+        lightbox()
+      }
+      // le focus
+      if (e.key === 'Tab' && e.target.innerText === 'Titre') {
+        e.preventDefault()
+        document.getElementById('listbox').firstChild.focus()
       }
     })
   })
