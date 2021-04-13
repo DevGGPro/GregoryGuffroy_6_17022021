@@ -1,3 +1,7 @@
+/**
+ * Create < header > DOM Element with or without nav
+ * @param {boolean} boolean boolean
+ */
 function createHeaderWithNav (boolean) {
   const wrapper = document.getElementsByClassName('wrapper')
   const header = document.createElement('header')
@@ -21,6 +25,9 @@ function createHeaderWithNav (boolean) {
   }
 }
 
+/**
+ * Create < nav > DOM Element
+ */
 function createNav () {
   const header = document.getElementsByClassName('header')
 
@@ -43,6 +50,11 @@ function createNav () {
   header[0].appendChild(nav)
 }
 
+/**
+ * Create < li > DOM Element from a tagname
+ * @param {string} tagsName Tag name
+ * @returns {Object}
+ */
 function createTags (tagsName) {
   const li = document.createElement('li')
   li.classList.add('tags')
@@ -59,6 +71,11 @@ function createTags (tagsName) {
   return li
 }
 
+/**
+ * Create < main > DOM Element with an id && with or without h1 title
+ * @param {string} id id value
+ * @param {boolean} boolean
+ */
 function createMainWithTitle (id, boolean) {
   const wrapper = document.getElementsByClassName('wrapper')
 
@@ -76,6 +93,10 @@ function createMainWithTitle (id, boolean) {
   wrapper[0].appendChild(main)
 }
 
+/**
+ * Create < section > DOM Element who contains photographers datas for index
+ *  * @param {Object} photographer photographers Objets from json data
+ */
 function createSectionPhotographers (photographer) {
   const main = document.getElementById('mainIndex')
 
@@ -125,6 +146,10 @@ function createSectionPhotographers (photographer) {
   main.appendChild(sectionPhotographer)
 }
 
+/**
+ * Create < section > DOM Element who contains photographers datas for photographer_page
+ * @param {Object} photographer photographers Objets from json data
+ */
 function createSectionPhotographersProfils (photographer) {
   const main = document.getElementById('mainPhotographer')
   main.setAttribute('role', 'main')
@@ -180,6 +205,11 @@ function createSectionPhotographersProfils (photographer) {
   main.appendChild(section)
 }
 
+/**
+ * Create < aside > DOM Element who contains photographers like & price data for photographer_page
+ * @param {number} nombreDeLike Total number of like
+ * @param {Object} photographer photographers Objets from json data
+ */
 function createAsidePhotographersInfo (nombreDeLike, photographer) {
   const main = document.getElementById('mainPhotographer')
 
@@ -204,6 +234,9 @@ function createAsidePhotographersInfo (nombreDeLike, photographer) {
   main.appendChild(aside)
 }
 
+/**
+ * Create < section > DOM Element with filter menu for photographer_page
+ */
 function createFiltreAndSectionPhotographerLightbox () {
   const main = document.getElementById('mainPhotographer')
 
@@ -221,6 +254,10 @@ function createFiltreAndSectionPhotographerLightbox () {
   createFiltreMenu()
 }
 
+/**
+ * Create < figure > DOM Element from a photographers list for photographer_page
+ * @param {Object[]} listmedia
+ */
 function createFigurePhotographerLightbox (listmedia) {
   const section = document.getElementsByClassName('photographerLightbox')
 
@@ -283,6 +320,11 @@ function createFigurePhotographerLightbox (listmedia) {
   }
 }
 
+/**
+ * Create < section > DOM Element modal Lightbox
+ * @param {string} link relative media path
+ * @param {string} alt media name
+ */
 function createLightbox (link, alt) {
   const modal = document.getElementById('modal-lightbox')
 
@@ -341,6 +383,10 @@ function createLightbox (link, alt) {
   section.appendChild(iclose)
 }
 
+/**
+ * Create < section > DOM Element modal form
+ * @param {string} nom Photographer name
+ */
 function createForm (nom) {
   const modal = document.getElementById('modal-form')
 
@@ -447,6 +493,10 @@ function createForm (nom) {
   form.appendChild(buttonClose)
 }
 
+/**
+ * Create < a > DOM Element who is anchor to the main content
+ * @param {HTMLElement} dom HTML DOM parentElement
+ */
 function createAncreIndex (dom) {
   const a = document.createElement('a')
   a.classList.add('ancreIndex')
@@ -456,6 +506,9 @@ function createAncreIndex (dom) {
   dom.appendChild(a)
 }
 
+/**
+ * Create < button > DOM Element who is the filter menu for the lightbox
+ */
 function createFiltreMenu () {
   const section = document.getElementsByClassName('photographerLightbox')
 

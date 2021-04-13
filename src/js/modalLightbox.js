@@ -10,6 +10,7 @@ const next = document.getElementsByClassName('lightbox__right')
 function lightbox () {
   const media = document.getElementsByClassName('photographerLightbox__figure_media')
   let index
+  // on ajoute un event click/keydown sur chaque media de la page
   for (let i = 0; i < media.length; i++) {
     media[i].addEventListener('click', (e) => {
       generateLightbox(i, e)
@@ -25,6 +26,7 @@ function lightbox () {
     index = i
     launchModal()
     cleanLightbox()
+    // Check if media is a video or an image
     if (e.target.localName === 'video') {
       createLightbox(e.target.attributes.src.nodeValue, e.target.title)
     } else {
@@ -53,6 +55,9 @@ function lightbox () {
     previous[0].focus()
   }
 
+  /**
+   * function to go to the previous media
+   */
   function previousMedia () {
     index -= 1
     if (index === -1) {
@@ -76,6 +81,9 @@ function lightbox () {
     previous[0].focus()
   }
 
+  /**
+   * function to go to the next media
+   */
   function nextMedia () {
     index += 1
     if (index === media.length) {
@@ -100,6 +108,9 @@ function lightbox () {
   }
 }
 
+/**
+ * Function to launch the modal
+ */
 function launchModal () {
   body[0].style.overflow = 'hidden'
   modal.style.display = 'block'
@@ -107,6 +118,9 @@ function launchModal () {
   wrapper[0].setAttribute('aria-hidden', 'true')
 }
 
+/**
+ * Function to close the modal
+ */
 function closeModal () {
   body[0].style.overflow = 'auto'
   modal.style.display = 'none'
@@ -114,6 +128,9 @@ function closeModal () {
   wrapper[0].setAttribute('aria-hidden', 'false')
 }
 
+/**
+ * Function to clear the lightbox
+ */
 function cleanLightbox () {
   const modal = document.getElementById('modal-lightbox')
   modal.innerHTML = ''

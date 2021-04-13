@@ -1,7 +1,12 @@
-// on importe la base de donnée
+// database import
 import data from '../assets/data/FishEyeDataFR.json'
 import { isInList } from './utils'
 
+/**
+ * Get Photographer by his id
+ * @param {number} id photographer id
+ * @returns {Object} photographer object
+ */
 function getPhotographerById (id) {
   for (const p in data.photographers) {
     if (data.photographers[p].id === parseInt(id)) {
@@ -11,6 +16,11 @@ function getPhotographerById (id) {
   return false
 }
 
+/**
+ * Get a list of photographer object from a list of tags
+ * @param {string[]} liste tags list
+ * @returns {Object[]} list of photographer
+ */
 function getPhotographerByTagsList (liste) {
   const listPhotographerTmp = []
   let listPhotographer = []
@@ -25,6 +35,11 @@ function getPhotographerByTagsList (liste) {
   return listPhotographer
 }
 
+/**
+ * Get total number of like from a photographer
+ * @param {number} id photographer id
+ * @returns {number} the total number of like
+ */
 function getNumberOfLikeByPhotographerId (id) {
   let n = 0
   for (const m in data.media) {
@@ -35,6 +50,11 @@ function getNumberOfLikeByPhotographerId (id) {
   return n
 }
 
+/**
+ * Get a list of all the media from a photographer
+ * @param {number} id photographer id
+ * @returns {Object[]} list of media
+ */
 function getListMediaFromPhotographerId (id) {
   const listMedia = []
   for (const m in data.media) {

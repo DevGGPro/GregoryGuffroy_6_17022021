@@ -68,17 +68,26 @@ function formulaire () {
   })
 }
 
+/**
+ * Function to focus a specific HTML DOM Element
+ */
 function focusFirstInput () {
   const inputFirstname = document.getElementById('firstname')
   inputFirstname.focus()
 }
 
+/**
+ * Function to launch the modal
+ */
 function launchModal () {
   modal.style.display = 'block'
   modal.setAttribute('aria-hidden', 'false')
   wrapper[0].setAttribute('aria-hidden', 'true')
 }
 
+/**
+ * Function to close the modal
+ */
 function closeModal () {
   modal.style.display = 'none'
   modal.setAttribute('aria-hidden', 'true')
@@ -86,11 +95,18 @@ function closeModal () {
   cleanform()
 }
 
+/**
+ * Function to clear the lightbox
+ */
 function cleanform () {
   const modal = document.getElementById('modal-form')
   modal.innerHTML = ''
 }
 
+/**
+ * Check if there is an error in the input HTML DOM Element
+ * @param {HTMLElement} dom HTML DOM Element
+ */
 function formInputErreur (dom) {
   if (dom.parentElement.lastChild.className === 'form__erreur') {
     dom.parentElement.removeChild(dom.parentElement.lastChild)
@@ -141,6 +157,12 @@ function formInputErreur (dom) {
   }
 }
 
+/**
+ * Modify style and add an error message
+ * @param {HTMLElement} dom HTML DOM Element
+ * @param {string} message Error message
+ * @param {boolean} boolean false or true if there is an error
+ */
 function isErreur (dom, message, boolean) {
   if (boolean) {
     dom.style.border = 'solid 2px red'
