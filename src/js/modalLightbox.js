@@ -17,6 +17,7 @@ function lightbox () {
     })
     media[i].addEventListener('keydown', e => {
       if (e.key === 'Enter') {
+        e.preventDefault()
         generateLightbox(i, e)
       }
     })
