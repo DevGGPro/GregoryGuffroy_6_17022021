@@ -49,7 +49,7 @@ module.exports = {
             options: {
               name: f => {
                 const dirNameInsideAssets = path.relative(path.join(__dirname, 'src'), path.dirname(f))
-                return `${dirNameInsideAssets}/[name].[ext]`
+                return `${dirNameInsideAssets}/[name].[ext]`.split('\\').join('/')
               }
             }
           }
